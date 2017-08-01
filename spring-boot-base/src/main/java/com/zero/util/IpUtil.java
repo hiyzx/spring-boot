@@ -3,10 +3,8 @@ package com.zero.util;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 获取客户端IP地址
- * 
- * @author Administrator
- * 
+ * @author yezhaoxing
+ * @since : 2017/4/17
  */
 public class IpUtil {
 

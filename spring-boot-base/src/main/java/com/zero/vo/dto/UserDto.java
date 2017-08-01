@@ -3,7 +3,8 @@ package com.zero.vo.dto;
 import io.swagger.annotations.*;
 
 /**
- * Created by HP on 2017/4/30.
+ * @author yezhaoxing
+ * @since : 2017/4/17
  */
 public class UserDto {
 

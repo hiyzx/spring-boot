@@ -5,9 +5,8 @@ import com.zero.enums.CodeEnum;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * @Description:
- * @author: yezhaoxing
- * @date: 2017/4/29
+ * @author yezhaoxing
+ * @since : 2017/4/17
  */
 public class ReturnVo<T> extends BaseReturnVo {
 

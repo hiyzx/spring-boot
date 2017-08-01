@@ -13,9 +13,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 /**
- * @Description:
- * @author: yezhaoxing
- * @date: 2017/5/9
+ * @author yezhaoxing
+ * @since 2017/5/9
  */
 @Configuration
 @EnableSwagger2

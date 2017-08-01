@@ -15,9 +15,8 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @Description:
- * @author: yezhaoxing
- * @date: 2017/4/29
+ * @author yezhaoxing
+ * @since : 2017/4/17
  */
 @Service
 public class UserService {

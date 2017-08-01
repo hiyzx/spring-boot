@@ -8,9 +8,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * The class JacksonUtil</br>
- * json字符与对像转换
- * 
+ * @author yezhaoxing
+ * @since : 2017/4/17
  */
 public final class JsonUtil {
 

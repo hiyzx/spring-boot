@@ -18,6 +18,9 @@ import com.zero.web.exception.BaseException;
 
 /**
  * 全局异常类配置
+ *
+ * @author yezhaoxing
+ * @since 2017/5/17
  */
 @Controller
 @ControllerAdvice

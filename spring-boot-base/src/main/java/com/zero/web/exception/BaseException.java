@@ -3,9 +3,8 @@ package com.zero.web.exception;
 import com.zero.enums.CodeEnum;
 
 /**
- * @Description:
- * @author: yezhaoxing
- * @date: 2017/4/29
+ * @author yezhaoxing
+ * @since : 2017/4/17
  */
 public class BaseException extends Exception {
 

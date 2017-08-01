@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description:
- * @author: yezhaoxing
- * @date: 2017/4/29
+ * @author yezhaoxing
+ * @since : 2017/4/17
  */
 public class SessionHelper {
     private static final Logger LOG = LoggerFactory.getLogger(SessionHelper.class);
