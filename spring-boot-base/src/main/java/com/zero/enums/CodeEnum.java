@@ -1,41 +1,44 @@
 package com.zero.enums;
 
 /**
- * @Description:
- * @author: yezhaoxing
- * @date: 2017/5/9
+ * 状态码
+ *
+ * @author yezhaoxing
+ * @since 2017/4/29
  */
 public enum CodeEnum {
 
-	/**
-	 * 用户未登录
-	 */
-	NOT_LOGIN("403"),
+    /**
+     * 用户未登录
+     */
+    NOT_LOGIN("403"),
 
-	PAGE_NOT_FOUND("404"),
+    PARAM_NOT_MATCH("400"),
 
-	INTERNAL_SERVER_ERROR("500"),
+    PAGE_NOT_FOUND("404"),
 
-	SUCCESS("000000"),
+    INTERNAL_SERVER_ERROR("500"),
 
-	/**
-	 * 权限问题
-	 */
-	PERMISSION_DENIED("100002"),
+    SUCCESS("000000"),
 
-	/**
-	 * 登陆失败
-	 */
-	LOGIN_FAIL("100001");
+    /**
+     * 权限问题
+     */
+    PERMISSION_DENIED("100002"),
 
-	private CodeEnum(String value) {
-		this.CodeEnum = value;
-	}
+    /**
+     * 登陆失败
+     */
+    LOGIN_FAIL("100001");
 
-	private String CodeEnum;
+    private CodeEnum(String value) {
+        this.CodeEnum = value;
+    }
 
-	public String getCodeEnum() {
-		return CodeEnum;
-	}
+    private String CodeEnum;
+
+    public String getCodeEnum() {
+        return CodeEnum;
+    }
 
 }

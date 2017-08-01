@@ -1,26 +1,36 @@
 package com.zero.web.controller;
 
+import com.zero.service.HealthCheckService;
+import com.zero.vo.HealthCheckVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+/**
+ * 健康检查的控制器
+ *
+ * @author yezhaoxing
+ * @since : 2017/7/17
+ */
+@RestController
+public class HealthCheckController {
 
-@Controller
-public class VersionController {
     private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>() {
         public DateFormat initialValue() {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         };
     };
+    @Value("${spring.profiles.active}")
+    private String env;
     @Value("${project.version}")
     private String version;
     @Value("${project.buildTime}")
@@ -28,13 +38,23 @@ public class VersionController {
     @Value("${project.format}")
     private String format;
 
-    @ResponseBody
-    @RequestMapping(value = "/version", method = GET)
+    @Resource
+    private HealthCheckService healthCheckService;
+
+    @GetMapping(value = "version")
     @ApiOperation(value = "查看版本信息")
     public Map<String, String> version() throws ParseException {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
+        map.put("env", env);
         map.put("version", version);
         map.put("builtAt", DATE_FORMAT.get().format(new SimpleDateFormat(format).parse(builtAt)));
         return map;
     }
+
+    @GetMapping(value = "/healthCheck")
+    @ApiOperation(value = "检查DB,第三方服务等是否能正常连接")
+    public List<HealthCheckVo> healthCheck() {
+        return healthCheckService.healthCheck();
+    }
+
 }

@@ -21,33 +21,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
+        <httpcomponents-version>4.4</httpcomponents-version>
+        <project.build.time>${maven.build.timestamp}</project.build.time>
+        <maven.build.timestamp.format>yyyyMMddHHmmssZ</maven.build.timestamp.format>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>public</id>
-            <url>http://10.0.1.56:8080/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>public</id>
-            <url>http://10.0.1.56:8080/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <dependencies>
         <dependency>
@@ -55,15 +33,33 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+
+        <!--pagehelper-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <!--通用Mapper -->
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>1.1.1</version>
         </dependency>
 
         <dependency>
@@ -78,9 +74,14 @@
         </dependency>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-redis</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>io.springfox</groupId>
@@ -91,6 +92,22 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${httpcomponents-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpcomponents-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>${httpcomponents-version}</version>
         </dependency>
     </dependencies>
 
@@ -116,8 +133,8 @@
                         <version>5.1.21</version>
                     </dependency>
                     <dependency>
-                        <groupId>com.bond</groupId>
-                        <artifactId>mybatis-generator-plugin</artifactId>
+                        <groupId>com.fj</groupId>
+                        <artifactId>mybatisPlugin</artifactId>
                         <version>1.0.0-RELEASE</version>
                     </dependency>
                 </dependencies>

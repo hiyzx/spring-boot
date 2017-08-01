@@ -1,6 +1,41 @@
+server:
+  port: 8080
+  context-path: /user
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/ssm?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+          connection-test-query: select 1 from dual
+          connection-timeout: 30000
+          idle-timeout: 60000
+          max-lifetime: 1800000
+          maximum-pool-size: 50
+          minimum-idle: 50
+project:
+  version: @project.version@
+  buildTime: @project.build.time@
+  format: @maven.build.timestamp.format@
+logging:
+  level:
+    com.zero: DEBUG
+mybatis:
+    type-aliases-package: com.zero.po
+    mapper-locations: classpath:com.zero.dao/*.xml
+mapper:
+    mappers:
+        - com.zero.conf.MyMapper
+    not-empty: false
+    identity: MYSQL
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+http:
+    scheme: http
+    hostname: localhost
+    port: 8081

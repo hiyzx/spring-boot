@@ -3,8 +3,11 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
     <context id="mysql" targetRuntime="MyBatis3">
-        <plugin type="org.mybatis.plugin.MySQLLimitPlugin"/>
-        <plugin type="org.mybatis.plugin.CommentPlugin"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <plugin type="org.mybatis.plugin.CommentPlugin">
+            <property name="mappers" value="com.zero.conf.MyMapper"/>
+        </plugin>
         <commentGenerator>
             <property name="suppressDate" value="true"/>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->

@@ -22,12 +22,6 @@ import static springfox.documentation.builders.PathSelectors.regex;
 public class Swagger2 {
     @Bean
     public Docket createRestApi() {
-        /*
-         * return new
-         * Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-         * .apis(RequestHandlerSelectors.basePackage("com.zero.web.controller"))
-         * .paths(PathSelectors.any()) .build();
-         */
         StopWatch watch = new StopWatch();
         watch.start();
         Docket swaggerSpringMvcPlugin = new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
@@ -37,12 +31,6 @@ public class Swagger2 {
     }
 
     private ApiInfo apiInfo() {
-        /*
-         * return new
-         * ApiInfoBuilder().title("Spring Boot中使用Swagger2构建RESTful APIs").
-         * description(null)
-         * .termsOfServiceUrl(null).contact(null).version(null).build();
-         */
         return new ApiInfoBuilder().title("spring-boot API").description(String.format("spring-boot API 说明书"))
                 .termsOfServiceUrl(null).license("仅供内部参考").licenseUrl(null).build();
     }
