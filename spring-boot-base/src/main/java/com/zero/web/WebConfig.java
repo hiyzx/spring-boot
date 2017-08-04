@@ -1,6 +1,7 @@
 package com.zero.web;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -13,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
@@ -21,13 +21,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
+    // 解决跨域问题
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**");
+    }
+
+    // 拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        /*registry.addInterceptor(new AuthorityInterceptor()).addPathPatterns("/*").excludePathPatterns("/login.json")
-                .excludePathPatterns("/register.json").excludePathPatterns("/404").excludePathPatterns("/405")
-                .excludePathPatterns("/500").excludePathPatterns("/400").excludePathPatterns("/swagger-ui.html")
-                .excludePathPatterns("/swagger-resources/**").excludePathPatterns("/v2/api-docs")
-                .excludePathPatterns("/webjars/**");*/
+        // registry.addInterceptor(new
+        // AuthorityInterceptor()).addPathPatterns("/*").excludePathPatterns("/login.json");
         super.addInterceptors(registry);
     }
 }
