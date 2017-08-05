@@ -29,8 +29,6 @@ public class HealthCheckController {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         };
     };
-    @Value("${spring.profiles.active}")
-    private String env;
     @Value("${project.version}")
     private String version;
     @Value("${project.buildTime}")
@@ -45,7 +43,6 @@ public class HealthCheckController {
     @ApiOperation(value = "查看版本信息")
     public Map<String, String> version() throws ParseException {
         Map<String, String> map = new HashMap<>();
-        map.put("env", env);
         map.put("version", version);
         map.put("builtAt", DATE_FORMAT.get().format(new SimpleDateFormat(format).parse(builtAt)));
         return map;

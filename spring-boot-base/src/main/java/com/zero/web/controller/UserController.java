@@ -27,7 +27,8 @@ public class UserController {
 
     @PostMapping(value = "/register.json")
     @ApiOperation("注册")
-    private ReturnVo<String> register(HttpServletRequest request, @RequestBody UserDto userDto) throws Exception {
+    private ReturnVo<String> register(HttpServletRequest request, @ModelAttribute @RequestBody UserDto userDto)
+            throws Exception {
         int userId = userService.add(userDto);
         String sessionId = request.getSession().getId();
         SessionHelper.pushUserId(sessionId, userId);
