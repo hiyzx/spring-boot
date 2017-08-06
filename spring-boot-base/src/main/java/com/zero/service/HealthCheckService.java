@@ -2,6 +2,7 @@ package com.zero.service;
 
 import com.zaxxer.hikari.HikariDataSource;
 import com.zero.util.HttpClient;
+import com.zero.util.RedisHelper;
 import com.zero.vo.HealthCheckVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ public class HealthCheckService {
         List<HealthCheckVo> healthCheckVos = new ArrayList<>();
         healthCheckVos.add(localHttpClient.healthCheck());
         healthCheckVos.add(checkDBConnection());
+        healthCheckVos.add(RedisHelper.checkRedisConnection());
         return healthCheckVos;
     }
 
