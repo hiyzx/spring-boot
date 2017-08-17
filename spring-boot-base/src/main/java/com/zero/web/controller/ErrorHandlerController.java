@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * 404处理类
  *
  * @author yezhaoxing
- * @since : 2017/7/17
+ * @date : 2017/7/17
  */
 @Controller
 public class ErrorHandlerController implements ErrorController {

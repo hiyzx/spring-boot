@@ -43,7 +43,7 @@ import java.util.Map.Entry;
  * HTTP连接池
  * 
  * @author yezhaoxing
- * @since 2017/7/18
+ * @date 2017/7/18
  * @see https://yq.aliyun.com/articles/294
  */
 public class HttpClient {

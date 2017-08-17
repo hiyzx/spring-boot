@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * @author zero
- * @since 2017/08/17
+ * @date 2017/08/17
  */
 public interface UserPointExtMapper {
 

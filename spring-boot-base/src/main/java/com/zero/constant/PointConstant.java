@@ -2,7 +2,7 @@ package com.zero.constant;
 
 /**
  * @author zero
- * @since 2017/08/18
+ * @date 2017/08/18
  */
 public interface PointConstant {
 

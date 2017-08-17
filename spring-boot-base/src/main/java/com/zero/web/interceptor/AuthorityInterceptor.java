@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author yezhaoxing
- * @since : 2017/4/17
+ * @date : 2017/4/17
  */
 @Component
 public class AuthorityInterceptor extends HandlerInterceptorAdapter {

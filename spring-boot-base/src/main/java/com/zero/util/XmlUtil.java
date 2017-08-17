@@ -13,7 +13,7 @@ import java.io.*;
  * xml工具类
  *
  * @author yezhaoxing
- * @since 2017/7/18
+ * @date 2017/7/18
  */
 public class XmlUtil {
 

@@ -14,7 +14,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 /**
  * @author yezhaoxing
- * @since 2017/5/9
+ * @date 2017/5/9
  */
 @Configuration
 @EnableSwagger2

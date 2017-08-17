@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @author yezhaoxing
- * @since : 2017/4/17
+ * @date : 2017/4/17
  */
 public class ReturnVo<T> extends BaseReturnVo {
 

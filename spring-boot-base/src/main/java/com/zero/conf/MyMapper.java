@@ -8,7 +8,7 @@ import tk.mybatis.mapper.common.MySqlMapper;
  * FIXME 特别注意，该接口不能被扫描到，否则会出错
  *
  * @author yezhaoxing
- * @since : 2017/4/17
+ * @date : 2017/4/17
  */
 public interface MyMapper<T> extends Mapper<T>, MySqlMapper<T> {
 }

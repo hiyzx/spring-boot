@@ -4,7 +4,7 @@ package com.zero.enums;
  * 状态码
  *
  * @author yezhaoxing
- * @since 2017/4/29
+ * @date 2017/4/29
  */
 public enum CodeEnum {
 

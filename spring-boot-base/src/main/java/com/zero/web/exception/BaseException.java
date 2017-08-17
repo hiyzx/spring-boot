@@ -4,7 +4,7 @@ import com.zero.enums.CodeEnum;
 
 /**
  * @author yezhaoxing
- * @since : 2017/4/17
+ * @date : 2017/4/17
  */
 public class BaseException extends Exception {
 

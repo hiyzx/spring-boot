@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * http请求的信息,将配置文件的信息注入
  * 
  * @author yezhaoxing
- * @since 2017/7/17
+ * @date 2017/7/17
  */
 @Component
 @ConfigurationProperties(prefix = "http")

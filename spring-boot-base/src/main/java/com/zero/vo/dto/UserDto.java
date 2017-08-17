@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @author yezhaoxing
- * @since : 2017/4/17
+ * @date : 2017/4/17
  */
 @Data
 public class UserDto {

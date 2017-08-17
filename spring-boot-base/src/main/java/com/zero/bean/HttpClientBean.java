@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * http bean对象
  *
  * @author yezhaoxing
- * @since 2017/7/17
+ * @date 2017/7/17
  */
 @Configuration
 @Data
