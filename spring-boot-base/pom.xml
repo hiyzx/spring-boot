@@ -168,9 +168,9 @@
                         <version>5.1.21</version>
                     </dependency>
                     <dependency>
-                        <groupId>com.fj</groupId>
+                        <groupId>com.zero</groupId>
                         <artifactId>mybatisPlugin</artifactId>
-                        <version>1.0.0-RELEASE</version>
+                        <version>develope-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>

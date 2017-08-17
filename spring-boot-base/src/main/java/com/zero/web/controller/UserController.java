@@ -37,7 +37,7 @@ public class UserController {
     @PostMapping(value = "/login.json")
     @ApiOperation("登陆")
     private ReturnVo<String> login(HttpServletRequest request, @RequestParam String username,
-            @RequestParam String password) throws Exception {
+                                   @RequestParam String password) throws Exception {
         int userId = userService.login(username, password);
         String sessionId = request.getSession().getId();
         SessionHelper.pushUserId(sessionId, userId);
@@ -47,7 +47,7 @@ public class UserController {
     @GetMapping(value = "/getUserInfo.json")
     @ApiOperation("获取用户信息")
     private ReturnVo<User> getUserInfo(@RequestParam String sessionId,
-            @ApiParam(value = "用户id", required = true) @RequestParam int userId) throws Exception {
+                                       @ApiParam(value = "用户id", required = true) @RequestParam int userId) throws Exception {
         if (SessionHelper.getUserId(sessionId) == userId) {
             User userInfo = userService.getUserInfo(userId);
             return ReturnVo.success(userInfo);
@@ -60,6 +60,13 @@ public class UserController {
     @ApiOperation("注销")
     private BaseReturnVo logout(HttpServletRequest request) throws Exception {
         SessionHelper.clearSessionId(request.getSession().getId());
+        return BaseReturnVo.success();
+    }
+
+    @PostMapping(value = "/check.json")
+    @ApiOperation("签到")
+    private BaseReturnVo check(@RequestParam String sessionId) throws Exception {
+        userService.check(SessionHelper.getUserId(sessionId));
         return BaseReturnVo.success();
     }
 

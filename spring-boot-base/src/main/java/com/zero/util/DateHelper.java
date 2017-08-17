@@ -1,10 +1,11 @@
 package com.zero.util;
 
 /**
- * 时间的工具类
+ * @Description:
  * @author: yezhaoxing
- * @since : 2017/5/11
+ * @date: 2017/5/11
  */
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,33 +15,11 @@ public final class DateHelper {
     public DateHelper() {
     }
 
-    public static Date strToDate(String time) {
-        Date date = null;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            date = sdf.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
-
-    public static Date strToYYYYMMDD(String time) {
-        Date date = null;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            date = sdf.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
-
     public static Timestamp strToTimestamp(String time) {
         Timestamp ts = null;
 
         try {
-            SimpleDateFormat e = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat e = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss");
             Date d = (Date) e.parseObject(time);
             ts = new Timestamp(d.getTime());
         } catch (ParseException var4) {

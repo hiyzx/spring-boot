@@ -5,7 +5,7 @@
     <context id="mysql" targetRuntime="MyBatis3">
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
-        <plugin type="org.mybatis.plugin.CommentPlugin">
+        <plugin type="org.mybatis.plugin.SpringBootGeneratorPlugin">
             <property name="mappers" value="com.zero.conf.MyMapper"/>
         </plugin>
         <commentGenerator>
@@ -31,8 +31,18 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名 -->
-        <table tableName="user" domainObjectName="User">
-            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        <!-- <table tableName="user" domainObjectName="User">
+             <generatedKey column="id" sqlStatement="MySql" identity="true" />
+         </table>
+         <table tableName="user_check_count" domainObjectName="UserCheckCount">
+             <generatedKey column="id" sqlStatement="MySql" identity="true" />
+         </table>-->
+        <table tableName="user_point" domainObjectName="UserPoint">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="user_point_record" domainObjectName="UserPointRecord">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride property="type" column="type" javaType="com.zero.enums.PointTypeEnum"/>
         </table>
     </context>
 </generatorConfiguration>  

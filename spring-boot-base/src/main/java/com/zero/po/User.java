@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @ToString
@@ -29,4 +30,7 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "密码")
     private String password;
+
+    @ApiModelProperty(value = "最后登陆时间")
+    private Date lastLoginTime;
 }

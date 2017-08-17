@@ -1,8 +1,14 @@
 package com.zero.service;
 
+import com.zero.constant.PointConstant;
+import com.zero.dao.UserCheckCountMapper;
 import com.zero.dao.UserMapper;
 import com.zero.enums.CodeEnum;
+import com.zero.enums.PointTypeEnum;
 import com.zero.po.User;
+import com.zero.po.UserCheckCount;
+import com.zero.util.DateHelper;
+import com.zero.util.NumberUtil;
 import com.zero.vo.dto.UserDto;
 import com.zero.web.exception.BaseException;
 import org.slf4j.Logger;
@@ -24,6 +30,12 @@ public class UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserCheckCountService userCheckCountService;
+    @Resource
+    private UserCheckCountMapper userCheckCountMapper;
+    @Resource
+    private UserPointService userPointService;
 
     public int login(String username, String password) throws BaseException {
         Example example = new Example(User.class);
@@ -36,6 +48,7 @@ public class UserService {
             LOG.info("userId={} login success", userId);
             return userId;
         }
+
     }
 
     public User getUserInfo(int userId) {
@@ -56,5 +69,23 @@ public class UserService {
         userMapper.insertSelective(tmp);
         LOG.info("name={} phone={} register success", name, userDto.getPassword());
         return tmp.getId();
+    }
+
+    public void check(Integer userId) {
+        UserCheckCount userCheckCount = userCheckCountService.getByUserId(userId);
+        if (userCheckCount == null) {// 第一次登录
+            UserCheckCount tmp = new UserCheckCount();
+            tmp.setUserId(userId);
+            tmp.setCheckTime(DateHelper.getCurrentDateTime());
+            tmp.setContinueCount(1);
+            tmp.setMaxCount(1);
+            tmp.setSum(1);
+            tmp.setHistory(NumberUtil.moveByte(0, 1));
+            userCheckCountMapper.insertSelective(tmp);
+            userPointService.increasePoint(userId, PointTypeEnum.CHECK, PointConstant.POINT_CHECK);
+        } else {// 非第一次登录
+
+        }
+
     }
 }
