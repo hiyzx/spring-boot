@@ -11,10 +11,7 @@ public class NumberUtil {
         return Long.parseLong(toFullBinaryString(moveResult), 2) + 1;
     }
 
-    /**
-     * 读取
-     */
-    private static String toFullBinaryString(long num) {
+    public static String toFullBinaryString(long num) {
         final int size = 42;
         char[] chs = new char[size];
         for (int i = 0; i < size; i++) {

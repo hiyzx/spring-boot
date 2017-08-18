@@ -21,6 +21,8 @@ public enum CodeEnum {
 
     SUCCESS("000000"),
 
+    CHECK_REPEAT("100001"),
+
     /**
      * 权限问题
      */

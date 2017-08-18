@@ -2,6 +2,7 @@ package com.zero.service;
 
 import com.zero.dao.UserCheckCountMapper;
 import com.zero.po.UserCheckCount;
+import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author yezhaoxing
  * @date 2017/08/17
  */
+@Service
 public class UserCheckCountService {
 
     @Resource

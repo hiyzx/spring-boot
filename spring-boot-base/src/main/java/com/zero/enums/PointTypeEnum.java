@@ -6,5 +6,5 @@ package com.zero.enums;
  */
 public enum PointTypeEnum {
 
-    LOGIN, CHECK, CONTINUE_CHECK
+    登录, 签到, 连续签到
 }

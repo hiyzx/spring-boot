@@ -13,7 +13,6 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 181
   DEFAULT CHARSET = latin1;
 
 CREATE TABLE `user_check_count` (
@@ -50,7 +49,7 @@ CREATE TABLE `user_point_record` (
   `id`          INT(11) NOT NULL AUTO_INCREMENT,
   `user_id`     INT(11)          DEFAULT NULL
   COMMENT '用户id',
-  `type`        INT(11)          DEFAULT NULL
+  `type`        VARCHAR(11)      DEFAULT NULL
   COMMENT '积分类型',
   `gain_point`  INT(11)          DEFAULT NULL
   COMMENT '获得的积分',

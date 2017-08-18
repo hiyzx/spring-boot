@@ -5,6 +5,7 @@ import com.zero.po.User;
 import com.zero.service.UserService;
 import com.zero.util.SessionHelper;
 import com.zero.vo.BaseReturnVo;
+import com.zero.vo.CheckRecordVo;
 import com.zero.vo.ReturnVo;
 import com.zero.vo.dto.UserDto;
 import com.zero.web.exception.BaseException;
@@ -37,7 +38,7 @@ public class UserController {
     @PostMapping(value = "/login.json")
     @ApiOperation("登陆")
     private ReturnVo<String> login(HttpServletRequest request, @RequestParam String username,
-                                   @RequestParam String password) throws Exception {
+            @RequestParam String password) throws Exception {
         int userId = userService.login(username, password);
         String sessionId = request.getSession().getId();
         SessionHelper.pushUserId(sessionId, userId);
@@ -47,7 +48,7 @@ public class UserController {
     @GetMapping(value = "/getUserInfo.json")
     @ApiOperation("获取用户信息")
     private ReturnVo<User> getUserInfo(@RequestParam String sessionId,
-                                       @ApiParam(value = "用户id", required = true) @RequestParam int userId) throws Exception {
+            @ApiParam(value = "用户id", required = true) @RequestParam int userId) throws Exception {
         if (SessionHelper.getUserId(sessionId) == userId) {
             User userInfo = userService.getUserInfo(userId);
             return ReturnVo.success(userInfo);
@@ -68,6 +69,12 @@ public class UserController {
     private BaseReturnVo check(@RequestParam String sessionId) throws Exception {
         userService.check(SessionHelper.getUserId(sessionId));
         return BaseReturnVo.success();
+    }
+
+    @PostMapping(value = "/queryCheckRecord.json")
+    @ApiOperation("查看签到记录")
+    private ReturnVo<CheckRecordVo> queryCheckRecord(@RequestParam String sessionId) throws Exception {
+        return ReturnVo.success(userService.queryCheckRecord(SessionHelper.getUserId(sessionId)));
     }
 
 }

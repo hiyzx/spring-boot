@@ -1,19 +1,24 @@
 package com.zero.po;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zero.util.TimeZone;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.util.Date;
+import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.Data;
-import lombok.ToString;
+import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @ToString
 @Table(name = "user_check_count")
 public class UserCheckCount implements Serializable {
+    private static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,6 +27,7 @@ public class UserCheckCount implements Serializable {
     private Integer userId;
 
     @ApiModelProperty(value = "签到时间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = FORMAT, timezone = TimeZone.TIMEZONE)
     private Date checkTime;
 
     @ApiModelProperty(value = "连续签到天数")
