@@ -7,6 +7,7 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -42,6 +43,22 @@ public class ExceptionController {
         mav.setView(view);
         view.setObjectMapper(MAPPER);
         BaseReturnVo returnVO = new BaseReturnVo(e.getCodeEnum(), e.getMsg());
+        mav.addObject(returnVO);
+        LOG.error(e.getMessage());
+        return mav;
+    }
+
+    /**
+     * 捕获404异常
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ModelAndView resolveException(NoHandlerFoundException e) {
+        ModelAndView mav = new ModelAndView();
+        MappingJackson2JsonView view = new MappingJackson2JsonView();
+        view.setExtractValueFromSingleKeyModel(true);
+        mav.setView(view);
+        view.setObjectMapper(MAPPER);
+        BaseReturnVo returnVO = new BaseReturnVo(CodeEnum.PAGE_NOT_FOUND, "page not found");
         mav.addObject(returnVO);
         LOG.error(e.getMessage());
         return mav;
