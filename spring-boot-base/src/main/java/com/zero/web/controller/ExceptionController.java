@@ -42,15 +42,7 @@ public class ExceptionController {
      */
     @ExceptionHandler(BaseException.class)
     public ModelAndView resolveException(BaseException e) {
-        ModelAndView mav = new ModelAndView();
-        MappingJackson2JsonView view = new MappingJackson2JsonView();
-        view.setExtractValueFromSingleKeyModel(true);
-        mav.setView(view);
-        view.setObjectMapper(MAPPER);
-        BaseReturnVo returnVO = new BaseReturnVo(e.getCodeEnum(), e.getMsg());
-        mav.addObject(returnVO);
-        LOG.error(e.getMessage());
-        return mav;
+        return commonResolve(e, e.getCodeEnum(), e.getMsg());
     }
 
     /**
@@ -58,15 +50,7 @@ public class ExceptionController {
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public ModelAndView resolveException(NoHandlerFoundException e) {
-        ModelAndView mav = new ModelAndView();
-        MappingJackson2JsonView view = new MappingJackson2JsonView();
-        view.setExtractValueFromSingleKeyModel(true);
-        mav.setView(view);
-        view.setObjectMapper(MAPPER);
-        BaseReturnVo returnVO = new BaseReturnVo(CodeEnum.PAGE_NOT_FOUND, "page not found");
-        mav.addObject(returnVO);
-        LOG.error(e.getMessage());
-        return mav;
+        return commonResolve(e, CodeEnum.PAGE_NOT_FOUND, "page not found");
     }
 
     /**
@@ -74,15 +58,7 @@ public class ExceptionController {
      */
     @ExceptionHandler(ServletRequestBindingException.class)
     public ModelAndView resolveException(ServletRequestBindingException e) {
-        ModelAndView mav = new ModelAndView();
-        MappingJackson2JsonView view = new MappingJackson2JsonView();
-        view.setExtractValueFromSingleKeyModel(true);
-        mav.setView(view);
-        view.setObjectMapper(MAPPER);
-        BaseReturnVo returnVO = new BaseReturnVo(CodeEnum.PARAM_NOT_MATCH, "param not match");
-        mav.addObject(returnVO);
-        LOG.error(e.getMessage());
-        return mav;
+        return commonResolve(e, CodeEnum.PARAM_NOT_MATCH, "param not match");
     }
 
     /**
@@ -90,11 +66,7 @@ public class ExceptionController {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ModelAndView resolveException(MethodArgumentNotValidException e) {
-        ModelAndView mav = new ModelAndView();
-        MappingJackson2JsonView view = new MappingJackson2JsonView();
-        view.setExtractValueFromSingleKeyModel(true);
-        mav.setView(view);
-        view.setObjectMapper(MAPPER);
+
         BindingResult bindingResult = e.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         StringBuilder sb = new StringBuilder();
@@ -102,23 +74,24 @@ public class ExceptionController {
             sb.append(fieldError.getDefaultMessage()).append(",");
         }
         sb.deleteCharAt(sb.length() - 1);
-        BaseReturnVo returnVO = new BaseReturnVo(CodeEnum.VALID_FAIL, sb.toString());
-        mav.addObject(returnVO);
-        LOG.error(e.getMessage());
-        return mav;
+        return commonResolve(e, CodeEnum.VALID_FAIL, sb.toString());
     }
 
     /**
-     * 未被前两个异常捕获,都会被该方法处理
+     * 未被前面异常捕获,都会被该方法处理
      */
     @ExceptionHandler(Exception.class)
     public ModelAndView resolveException(Exception e) {
+        return commonResolve(e, CodeEnum.INTERNAL_SERVER_ERROR, "Internal Server Error");
+    }
+
+    private ModelAndView commonResolve(Exception e, CodeEnum codeEnum, String msg) {
         ModelAndView mav = new ModelAndView();
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         view.setExtractValueFromSingleKeyModel(true);
         mav.setView(view);
         view.setObjectMapper(MAPPER);
-        BaseReturnVo returnVO = new BaseReturnVo(CodeEnum.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        BaseReturnVo returnVO = new BaseReturnVo(codeEnum, msg);
         mav.addObject(returnVO);
         LOG.error(e.getMessage(), e);
         return mav;
