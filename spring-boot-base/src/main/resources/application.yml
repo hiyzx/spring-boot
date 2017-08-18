@@ -26,6 +26,11 @@ spring:
           min-idle: 5
           max-idle: 10
           max-wait: -1
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
 project:
   version: @project.version@
   buildTime: @project.build.time@
