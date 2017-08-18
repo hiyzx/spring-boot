@@ -24,6 +24,11 @@ public enum CodeEnum {
     CHECK_REPEAT("100001"),
 
     /**
+     * 参数校验失败
+     */
+    VALID_FAIL("100002"),
+
+    /**
      * 权限问题
      */
     PERMISSION_DENIED("100002"),

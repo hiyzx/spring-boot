@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * @author yezhaoxing
@@ -25,7 +26,8 @@ public class LoginController {
 
     @PostMapping(value = "/register.json")
     @ApiOperation("注册")
-    private ReturnVo<String> register(HttpServletRequest request, @RequestBody UserDto userDto) throws Exception {
+    private ReturnVo<String> register(HttpServletRequest request, @RequestBody @Valid UserDto userDto)
+            throws Exception {
         int userId = loginService.add(userDto);
         String sessionId = request.getSession().getId();
         SessionHelper.pushUserId(sessionId, userId);
