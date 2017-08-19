@@ -30,9 +30,9 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping(value = "/getUserInfo.json")
+    @GetMapping(value = "/listUserInfo.json")
     @ApiOperation("批量获取用户信息")
-    private ReturnVo<List<User>> getUserInfo(@RequestParam String sessionId,
+    private ReturnVo<List<User>> listUserInfo(@RequestParam String sessionId,
             @ApiParam(value = "用户id", required = true) @RequestParam List<Integer> userIds) throws Exception {
         return ReturnVo.success(userService.getUserInfo(userIds));
     }
