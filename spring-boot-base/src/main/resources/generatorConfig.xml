@@ -31,18 +31,33 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名 -->
+        <table tableName="user" domainObjectName="User">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
         <!-- <table tableName="user" domainObjectName="User">
              <generatedKey column="id" sqlStatement="MySql" identity="true" />
          </table>
          <table tableName="user_check_count" domainObjectName="UserCheckCount">
              <generatedKey column="id" sqlStatement="MySql" identity="true" />
          </table>-->
-        <table tableName="user_point" domainObjectName="UserPoint">
+        <!--<table tableName="user_point" domainObjectName="UserPoint">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="user_point_record" domainObjectName="UserPointRecord">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride property="type" column="type" javaType="com.zero.enums.PointTypeEnum"/>
+        </table>-->
+        <!--<table tableName="role" domainObjectName="Role">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+        <table tableName="user_role" domainObjectName="UserRole">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="permission" domainObjectName="Permission">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="role_permission" domainObjectName="RolePermission">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
     </context>
 </generatorConfiguration>  

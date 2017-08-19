@@ -3,6 +3,7 @@ package com.zero.service;
 import com.zero.constant.PointConstant;
 import com.zero.dao.UserCheckCountMapper;
 import com.zero.dao.UserMapper;
+import com.zero.dao.ext.UserPermissionExtMapper;
 import com.zero.enums.CodeEnum;
 import com.zero.enums.PointTypeEnum;
 import com.zero.po.User;
@@ -15,9 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author yezhaoxing
@@ -35,11 +39,29 @@ public class UserService {
     private UserCheckCountMapper userCheckCountMapper;
     @Resource
     private UserPointService userPointService;
+    @Resource
+    private UserPermissionExtMapper userPermissionExtMapper;
 
-    public User getUserInfo(int userId) {
+    public User getSelfInfo(int userId) {
         User user = userMapper.selectByPrimaryKey(userId);
         user.setPassword("******");
         return user;
+    }
+
+    public User getSelfInfo(String userName) {
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("name", userName);
+        List<User> users = userMapper.selectByExample(example);
+        return users.isEmpty() ? null : users.get(0);
+    }
+
+    public List<User> getUserInfo(List<Integer> userIds) {
+        List<String> userIdStr = userIds.stream().map(Object::toString).collect(Collectors.toList());
+        List<User> users = userMapper.selectByIds(String.join(",", userIdStr));
+        users.parallelStream().forEach((User user) -> {
+            user.setPassword("****");
+        });
+        return users;
     }
 
     @Transactional
@@ -119,5 +141,9 @@ public class UserService {
             rtn.setCheckHistory(checkHistory.substring(checkHistory.indexOf("1")));
         }
         return rtn;
+    }
+
+    public List<String> queryUserPermissionById(String username) {
+        return userPermissionExtMapper.selectPermissionByUserId(username);
     }
 }

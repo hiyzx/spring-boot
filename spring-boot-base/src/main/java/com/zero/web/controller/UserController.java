@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author yezhaoxing
@@ -30,11 +31,18 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/getUserInfo.json")
+    @ApiOperation("批量获取用户信息")
+    private ReturnVo<List<User>> getUserInfo(@RequestParam String sessionId,
+            @ApiParam(value = "用户id", required = true) @RequestParam List<Integer> userIds) throws Exception {
+        return ReturnVo.success(userService.getUserInfo(userIds));
+    }
+
+    @GetMapping(value = "/getUserInfo.json")
     @ApiOperation("获取用户信息")
     private ReturnVo<User> getUserInfo(@RequestParam String sessionId,
             @ApiParam(value = "用户id", required = true) @RequestParam int userId) throws Exception {
         if (SessionHelper.getUserId(sessionId) == userId) {
-            User userInfo = userService.getUserInfo(userId);
+            User userInfo = userService.getSelfInfo(userId);
             return ReturnVo.success(userInfo);
         } else {
             throw new BaseException(CodeEnum.PERMISSION_DENIED, "非法sessionId");
