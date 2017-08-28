@@ -10,7 +10,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -20,7 +20,7 @@ import java.util.Date;
  * @author yezhaoxing
  * @date 2017/08/19
  */
-@Component
+@Configuration
 public class MyShiroRealm extends AuthorizingRealm {
     @Resource
     private UserService userService;

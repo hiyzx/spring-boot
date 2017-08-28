@@ -12,11 +12,12 @@ import java.util.*;
 
 public class ShiroRedisCache<K, V> implements Cache<K, V> {
 
-    private static String prefix = "shiro-session:";
+    private String prefix;
 
     private RedisTemplate<byte[], V> redisTemplate;
 
-    ShiroRedisCache(RedisTemplate<byte[], V> redisTemplate) {
+    ShiroRedisCache(RedisTemplate<byte[], V> redisTemplate, String name) {
+        this.prefix = name;
         this.redisTemplate = redisTemplate;
     }
 

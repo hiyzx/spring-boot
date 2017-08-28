@@ -1,9 +1,11 @@
 package com.zero.conf;
 
+import com.zero.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -17,6 +19,8 @@ import javax.servlet.annotation.WebListener;
 public class AppServletContextListener implements ServletContextListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(AppServletContextListener.class);
+    @Resource
+    private UserService userService;
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {

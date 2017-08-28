@@ -1,16 +1,17 @@
 package com.zero.shiro;
 
 import com.google.common.collect.Maps;
+import com.zero.service.UserService;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.annotation.Resource;
@@ -18,11 +19,13 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import java.util.Map;
 
-@Configuration
+@Component
 public class ShiroConfig {
 
     @Resource
-    private RedisTemplate<byte[], byte[]> redisTemplate;
+    private RedisSessionDAO redisSessionDAO;
+    @Resource
+    private UserService userService;
 
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
@@ -70,8 +73,11 @@ public class ShiroConfig {
     }
 
     @Bean(name = "sessionManager")
-    public ServletContainerSessionManager sessionManager() {
-        return new ServletContainerSessionManager();
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        // sessionManager.setSessionDAO(redisSessionDAO);
+        sessionManager.setGlobalSessionTimeout(1800);
+        return sessionManager;
     }
 
     @Bean
@@ -87,7 +93,7 @@ public class ShiroConfig {
 
     @Bean(name = "shiroRedisCacheManager")
     public ShiroRedisCacheManager shiroRedisCacheManager() {
-        ShiroRedisCacheManager shiroRedisCacheManager = new ShiroRedisCacheManager(redisTemplate);
+        ShiroRedisCacheManager shiroRedisCacheManager = new ShiroRedisCacheManager();
         shiroRedisCacheManager.createCache("shiro_redis:");
         return shiroRedisCacheManager;
     }

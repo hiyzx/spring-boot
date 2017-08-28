@@ -2,12 +2,14 @@ package com.zero.shiro;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
+@Configuration
 public class RedisSessionDAO extends EnterpriseCacheSessionDAO {
 
     // session 在redis过期时间是30分钟30*60

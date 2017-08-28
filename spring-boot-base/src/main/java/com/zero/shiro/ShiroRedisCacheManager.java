@@ -5,13 +5,12 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.Resource;
+
 public class ShiroRedisCacheManager extends AbstractCacheManager {
 
+    @Resource
     private RedisTemplate<byte[], byte[]> redisTemplate;
-
-    public ShiroRedisCacheManager(RedisTemplate<byte[], byte[]> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
 
     @Override
     protected Cache<byte[], byte[]> createCache(String name) throws CacheException {
