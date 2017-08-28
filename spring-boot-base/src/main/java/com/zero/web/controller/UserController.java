@@ -1,13 +1,12 @@
 package com.zero.web.controller;
 
-import com.zero.enums.CodeEnum;
 import com.zero.po.User;
 import com.zero.service.UserService;
-import com.zero.util.SessionHelper;
+import com.zero.util.UserContextHelper;
 import com.zero.vo.BaseReturnVo;
 import com.zero.vo.CheckRecordVo;
 import com.zero.vo.ReturnVo;
-import com.zero.web.exception.BaseException;
+import com.zero.vo.ShiroUserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -32,33 +31,27 @@ public class UserController {
 
     @GetMapping(value = "/listUserInfo.json")
     @ApiOperation("批量获取用户信息")
-    private ReturnVo<List<User>> listUserInfo(@RequestParam String sessionId,
+    private ReturnVo<List<User>> listUserInfo(
             @ApiParam(value = "用户id", required = true) @RequestParam List<Integer> userIds) throws Exception {
         return ReturnVo.success(userService.getUserInfo(userIds));
     }
 
     @GetMapping(value = "/getUserInfo.json")
     @ApiOperation("获取用户信息")
-    private ReturnVo<User> getUserInfo(@RequestParam String sessionId,
-            @ApiParam(value = "用户id", required = true) @RequestParam int userId) throws Exception {
-        if (SessionHelper.getUserId(sessionId) == userId) {
-            User userInfo = userService.getSelfInfo(userId);
-            return ReturnVo.success(userInfo);
-        } else {
-            throw new BaseException(CodeEnum.PERMISSION_DENIED, "非法sessionId");
-        }
+    private ReturnVo<ShiroUserVo> getUserInfo() throws Exception {
+        return ReturnVo.success(UserContextHelper.getUser());
     }
 
     @PostMapping(value = "/check.json")
     @ApiOperation("签到")
-    private BaseReturnVo check(@RequestParam String sessionId) throws Exception {
-        userService.check(SessionHelper.getUserId(sessionId));
+    private BaseReturnVo check() throws Exception {
+        userService.check(UserContextHelper.getUserId());
         return BaseReturnVo.success();
     }
 
     @PostMapping(value = "/queryCheckRecord.json")
     @ApiOperation("查看签到记录")
-    private ReturnVo<CheckRecordVo> queryCheckRecord(@RequestParam String sessionId) throws Exception {
-        return ReturnVo.success(userService.queryCheckRecord(SessionHelper.getUserId(sessionId)));
+    private ReturnVo<CheckRecordVo> queryCheckRecord() throws Exception {
+        return ReturnVo.success(userService.queryCheckRecord(UserContextHelper.getUserId()));
     }
 }

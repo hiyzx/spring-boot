@@ -1,16 +1,20 @@
-package com.zero.conf;
+package com.zero.shiro;
 
 import com.zero.po.User;
+import com.zero.service.LoginService;
 import com.zero.service.UserService;
+import com.zero.util.DateHelper;
+import com.zero.vo.ShiroUserVo;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.Date;
 
 /**
  * @author yezhaoxing
@@ -20,23 +24,8 @@ import java.util.List;
 public class MyShiroRealm extends AuthorizingRealm {
     @Resource
     private UserService userService;
-
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String userName = (String) principalCollection.fromRealm(getName()).iterator().next();
-        if (userName != null) {
-            List<String> permissions = userService.queryUserPermissionById(userName);
-            if (!permissions.isEmpty()) {
-                SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-                for (String each : permissions) {
-                    // 将权限资源添加到用户信息中
-                    info.addStringPermission(each);
-                }
-                return info;
-            }
-        }
-        return null;
-    }
+    @Resource
+    private LoginService loginService;
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
@@ -44,13 +33,22 @@ public class MyShiroRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         // 通过表单接收的用户名
         String username = token.getUsername();
-        if (username != null && !"".equals(username)) {
+        if (StringUtils.hasText(username)) {
             User user = userService.getSelfInfo(username);
             if (user != null) {
-                return new SimpleAuthenticationInfo(user.getName(), user.getPassword(), getName());
+                Date now = DateHelper.getCurrentDateTime();
+                loginService.login(user.getId(), user.getLastLoginTime(), now);
+                ShiroUserVo rtn = new ShiroUserVo();
+                rtn.setLastLoginTime(now);
+                BeanUtils.copyProperties(user, rtn);
+                return new SimpleAuthenticationInfo(rtn, user.getPassword(), getName());
             }
         }
+        return null;
+    }
 
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         return null;
     }
 }

@@ -31,9 +31,6 @@ public class User implements Serializable {
     @ApiModelProperty(value = "密码")
     private String password;
 
-    @ApiModelProperty(value = "用户对应的角色")
-    private Integer roleId;
-
     @ApiModelProperty(value = "最后登陆时间")
     private Date lastLoginTime;
 }

@@ -31,18 +31,33 @@ public enum CodeEnum {
     /**
      * 权限问题
      */
-    PERMISSION_DENIED("100002"),
+    PERMISSION_DENIED("100003"),
 
     /**
-     * 登陆失败
+     * 没有权限
      */
-    LOGIN_FAIL("100001");
+    UN_AUTHOR("100004"),
+
+    /**
+     * 帐号不存在
+     */
+    ACCOUNT_NOT_EXIST("100005"),
+
+    /**
+     * 帐号未激活
+     */
+    ACCOUNT_NOT_ACTIVATE("100006"),
+
+    /**
+     * 密码错误
+     */
+    PASSWORD_WRONG("100004");
+
+    private String CodeEnum;
 
     private CodeEnum(String value) {
         this.CodeEnum = value;
     }
-
-    private String CodeEnum;
 
     public String getCodeEnum() {
         return CodeEnum;

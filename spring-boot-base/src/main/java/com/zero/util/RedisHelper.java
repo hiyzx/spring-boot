@@ -1,16 +1,9 @@
 package com.zero.util;
 
-import com.zero.vo.HealthCheckVo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.core.RedisTemplate;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,65 +13,28 @@ import java.util.concurrent.TimeUnit;
  * @date 2017/7/17
  */
 @Configuration
-public class RedisHelper {
+public class RedisHelper<K, V> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RedisHelper.class);
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
-    private static RedisHelper redisHelper;
+    private RedisTemplate<K, V> redisTemplate;
 
-    @PostConstruct
-    public void init() {
-        RedisSerializer<String> stringSerializer = new StringRedisSerializer();
-        this.stringRedisTemplate.setKeySerializer(stringSerializer);
-        this.stringRedisTemplate.setValueSerializer(stringSerializer);
-        this.stringRedisTemplate.setHashKeySerializer(stringSerializer);
-        this.stringRedisTemplate.setHashValueSerializer(stringSerializer);
-        redisHelper = this;
-        redisHelper.stringRedisTemplate = this.stringRedisTemplate;
+    public void set(K key, V value) {
+        redisTemplate.opsForValue().set(key, value);
     }
 
-    private static StringRedisTemplate getStringRedisTemplate() {
-        return redisHelper.stringRedisTemplate;
+    public void set(K key, V value, long expireTime) {
+        redisTemplate.opsForValue().set(key, value, expireTime);
     }
 
-    public static void set(String key, String value) throws Exception {
-        getStringRedisTemplate().opsForValue().set(getRedisKey(key), value);
+    public void expire(K key, long expireTime) {
+        redisTemplate.expire(key, expireTime, TimeUnit.MILLISECONDS);
     }
 
-    public static void set(String key, String value, long expireTime) throws Exception {
-        getStringRedisTemplate().opsForValue().set(getRedisKey(key), value, expireTime);
+    public V get(K key) {
+        return redisTemplate.opsForValue().get(key);
     }
 
-    public static void expire(String key, long expireTime) throws Exception {
-        getStringRedisTemplate().expire(getRedisKey(key), expireTime, TimeUnit.MILLISECONDS);
-    }
-
-    public static String get(String key) throws Exception {
-        return getStringRedisTemplate().opsForValue().get(getRedisKey(key));
-    }
-
-    public static void delete(String key) throws Exception {
-        getStringRedisTemplate().delete(getRedisKey(key));
-    }
-
-    private static String getRedisKey(String key) {
-        return String.format("student_%s", key);
-    }
-
-    public static HealthCheckVo checkRedisConnection() {
-        HealthCheckVo healthCheckVo = new HealthCheckVo();
-        healthCheckVo.setServiceName("redis");
-        try {
-            long startTimeMillis = System.currentTimeMillis();
-            RedisHelper.set(String.format("%scheckRedisConnection", getRedisKey("")),
-                    DateHelper.format(new Date(startTimeMillis), "yyyy-MM-dd HH:mm:ss"));
-            healthCheckVo.setNormal(true);
-            healthCheckVo.setCostTime(String.format("%sms", System.currentTimeMillis() - startTimeMillis));
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            healthCheckVo.setNormal(false);
-        }
-        return healthCheckVo;
+    public void delete(K key) {
+        redisTemplate.delete(key);
     }
 }

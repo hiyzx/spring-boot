@@ -1,6 +1,7 @@
 package com.zero.service;
 
 import com.zaxxer.hikari.HikariDataSource;
+import com.zero.util.DateHelper;
 import com.zero.util.HttpClient;
 import com.zero.util.RedisHelper;
 import com.zero.vo.HealthCheckVo;
@@ -14,6 +15,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +30,8 @@ public class HealthCheckService {
     private HikariDataSource masterDataSource;
     @Resource(name = "localHttpClient")
     private HttpClient localHttpClient;
+    @Resource
+    private RedisHelper<String, String> redisHelper;
 
     /**
      * 健康检查
@@ -36,7 +40,7 @@ public class HealthCheckService {
         List<HealthCheckVo> healthCheckVos = new ArrayList<>();
         healthCheckVos.add(localHttpClient.healthCheck());
         healthCheckVos.add(checkDBConnection());
-        healthCheckVos.add(RedisHelper.checkRedisConnection());
+        healthCheckVos.add(checkRedisConnection());
         return healthCheckVos;
     }
 
@@ -76,5 +80,21 @@ public class HealthCheckService {
             }
         }
         return model;
+    }
+
+    private HealthCheckVo checkRedisConnection() {
+        HealthCheckVo healthCheckVo = new HealthCheckVo();
+        healthCheckVo.setServiceName("redis");
+        try {
+            long startTimeMillis = System.currentTimeMillis();
+            redisHelper.set(String.format("%scheckRedisConnection", ""),
+                    DateHelper.format(new Date(startTimeMillis), "yyyy-MM-dd HH:mm:ss"));
+            healthCheckVo.setNormal(true);
+            healthCheckVo.setCostTime(String.format("%sms", System.currentTimeMillis() - startTimeMillis));
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            healthCheckVo.setNormal(false);
+        }
+        return healthCheckVo;
     }
 }

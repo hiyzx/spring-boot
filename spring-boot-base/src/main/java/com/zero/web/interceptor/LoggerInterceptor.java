@@ -2,7 +2,7 @@ package com.zero.web.interceptor;
 
 import com.zero.util.IpUtil;
 import com.zero.util.JsonUtil;
-import com.zero.util.SessionHelper;
+import com.zero.util.UserContextHelper;
 import com.zero.web.exception.BaseException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -87,7 +87,7 @@ public class LoggerInterceptor {
         if (StringUtils.hasText(sessionId)) {
             sb.append(", [sessionId=");
             sb.append(sessionId);
-            sb.append(", userId=").append(SessionHelper.getUserId(sessionId));
+            sb.append(", userId=").append(UserContextHelper.getUserId());
             sb.append("]");
         }
         return sb;

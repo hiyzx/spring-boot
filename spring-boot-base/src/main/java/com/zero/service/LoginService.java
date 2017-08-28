@@ -3,22 +3,18 @@ package com.zero.service;
 import com.zero.constant.PointConstant;
 import com.zero.dao.UserMapper;
 import com.zero.dao.UserPointMapper;
-import com.zero.enums.CodeEnum;
 import com.zero.enums.PointTypeEnum;
 import com.zero.po.User;
 import com.zero.po.UserPoint;
 import com.zero.util.DateHelper;
 import com.zero.vo.dto.UserDto;
-import com.zero.web.exception.BaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author yezhaoxing
@@ -35,31 +31,19 @@ public class LoginService {
     @Resource
     private UserPointService userPointService;
 
-    public int login(String username, String password) throws BaseException {
-        Example example = new Example(User.class);
-        example.createCriteria().andEqualTo("name", username).andEqualTo("password", password);
-        List<User> users = userMapper.selectByExample(example);
-        if (users.isEmpty()) {
-            throw new BaseException(CodeEnum.LOGIN_FAIL, "用户名或者密码错误!");
-        } else {
-            User user = users.get(0);
-            Integer userId = user.getId();
-            Date now = DateHelper.getCurrentDateTime();
-            if (user.getLastLoginTime() == null || !DateHelper.isSameDate(now, user.getLastLoginTime())) {
-                userPointService.increasePoint(userId, PointTypeEnum.登录, PointConstant.POINT_LOGIN);
-            }
-            User tmp = new User();
-            tmp.setId(userId);
-            tmp.setLastLoginTime(now);
-            userMapper.updateByPrimaryKeySelective(tmp);
-            LOG.info("userId={} login success", userId);
-            return userId;
+    public void login(Integer userId, Date lastLoginTime, Date now) {
+        if (lastLoginTime == null || !DateHelper.isSameDate(now, lastLoginTime)) {
+            userPointService.increasePoint(userId, PointTypeEnum.登录, PointConstant.POINT_LOGIN);
         }
-
+        User tmp = new User();
+        tmp.setId(userId);
+        tmp.setLastLoginTime(now);
+        userMapper.updateByPrimaryKeySelective(tmp);
+        LOG.info("userId={} login success", userId);
     }
 
     @Transactional
-    public int add(UserDto userDto) {
+    public void add(UserDto userDto) {
         User tmp = new User();
         tmp.setAge(userDto.getAge());
         String name = userDto.getName();
@@ -74,6 +58,5 @@ public class LoginService {
         userPoint.setUserId(userId);
         userPoint.setPoint(0);
         userPointMapper.insert(userPoint);
-        return userId;
     }
 }

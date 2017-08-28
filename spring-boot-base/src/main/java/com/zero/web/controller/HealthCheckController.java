@@ -5,6 +5,7 @@ import com.zero.vo.HealthCheckVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -22,6 +23,7 @@ import java.util.Map;
  * @date : 2017/5/17
  */
 @RestController
+@RequestMapping("/monitor")
 public class HealthCheckController {
 
     private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>() {

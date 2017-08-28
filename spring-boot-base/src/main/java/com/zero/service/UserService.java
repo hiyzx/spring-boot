@@ -3,7 +3,6 @@ package com.zero.service;
 import com.zero.constant.PointConstant;
 import com.zero.dao.UserCheckCountMapper;
 import com.zero.dao.UserMapper;
-import com.zero.dao.ext.UserPermissionExtMapper;
 import com.zero.enums.CodeEnum;
 import com.zero.enums.PointTypeEnum;
 import com.zero.po.User;
@@ -39,14 +38,6 @@ public class UserService {
     private UserCheckCountMapper userCheckCountMapper;
     @Resource
     private UserPointService userPointService;
-    @Resource
-    private UserPermissionExtMapper userPermissionExtMapper;
-
-    public User getSelfInfo(int userId) {
-        User user = userMapper.selectByPrimaryKey(userId);
-        user.setPassword("******");
-        return user;
-    }
 
     public User getSelfInfo(String userName) {
         Example example = new Example(User.class);
@@ -141,9 +132,5 @@ public class UserService {
             rtn.setCheckHistory(checkHistory.substring(checkHistory.indexOf("1")));
         }
         return rtn;
-    }
-
-    public List<String> queryUserPermissionById(String username) {
-        return userPermissionExtMapper.selectPermissionByUserId(username);
     }
 }
