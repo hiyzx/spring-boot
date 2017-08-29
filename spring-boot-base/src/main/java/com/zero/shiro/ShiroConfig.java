@@ -1,8 +1,8 @@
 package com.zero.shiro;
 
 import com.google.common.collect.Maps;
-import com.zero.service.UserService;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
@@ -10,22 +10,16 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
-import javax.annotation.Resource;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import java.util.Map;
 
-@Component
+@Configuration
 public class ShiroConfig {
-
-    @Resource
-    private RedisSessionDAO redisSessionDAO;
-    @Resource
-    private UserService userService;
 
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
@@ -64,7 +58,7 @@ public class ShiroConfig {
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
         // 数据库认证的实现
-        manager.setRealm(userRealm());
+        manager.setRealm(myShiroRealm());
         // session 管理器
         manager.setSessionManager(sessionManager());
         // 缓存管理器
@@ -73,22 +67,31 @@ public class ShiroConfig {
     }
 
     @Bean(name = "sessionManager")
+    @DependsOn("sessionDAO")
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        // sessionManager.setSessionDAO(redisSessionDAO);
-        sessionManager.setGlobalSessionTimeout(1800);
+        sessionManager.setSessionDAO(sessionDAO());
+        sessionManager.setGlobalSessionTimeout(1000 * 60 * 30);
         return sessionManager;
+    }
+
+    @Bean(name = "sessionDAO")
+    @DependsOn("shiroRedisCacheManager")
+    public EnterpriseCacheSessionDAO sessionDAO() {
+        EnterpriseCacheSessionDAO enterpriseCacheSessionDAO = new EnterpriseCacheSessionDAO();
+        enterpriseCacheSessionDAO.setCacheManager(shiroRedisCacheManager());
+        return enterpriseCacheSessionDAO;
     }
 
     @Bean
     @DependsOn(value = { "lifecycleBeanPostProcessor", "shiroRedisCacheManager" })
-    public MyShiroRealm userRealm() {
-        MyShiroRealm userRealm = new MyShiroRealm();
-        userRealm.setCacheManager(shiroRedisCacheManager());
-        userRealm.setCachingEnabled(true);
-        userRealm.setAuthenticationCachingEnabled(false);// 禁用认证缓存
-        userRealm.setAuthorizationCachingEnabled(true);
-        return userRealm;
+    public MyShiroRealm myShiroRealm() {
+        MyShiroRealm myShiroRealm = new MyShiroRealm();
+        myShiroRealm.setCacheManager(shiroRedisCacheManager());
+        myShiroRealm.setCachingEnabled(true);
+        myShiroRealm.setAuthenticationCachingEnabled(false);// 禁用认证缓存
+        myShiroRealm.setAuthorizationCachingEnabled(true);
+        return myShiroRealm;
     }
 
     @Bean(name = "shiroRedisCacheManager")

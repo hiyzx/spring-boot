@@ -13,7 +13,6 @@ import java.util.*;
 public class ShiroRedisCache<K, V> implements Cache<K, V> {
 
     private String prefix;
-
     private RedisTemplate<byte[], V> redisTemplate;
 
     ShiroRedisCache(RedisTemplate<byte[], V> redisTemplate, String name) {
@@ -94,7 +93,7 @@ public class ShiroRedisCache<K, V> implements Cache<K, V> {
 
     private byte[] getByteKey(K key) {
         if (key instanceof String) {
-            String preKey = this.prefix + key;
+            String preKey = prefix + key;
             return preKey.getBytes();
         } else {
             return SerializeUtils.serialize(key);

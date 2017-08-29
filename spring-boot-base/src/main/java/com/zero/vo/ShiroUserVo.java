@@ -3,6 +3,7 @@ package com.zero.vo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  * @date 2017/08/28
  */
 @Data
-public class ShiroUserVo {
+public class ShiroUserVo implements Serializable {
 
     private Integer id;
 

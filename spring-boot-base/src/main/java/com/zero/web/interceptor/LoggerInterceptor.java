@@ -34,16 +34,6 @@ public class LoggerInterceptor {
     private void logController() {
     };
 
-    /**
-     * 定义拦截器的切面
-     */
-    @Pointcut("execution(boolean com.zero.web.interceptor..preHandle(..))")
-    private void logInterceptor() {
-    };
-
-    @Pointcut("logController() || logInterceptor()")
-    private void logControllerAndInterceptor() {
-    };
 
     @AfterReturning(value = "logController()", returning = "returnValue")
     public void afterReturning(JoinPoint joinPoint, Object returnValue) {
@@ -54,7 +44,7 @@ public class LoggerInterceptor {
         }
     }
 
-    @AfterThrowing(value = "logControllerAndInterceptor()", throwing = "e")
+    @AfterThrowing(value = "logController()", throwing = "e")
     public void afterThrowing(JoinPoint joinPoint, Exception e) {
         try {
             if (e instanceof BaseException) {

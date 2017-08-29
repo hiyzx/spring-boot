@@ -33,19 +33,19 @@ public class LoginController {
 
     @GetMapping(value = "/toLogin.json")
     @ApiOperation("去登录")
-    private BaseReturnVo toLogin() throws BaseException {
+    public BaseReturnVo toLogin() throws BaseException {
         throw new BaseException(CodeEnum.NOT_LOGIN, "not login");
     }
 
     @GetMapping(value = "/unAuthor.json")
     @ApiOperation("未认证")
-    private BaseReturnVo unAuthor() throws BaseException {
+    public BaseReturnVo unAuthor() throws BaseException {
         throw new BaseException(CodeEnum.UN_AUTHOR, "not author");
     }
 
     @PostMapping(value = "/register.json")
     @ApiOperation("注册")
-    private BaseReturnVo register(@RequestBody @Valid UserDto userDto) throws Exception {
+    public BaseReturnVo register(@RequestBody @Valid UserDto userDto) throws Exception {
         loginService.add(userDto);
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userDto.getName(), userDto.getPassword());
@@ -55,7 +55,7 @@ public class LoginController {
 
     @PostMapping(value = "/login.json")
     @ApiOperation("登陆")
-    private BaseReturnVo login(@RequestParam String username, @RequestParam String password) throws Exception {
+    public BaseReturnVo login(@RequestParam String username, @RequestParam String password) throws Exception {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
@@ -72,7 +72,7 @@ public class LoginController {
 
     @PostMapping(value = "/logout.json")
     @ApiOperation("注销")
-    private BaseReturnVo logout() throws Exception {
+    public BaseReturnVo logout() throws Exception {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return BaseReturnVo.success();
