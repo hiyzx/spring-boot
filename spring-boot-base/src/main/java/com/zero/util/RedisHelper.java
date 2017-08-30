@@ -37,4 +37,12 @@ public class RedisHelper<K, V> {
     public void delete(K key) {
         redisTemplate.delete(key);
     }
+
+    public void clear() {
+        redisTemplate.getConnectionFactory().getConnection().flushDb();
+    }
+
+    public Long size() {
+        return redisTemplate.getConnectionFactory().getConnection().dbSize();
+    }
 }

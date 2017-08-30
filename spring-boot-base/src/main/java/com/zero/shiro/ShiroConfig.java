@@ -2,7 +2,6 @@ package com.zero.shiro;
 
 import com.google.common.collect.Maps;
 import org.apache.shiro.session.mgt.SessionManager;
-import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
@@ -67,7 +66,7 @@ public class ShiroConfig {
     }
 
     @Bean(name = "sessionManager")
-    @DependsOn("sessionDAO")
+    @DependsOn("redisSessionDAO")
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionDAO(sessionDAO());
@@ -75,12 +74,12 @@ public class ShiroConfig {
         return sessionManager;
     }
 
-    @Bean(name = "sessionDAO")
+    @Bean(name = "redisSessionDAO")
     @DependsOn("shiroRedisCacheManager")
-    public EnterpriseCacheSessionDAO sessionDAO() {
-        EnterpriseCacheSessionDAO enterpriseCacheSessionDAO = new EnterpriseCacheSessionDAO();
-        enterpriseCacheSessionDAO.setCacheManager(shiroRedisCacheManager());
-        return enterpriseCacheSessionDAO;
+    public RedisSessionDAO sessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setCacheManager(shiroRedisCacheManager());
+        return redisSessionDAO;
     }
 
     @Bean
@@ -97,7 +96,7 @@ public class ShiroConfig {
     @Bean(name = "shiroRedisCacheManager")
     public ShiroRedisCacheManager shiroRedisCacheManager() {
         ShiroRedisCacheManager shiroRedisCacheManager = new ShiroRedisCacheManager();
-        shiroRedisCacheManager.createCache("shiro_redis:");
+        shiroRedisCacheManager.createCache("redis:");
         return shiroRedisCacheManager;
     }
 

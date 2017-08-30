@@ -11,7 +11,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -21,7 +20,6 @@ import java.util.Map;
 
 @Aspect
 @Component
-@Order(5)
 public class LoggerInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(LoggerInterceptor.class);
     @Resource

@@ -10,10 +10,10 @@ import javax.annotation.Resource;
 public class ShiroRedisCacheManager extends AbstractCacheManager {
 
     @Resource
-    private RedisTemplate<byte[], byte[]> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    protected Cache<byte[], byte[]> createCache(String name) throws CacheException {
-        return new ShiroRedisCache<>(redisTemplate, name);
+    protected Cache<String, Object> createCache(String name) throws CacheException {
+        return new ShiroCache<>(redisTemplate, name);
     }
 }

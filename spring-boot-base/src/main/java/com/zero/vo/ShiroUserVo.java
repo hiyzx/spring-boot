@@ -1,5 +1,6 @@
 package com.zero.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -25,5 +26,6 @@ public class ShiroUserVo implements Serializable {
     private String phone;
 
     @ApiModelProperty(value = "最后登陆时间")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date lastLoginTime;
 }
