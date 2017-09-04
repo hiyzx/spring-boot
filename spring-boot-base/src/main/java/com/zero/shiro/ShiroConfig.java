@@ -83,9 +83,9 @@ public class ShiroConfig {
     }
 
     @Bean
-    @DependsOn(value = { "lifecycleBeanPostProcessor", "shiroRedisCacheManager" })
+    @DependsOn(value = { "lifecycleBeanPostProcessor", "shiroRedisCacheManager", "credentialsMatcher" })
     public MyShiroRealm myShiroRealm() {
-        MyShiroRealm myShiroRealm = new MyShiroRealm();
+        MyShiroRealm myShiroRealm = new MyShiroRealm(retryLimitCredentialsMatcher());
         myShiroRealm.setCacheManager(shiroRedisCacheManager());
         myShiroRealm.setCachingEnabled(true);
         myShiroRealm.setAuthenticationCachingEnabled(false);// 禁用认证缓存
@@ -100,8 +100,21 @@ public class ShiroConfig {
         return shiroRedisCacheManager;
     }
 
+    @Bean(name = "passwordHash")
+    public PasswordHash passwordHash() {
+        return new PasswordHash();
+    }
+
     @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
+    }
+
+    @Bean(name = "credentialsMatcher")
+    public RetryLimitCredentialsMatcher retryLimitCredentialsMatcher() {
+        RetryLimitCredentialsMatcher retryLimitCredentialsMatcher = new RetryLimitCredentialsMatcher(
+                shiroRedisCacheManager());
+        retryLimitCredentialsMatcher.setRetryLimitCacheName("halfHour");
+        return retryLimitCredentialsMatcher;
     }
 }

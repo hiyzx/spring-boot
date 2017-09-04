@@ -6,7 +6,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.Resource;
 
 /**
- * @Description: 单元测试基类
+ * @Description 单元测试基类
  * @author Super.Li
  * @date Apr 27, 2017
  */

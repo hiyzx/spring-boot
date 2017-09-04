@@ -1,8 +1,10 @@
 package com.zero.service;
 
+import com.zero.dao.UserPointMapper;
 import com.zero.dao.UserPointRecordMapper;
 import com.zero.dao.ext.UserPointExtMapper;
 import com.zero.enums.PointTypeEnum;
+import com.zero.po.UserPoint;
 import com.zero.po.UserPointRecord;
 import com.zero.util.DateHelper;
 import org.slf4j.Logger;
@@ -23,6 +25,8 @@ public class UserPointService {
     private UserPointRecordMapper userPointRecordMapper;
     @Resource
     private UserPointExtMapper userPointExtMapper;
+    @Resource
+    private UserPointMapper userPointMapper;
 
     public void increasePoint(Integer userId, PointTypeEnum type, Integer score) {
         // 减少并发问题
@@ -34,5 +38,13 @@ public class UserPointService {
         userPointRecord.setCreateTime(DateHelper.getCurrentDateTime());
         userPointRecordMapper.insertSelective(userPointRecord);
         LOG.info("userId={} increase score={} from type{}", userId, score, type);
+    }
+
+    public void add(Integer userId) {
+        UserPoint userPoint = new UserPoint();
+        userPoint.setUserId(userId);
+        userPoint.setPoint(0);
+        userPointMapper.insert(userPoint);
+        LOG.info("userId={} add userPoint object", userId);
     }
 }

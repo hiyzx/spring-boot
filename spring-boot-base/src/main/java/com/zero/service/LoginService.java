@@ -2,12 +2,12 @@ package com.zero.service;
 
 import com.zero.constant.PointConstant;
 import com.zero.dao.UserMapper;
-import com.zero.dao.UserPointMapper;
 import com.zero.enums.PointTypeEnum;
 import com.zero.po.User;
-import com.zero.po.UserPoint;
+import com.zero.shiro.PasswordHash;
 import com.zero.util.DateHelper;
 import com.zero.vo.dto.UserDto;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,9 +27,9 @@ public class LoginService {
     @Resource
     private UserMapper userMapper;
     @Resource
-    private UserPointMapper userPointMapper;
-    @Resource
     private UserPointService userPointService;
+    @Resource
+    private PasswordHash passwordHash;
 
     public void login(Integer userId, Date lastLoginTime, Date now) {
         if (lastLoginTime == null || !DateHelper.isSameDate(now, lastLoginTime)) {
@@ -48,15 +48,14 @@ public class LoginService {
         tmp.setAge(userDto.getAge());
         String name = userDto.getName();
         tmp.setName(name);
-        tmp.setPassword(userDto.getPassword());
+        String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
+        tmp.setSalt(salt);
         String phone = userDto.getPhone();
+        tmp.setPassword(passwordHash.toHex(userDto.getPassword(), salt));
         tmp.setPhone(phone);
         userMapper.insertSelective(tmp);
         int userId = tmp.getId();// 只能用这种方式获取id
-        LOG.info("userId={} name={} phone={} register success", userId, name, userDto.getPassword());
-        UserPoint userPoint = new UserPoint();
-        userPoint.setUserId(userId);
-        userPoint.setPoint(0);
-        userPointMapper.insert(userPoint);
+        LOG.info("userId={} name={} phone={} register success", userId, name, phone);
+        userPointService.add(userId);
     }
 }

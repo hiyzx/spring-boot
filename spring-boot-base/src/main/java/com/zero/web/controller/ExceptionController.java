@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zero.enums.CodeEnum;
 import com.zero.vo.BaseReturnVo;
 import com.zero.web.exception.BaseException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -58,6 +59,14 @@ public class ExceptionController {
     @ExceptionHandler(ServletRequestBindingException.class)
     public ModelAndView resolveException(ServletRequestBindingException e) {
         return commonResolve(e, CodeEnum.PARAM_NOT_MATCH, "param not match");
+    }
+
+    /**
+     * 捕获请求参数相关异常
+     */
+    @ExceptionHandler(ExcessiveAttemptsException.class)
+    public ModelAndView resolveException(ExcessiveAttemptsException e) {
+        return commonResolve(e, CodeEnum.WRONG_PASSWORD_5, e.getMessage());
     }
 
     /**

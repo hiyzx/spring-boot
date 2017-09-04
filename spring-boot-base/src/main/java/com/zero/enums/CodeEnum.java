@@ -51,7 +51,12 @@ public enum CodeEnum {
     /**
      * 密码错误
      */
-    PASSWORD_WRONG("100004");
+    PASSWORD_WRONG("100007"),
+
+    /**
+     * 密码错误超过5次
+     */
+    WRONG_PASSWORD_5("100008");
 
     private String CodeEnum;
 

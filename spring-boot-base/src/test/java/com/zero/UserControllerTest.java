@@ -4,9 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.zero.po.User;
 import com.zero.service.LoginService;
 import com.zero.util.JsonUtil;
-import com.zero.util.SessionHelper;
+import com.zero.util.UserContextHelper;
 import com.zero.vo.ReturnVo;
 import com.zero.vo.dto.UserDto;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,15 +39,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserControllerTest.class);
-    @Resource
-    protected WebApplicationContext wac;
-    protected MockMvc mockMvc;
     private static final String NAME = "zero";
     private static final String PHONE = "188";
-    private String SESSION_ID = "123";
-    private Integer userId;
+    private static final String PASSWORD = "123";
+    @Resource
+    private WebApplicationContext wac;
+    private MockMvc mockMvc;
     @Resource
     private LoginService loginService;
+    @Resource
+    private DefaultWebSecurityManager securityManager;
 
     @Before
     public void setUp() throws Exception {
@@ -51,17 +56,20 @@ public class UserControllerTest {
         UserDto tmp = new UserDto();
         tmp.setPhone(PHONE);
         tmp.setName(NAME);
-        tmp.setPassword("abc");
+        tmp.setPassword(PASSWORD);
         tmp.setAge(12);
-        userId = loginService.add(tmp);
-        SessionHelper.pushUserId(SESSION_ID, userId);
+        loginService.add(tmp);
+        SecurityUtils.setSecurityManager(securityManager);
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(NAME, PASSWORD);
+        subject.login(token);
     }
 
     @Test
     public void testGetUserInfo() throws Exception {
+        Integer userId = UserContextHelper.getUserId();
         String responseString = mockMvc
-                .perform(get("/getUserInfo.json").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("sessionId", SESSION_ID).param("userId", String.valueOf(userId)))
+                .perform(get("/user/getUserInfo.json").contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
         final TypeReference<ReturnVo<User>> REFERENCE = new TypeReference<ReturnVo<User>>() {
         };

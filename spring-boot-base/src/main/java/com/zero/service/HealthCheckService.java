@@ -82,6 +82,10 @@ public class HealthCheckService {
         return model;
     }
 
+    public String checkRedis(String key){
+        return redisHelper.get(key);
+    }
+
     private HealthCheckVo checkRedisConnection() {
         HealthCheckVo healthCheckVo = new HealthCheckVo();
         healthCheckVo.setServiceName("redis");

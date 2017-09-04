@@ -53,4 +53,6 @@ http:
     scheme: http
     hostname: localhost
     port: 8081
-
+passwordHash:
+    algorithmName: md5
+    hashIterations: 1

@@ -28,6 +28,9 @@ public class User implements Serializable {
     @ApiModelProperty(value = "手机号")
     private String phone;
 
+    @ApiModelProperty(value = "盐值")
+    private String salt;
+
     @ApiModelProperty(value = "密码")
     private String password;
 

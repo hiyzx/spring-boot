@@ -6,9 +6,11 @@ import com.zero.service.UserService;
 import com.zero.util.DateHelper;
 import com.zero.vo.ShiroUserVo;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
@@ -25,6 +27,10 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Resource
     private LoginService loginService;
 
+    public MyShiroRealm(CredentialsMatcher matcher) {
+        super(matcher);
+    }
+
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
             throws AuthenticationException {
@@ -39,7 +45,8 @@ public class MyShiroRealm extends AuthorizingRealm {
                 ShiroUserVo rtn = new ShiroUserVo();
                 rtn.setLastLoginTime(now);
                 BeanUtils.copyProperties(user, rtn);
-                return new SimpleAuthenticationInfo(rtn, user.getPassword(), getName());
+                return new SimpleAuthenticationInfo(rtn, user.getPassword(), ByteSource.Util.bytes(user.getSalt()),
+                        getName());
             }
         }
         return null;

@@ -14,7 +14,7 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/ssm"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/spring-boot"
                         userId="root" password="root">
         </jdbcConnection>
         <!-- 生成模型的包名和位置 -->
@@ -34,27 +34,15 @@
          <table tableName="user" domainObjectName="User">
              <generatedKey column="id" sqlStatement="MySql" identity="true" />
          </table>
-         <table tableName="user_check_count" domainObjectName="UserCheckCount">
-             <generatedKey column="id" sqlStatement="MySql" identity="true" />
-         </table>
-        <<table tableName="user_point" domainObjectName="UserPoint">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        <!--<table tableName="user_check_count" domainObjectName="UserCheckCount">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
-        <table tableName="user_point_record" domainObjectName="UserPointRecord">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride property="type" column="type" javaType="com.zero.enums.PointTypeEnum"/>
-        </table>
-        <table tableName="role" domainObjectName="Role">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="user_role" domainObjectName="UserRole">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="permission" domainObjectName="Permission">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="role_permission" domainObjectName="RolePermission">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+       <<table tableName="user_point" domainObjectName="UserPoint">
+           <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+       </table>
+       <table tableName="user_point_record" domainObjectName="UserPointRecord">
+           <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+           <columnOverride property="type" column="type" javaType="com.zero.enums.PointTypeEnum"/>
+       </table>-->
     </context>
 </generatorConfiguration>  
