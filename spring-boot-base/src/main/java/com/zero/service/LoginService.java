@@ -31,7 +31,8 @@ public class LoginService {
     @Resource
     private PasswordHash passwordHash;
 
-    public void login(Integer userId, Date lastLoginTime, Date now) {
+    public void login(Integer userId, Date lastLoginTime) {
+        Date now = DateHelper.getCurrentDateTime();
         if (lastLoginTime == null || !DateHelper.isSameDate(now, lastLoginTime)) {
             userPointService.increasePoint(userId, PointTypeEnum.登录, PointConstant.POINT_LOGIN);
         }

@@ -1,11 +1,14 @@
 package com.zero.shiro;
 
 import com.google.common.collect.Maps;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +51,7 @@ public class ShiroConfig {
         chains.put("/webjars/**", "anon");
         chains.put("/auth/*", "anon");
         chains.put("/monitor/*", "anon");
+        chains.put("/user/getUserInfo.json", "user");
         chains.put("/**", "authc");
         bean.setFilterChainDefinitionMap(chains);
         return bean;
@@ -62,6 +66,8 @@ public class ShiroConfig {
         manager.setSessionManager(sessionManager());
         // 缓存管理器
         manager.setCacheManager(shiroRedisCacheManager());
+        // 记住我
+        manager.setRememberMeManager(cookieRememberMeManager());
         return manager;
     }
 
@@ -82,10 +88,28 @@ public class ShiroConfig {
         return redisSessionDAO;
     }
 
+    @Bean(name = "rememberMeManager")
+    @DependsOn(value = { "rememberMeCookie" })
+    public CookieRememberMeManager cookieRememberMeManager() {
+        CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
+        rememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
+        rememberMeManager.setCookie(rememberMeCookie());
+        return rememberMeManager;
+    }
+
+    @Bean(name = "rememberMeCookie")
+    public SimpleCookie rememberMeCookie() {
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+        simpleCookie.setHttpOnly(true);
+        simpleCookie.setMaxAge(2592000);
+        return simpleCookie;
+    }
+
     @Bean
     @DependsOn(value = { "lifecycleBeanPostProcessor", "shiroRedisCacheManager", "credentialsMatcher" })
     public MyShiroRealm myShiroRealm() {
-        MyShiroRealm myShiroRealm = new MyShiroRealm(retryLimitCredentialsMatcher());
+        MyShiroRealm myShiroRealm = new MyShiroRealm();
+        myShiroRealm.setCredentialsMatcher(retryLimitCredentialsMatcher());
         myShiroRealm.setCacheManager(shiroRedisCacheManager());
         myShiroRealm.setCachingEnabled(true);
         myShiroRealm.setAuthenticationCachingEnabled(false);// 禁用认证缓存
@@ -112,9 +136,6 @@ public class ShiroConfig {
 
     @Bean(name = "credentialsMatcher")
     public RetryLimitCredentialsMatcher retryLimitCredentialsMatcher() {
-        RetryLimitCredentialsMatcher retryLimitCredentialsMatcher = new RetryLimitCredentialsMatcher(
-                shiroRedisCacheManager());
-        retryLimitCredentialsMatcher.setRetryLimitCacheName("halfHour");
-        return retryLimitCredentialsMatcher;
+        return new RetryLimitCredentialsMatcher(shiroRedisCacheManager());
     }
 }

@@ -34,14 +34,6 @@ public class RetryLimitCredentialsMatcher extends HashedCredentialsMatcher imple
         this.retryLimitCacheName = DEFAULT_CHACHE_NAME;
     }
 
-    public String getRetryLimitCacheName() {
-        return retryLimitCacheName;
-    }
-
-    public void setRetryLimitCacheName(String retryLimitCacheName) {
-        this.retryLimitCacheName = retryLimitCacheName;
-    }
-
     @Override
     public boolean doCredentialsMatch(AuthenticationToken authcToken, AuthenticationInfo info) {
         String username = (String) authcToken.getPrincipal();

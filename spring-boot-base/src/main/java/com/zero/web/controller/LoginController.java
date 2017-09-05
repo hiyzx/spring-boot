@@ -2,8 +2,10 @@ package com.zero.web.controller;
 
 import com.zero.enums.CodeEnum;
 import com.zero.service.LoginService;
+import com.zero.util.UserContextHelper;
 import com.zero.vo.BaseReturnVo;
 import com.zero.vo.ReturnVo;
+import com.zero.vo.ShiroUserVo;
 import com.zero.vo.dto.UserDto;
 import com.zero.web.exception.BaseException;
 import io.swagger.annotations.Api;
@@ -55,11 +57,15 @@ public class LoginController {
 
     @PostMapping(value = "/login.json")
     @ApiOperation("登陆")
-    public BaseReturnVo login(@RequestParam String username, @RequestParam String password) throws Exception {
+    public BaseReturnVo login(@RequestParam String username, @RequestParam String password,
+            @RequestParam Boolean rememberMe) throws Exception {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
+            token.setRememberMe(rememberMe);
             subject.login(token);
+            ShiroUserVo user = UserContextHelper.getUser();
+            loginService.login(user.getId(), user.getLastLoginTime());
             return BaseReturnVo.success();
         } catch (UnknownAccountException e) {
             throw new BaseException(CodeEnum.ACCOUNT_NOT_EXIST, "account not exist");
