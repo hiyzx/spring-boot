@@ -39,6 +39,10 @@ public class UserService {
     @Resource
     private UserPointService userPointService;
 
+    public User getById(Integer userId) {
+        return userMapper.selectByPrimaryKey(userId);
+    }
+
     public User getSelfInfo(String userName) {
         Example example = new Example(User.class);
         example.createCriteria().andEqualTo("name", userName);

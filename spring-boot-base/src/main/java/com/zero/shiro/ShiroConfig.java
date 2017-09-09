@@ -50,6 +50,7 @@ public class ShiroConfig {
         chains.put("/v2/api-docs", "anon");
         chains.put("/webjars/**", "anon");
         chains.put("/auth/*", "anon");
+        chains.put("/test/*", "anon");
         chains.put("/monitor/*", "anon");
         chains.put("/user/getUserInfo.json", "user");
         chains.put("/**", "authc");

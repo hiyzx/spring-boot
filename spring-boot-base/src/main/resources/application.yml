@@ -33,9 +33,6 @@ project:
   version: @project.version@
   buildTime: @project.build.time@
   format: @maven.build.timestamp.format@
-logging:
-  level:
-    com.zero: DEBUG
 mybatis:
     type-aliases-package: com.zero.po
     mapper-locations: classpath:com.zero.dao/*.xml
@@ -56,3 +53,9 @@ http:
 passwordHash:
     algorithmName: md5
     hashIterations: 1
+logging:
+  level:
+    com.zero: debug
+    org.springframework.web: debug
+    springframework.transaction: debug
+    org.mybatis: debug

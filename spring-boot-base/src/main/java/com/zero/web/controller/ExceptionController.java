@@ -46,14 +46,6 @@ public class ExceptionController {
     }
 
     /**
-     * 捕获404异常
-     */
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public ModelAndView resolveException(NoHandlerFoundException e) {
-        return commonResolve(e, CodeEnum.PAGE_NOT_FOUND, "page not found");
-    }
-
-    /**
      * 捕获请求参数相关异常
      */
     @ExceptionHandler(ServletRequestBindingException.class)

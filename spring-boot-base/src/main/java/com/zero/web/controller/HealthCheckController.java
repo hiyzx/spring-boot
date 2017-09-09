@@ -2,6 +2,7 @@ package com.zero.web.controller;
 
 import com.zero.service.HealthCheckService;
 import com.zero.vo.HealthCheckVo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/monitor")
+@Api(description = "监控相关接口")
 public class HealthCheckController {
 
     private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>() {
