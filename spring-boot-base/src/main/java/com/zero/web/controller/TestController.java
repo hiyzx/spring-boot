@@ -1,8 +1,10 @@
 package com.zero.web.controller;
 
+import com.zero.activemq.MqUtil;
 import com.zero.dao.UserMapper;
 import com.zero.po.User;
 import com.zero.service.UserService;
+import com.zero.util.JsonUtil;
 import com.zero.vo.BaseReturnVo;
 import com.zero.vo.ReturnVo;
 import io.swagger.annotations.Api;
@@ -27,19 +29,29 @@ public class TestController {
     private UserService userService;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private MqUtil mqUtil;
 
     @GetMapping(value = "/get.json")
     @ApiOperation("获取用户信息")
-    public ReturnVo<User> get(@RequestParam Integer userId) throws Exception {
+    public ReturnVo<User> get(@RequestParam Integer userId) {
         return ReturnVo.success(userService.getById(userId));
     }
 
     @GetMapping(value = "/update.json")
-    @ApiOperation("获取用户信息")
-    public BaseReturnVo update(@RequestParam Integer userId, @RequestParam String username) throws Exception {
+    @ApiOperation("修改用户信息")
+    public BaseReturnVo update(@RequestParam Integer userId, @RequestParam String username) {
         User user = userService.getById(userId);
         user.setName(username);
         userMapper.updateByPrimaryKeySelective(user);
+        return BaseReturnVo.success();
+    }
+
+    @GetMapping(value = "/testMQ.json")
+    @ApiOperation("测试mq")
+    public BaseReturnVo testMQ(@RequestParam Integer userId) {
+        User user = userService.getById(userId);
+        mqUtil.sendToMQ(JsonUtil.toJSon(user));
         return BaseReturnVo.success();
     }
 }
