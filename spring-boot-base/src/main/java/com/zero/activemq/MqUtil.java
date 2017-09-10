@@ -1,6 +1,6 @@
 package com.zero.activemq;
 
-import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -14,12 +14,12 @@ import javax.jms.Queue;
 public class MqUtil {
 
     @Resource
-    private JmsMessagingTemplate jmsMessagingTemplate;
+    private JmsTemplate jmsQueueTemplate;
     @Resource
     private Queue queue;
 
-    public void sendToMQ(String... strings) {
-        jmsMessagingTemplate.convertAndSend(queue, strings);
+    public void sendToMQ(String msg) {
+        jmsQueueTemplate.convertAndSend(queue, msg);
     }
 
 }
