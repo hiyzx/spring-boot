@@ -14,6 +14,15 @@ spring:
           max-lifetime: 1800000
           maximum-pool-size: 50
           minimum-idle: 50
+  activemq:
+    user: admin
+    password: admin
+    broker-url: tcp://127.0.0.1:61616
+    in-memory: true
+    pool:
+      enabled: false
+    packages:
+      trust-all: true
   redis:
        database: 0
        host: localhost

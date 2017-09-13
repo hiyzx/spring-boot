@@ -5,7 +5,6 @@ import com.zero.dao.UserMapper;
 import com.zero.po.User;
 import com.zero.service.UserService;
 import com.zero.util.HttpClient;
-import com.zero.util.JsonUtil;
 import com.zero.vo.BaseReturnVo;
 import com.zero.vo.ReturnVo;
 import io.swagger.annotations.Api;
@@ -52,9 +51,8 @@ public class TestController {
 
     @GetMapping(value = "/testMQ.json")
     @ApiOperation("测试mq")
-    public BaseReturnVo testMQ(@RequestParam Integer userId) {
-        User user = userService.getById(userId);
-        mqUtil.sendToMQ(JsonUtil.toJSon(user));
+    public BaseReturnVo testMQ() {
+        mqUtil.sendToMQ("test MQ");
         return BaseReturnVo.success();
     }
 
