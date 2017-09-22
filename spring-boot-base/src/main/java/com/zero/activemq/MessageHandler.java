@@ -14,7 +14,8 @@ public class MessageHandler {
     @JmsListener(destination = MQConfig.QUEUE)
     public void onMessage(Message message) {
         try {
-            Thread.sleep(5000);
+            Thread.sleep(500000);
+            System.out.println(1 / 0);
             String messageText = ((TextMessage) message).getText();
             System.out.println(messageText);
         } catch (Exception e) {
