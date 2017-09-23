@@ -52,7 +52,9 @@ public class TestController {
     @GetMapping(value = "/testMQ.json")
     @ApiOperation("测试mq")
     public BaseReturnVo testMQ() {
-        mqUtil.sendToMQ("test MQ");
+        for (int i = 0; i < 1000; i++) {
+            mqUtil.sendToMQ(i + " test MQ");
+        }
         return BaseReturnVo.success();
     }
 

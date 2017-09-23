@@ -29,11 +29,8 @@ import java.util.Map;
 @Api(description = "监控相关接口")
 public class HealthCheckController {
 
-    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>() {
-        public DateFormat initialValue() {
-            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        };
-    };
+    private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal
+            .withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
     @Value("${project.version}")
     private String version;
     @Value("${project.buildTime}")
