@@ -3,6 +3,8 @@
 <mapper namespace="com.zero.dao.ext.UserPointExtMapper">
 
     <update id="increasePoint">
-        UPDATE user_point SET point = point + #{gainScore} WHERE user_id = #{userId}
+        UPDATE user_point
+        SET point = point + #{gainScore}
+        WHERE user_id = #{userId}
     </update>
 </mapper>
