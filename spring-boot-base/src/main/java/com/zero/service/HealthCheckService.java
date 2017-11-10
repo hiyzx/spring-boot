@@ -5,8 +5,7 @@ import com.zero.util.DateHelper;
 import com.zero.util.HttpClient;
 import com.zero.util.RedisHelper;
 import com.zero.vo.HealthCheckVo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,9 +22,9 @@ import java.util.List;
  * @date 2017/7/18
  */
 @Service
+@Slf4j
 public class HealthCheckService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HealthCheckService.class);
     @Resource
     private HikariDataSource masterDataSource;
     @Resource(name = "localHttpClient")
@@ -65,7 +64,7 @@ public class HealthCheckService {
             model.setCostTime(String.valueOf(System.currentTimeMillis() - e));
             model.setNormal(true);
         } catch (Exception e) {
-            LOG.error("[checkDB]发生异常", e);
+            log.error("[checkDB]发生异常", e);
             model.setNormal(false);
         } finally {
             try {
@@ -76,7 +75,7 @@ public class HealthCheckService {
                     conn.close();
                 }
             } catch (SQLException e) {
-                LOG.error("[checkDB]关闭资源发生异常", e);
+                log.error("[checkDB]关闭资源发生异常", e);
             }
         }
         return model;
@@ -96,7 +95,7 @@ public class HealthCheckService {
             healthCheckVo.setNormal(true);
             healthCheckVo.setCostTime(String.format("%sms", System.currentTimeMillis() - startTimeMillis));
         } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             healthCheckVo.setNormal(false);
         }
         return healthCheckVo;

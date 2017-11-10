@@ -1,8 +1,7 @@
 package com.zero.conf;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.Cache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -16,8 +15,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author yezhaoxing
  * @date 2017/09/09
  */
+@Slf4j
 public class RedisCache implements Cache {
-    private static final Logger logger = LoggerFactory.getLogger(RedisCache.class);
     private static final long EXPIRE_TIME_IN_MINUTES = 30; // redis过期时间
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private final String id; // cache instance id
@@ -46,7 +45,7 @@ public class RedisCache implements Cache {
         RedisTemplate<String, Object> redisTemplate = getRedisTemplate();
         ValueOperations<String, Object> opsForValue = redisTemplate.opsForValue();
         opsForValue.set(key.toString(), value, EXPIRE_TIME_IN_MINUTES, TimeUnit.MINUTES);
-        logger.debug("Put query result to redis");
+        log.debug("Put query result to redis");
     }
 
     /**
@@ -55,7 +54,7 @@ public class RedisCache implements Cache {
     @Override
     public Object getObject(Object key) {
         RedisTemplate<String, Object> redisTemplate = getRedisTemplate();
-        logger.debug("Get cached query result from redis");
+        log.debug("Get cached query result from redis");
         return redisTemplate.opsForValue().get(key.toString());
     }
 
@@ -67,7 +66,7 @@ public class RedisCache implements Cache {
     public Object removeObject(Object key) {
         RedisTemplate<String, Object> redisTemplate = getRedisTemplate();
         redisTemplate.delete(key.toString());
-        logger.debug("Remove cached query result from redis");
+        log.debug("Remove cached query result from redis");
         return null;
     }
 
@@ -81,7 +80,7 @@ public class RedisCache implements Cache {
             connection.flushDb();
             return null;
         });
-        logger.debug("Clear all the cached query result from redis");
+        log.debug("Clear all the cached query result from redis");
     }
 
     /**
