@@ -1,6 +1,16 @@
 package com.zero.util;
 
-import com.zero.vo.HealthCheckVo;
+import java.io.*;
+import java.net.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLHandshakeException;
+
 import org.apache.http.*;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
@@ -28,16 +38,9 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLHandshakeException;
-import java.io.*;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import com.zero.vo.HealthCheckVo;
 
 /**
  * HTTP连接池
@@ -53,15 +56,18 @@ public class HttpClient {
     private static final int TIME_OUT = 30 * 1000;
     private static final String UTF_8 = "UTF-8";
     private final RequestConfig requestConfig;
+    private final String authorizationValue;
+    private static final String AUTHORIZATION_KEY = "Authorization";
     private final String scheme;
     private final String hostname;
     private final int port;
     private CloseableHttpClient httpClient = null;
 
-    public HttpClient(String scheme, String hostname, int port) {
+    public HttpClient(String scheme, String hostname, int port, String authorizationValue) {
         this.scheme = scheme;
         this.hostname = hostname;
         this.port = port;
+        this.authorizationValue = authorizationValue;
         // 配置请求的超时设置
         requestConfig = RequestConfig.custom().setConnectionRequestTimeout(TIME_OUT * 3).setConnectTimeout(TIME_OUT * 2)
                 .setSocketTimeout(TIME_OUT * 2).build();
@@ -138,6 +144,9 @@ public class HttpClient {
                 for (Entry<String, String> headerEntry : headers.entrySet()) {
                     httppost.addHeader(headerEntry.getKey(), headerEntry.getValue());
                 }
+            }
+            if (StringUtils.hasText(authorizationValue)) {
+                httppost.addHeader(AUTHORIZATION_KEY, authorizationValue);
             }
             httppost.setConfig(requestConfig);
             response = httpClient.execute(httppost, HttpClientContext.create());
