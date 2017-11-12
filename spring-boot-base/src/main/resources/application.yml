@@ -55,9 +55,9 @@ pagehelper:
     supportMethodsArguments: true
     params: count=countSql
 http:
-    scheme: http
-    hostname: localhost
-    port: 8081
+    scheme: https
+    hostname: doc.bj.baidubce.com
+    port: 443
 passwordHash:
     algorithmName: md5
     hashIterations: 1
