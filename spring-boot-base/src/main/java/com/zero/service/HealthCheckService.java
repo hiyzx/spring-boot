@@ -2,7 +2,6 @@ package com.zero.service;
 
 import com.zaxxer.hikari.HikariDataSource;
 import com.zero.util.DateHelper;
-import com.zero.util.HttpClient;
 import com.zero.util.RedisHelper;
 import com.zero.vo.HealthCheckVo;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +26,6 @@ public class HealthCheckService {
 
     @Resource
     private HikariDataSource masterDataSource;
-    @Resource(name = "localHttpClient")
-    private HttpClient localHttpClient;
     @Resource
     private RedisHelper<String, String> redisHelper;
 
@@ -37,7 +34,6 @@ public class HealthCheckService {
      */
     public List<HealthCheckVo> healthCheck() {
         List<HealthCheckVo> healthCheckVos = new ArrayList<>();
-        healthCheckVos.add(localHttpClient.healthCheck());
         healthCheckVos.add(checkDBConnection());
         healthCheckVos.add(checkRedisConnection());
         return healthCheckVos;
