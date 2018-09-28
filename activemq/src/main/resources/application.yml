@@ -1,0 +1,17 @@
+server:
+  port: 8080
+spring:
+  activemq:
+    user: admin
+    password: admin
+    broker-url: tcp://www.hiyzx.cn:61616
+    in-memory: true
+    pool:
+      enabled: false
+    packages:
+      trust-all: true
+logging:
+  level:
+    com.zero: debug
+    org.springframework.web: debug
+    springframework.transaction: debug
