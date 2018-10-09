@@ -14,4 +14,9 @@ public class HttpClientBean {
     public HttpClient feiGeHttpClient() {
         return new HttpClient("http", "u.ifeige.cn", 80);
     }
+
+    @Bean("juHeHttpClient")
+    public HttpClient juHeHttpClient() {
+        return new HttpClient("http", "apis.juhe.cn", 80);
+    }
 }

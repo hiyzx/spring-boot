@@ -32,7 +32,6 @@ public class ScheduleTask {
         log.info("notice for afternoon success");
     }
 
-
     private void sendNotice() throws IOException {
         Map<String, String> params = new HashMap<>(5);
         params.put("secret", "7d55aa74dbae1c1c0bc68453e3e7742a");
