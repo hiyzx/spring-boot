@@ -18,23 +18,23 @@ public class AsyncTask {
 
     private static Random random = new Random();
 
-    @Async()
+    @Async
     public Future<String> task1() throws InterruptedException {
         log.info("开始做任务一");
         long start = System.currentTimeMillis();
         Thread.sleep(random.nextInt(10000));
         long end = System.currentTimeMillis();
-        log.info("完成任务一，耗时：" + (end - start) + "毫秒");
+        log.info("完成任务一，耗时：{} 毫秒", end - start);
         return new AsyncResult<>("完成任务");
     }
 
-    @Async()
+    @Async
     public Future<String> task2() throws InterruptedException {
         log.info("开始做任务二");
         long start = System.currentTimeMillis();
         Thread.sleep(random.nextInt(10000));
         long end = System.currentTimeMillis();
-        log.info("完成任务二，耗时：" + (end - start) + "毫秒");
+        log.info("完成任务一，耗时：{} 毫秒", end - start);
         return new AsyncResult<>("完成任务");
     }
 }

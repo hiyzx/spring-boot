@@ -15,8 +15,13 @@ public class HttpClientBean {
         return new HttpClient("http", "u.ifeige.cn", 80);
     }
 
-    @Bean("juHeHttpClient")
+    @Bean("aMapHttpClient")
+    public HttpClient aMapHttpClient() {
+        return new HttpClient("https", "restapi.amap.com", 443);
+    }
+
+    @Bean("ciBaHttpClient")
     public HttpClient juHeHttpClient() {
-        return new HttpClient("http", "apis.juhe.cn", 80);
+        return new HttpClient("http", "open.iciba.com", 80);
     }
 }
