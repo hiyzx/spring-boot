@@ -13,6 +13,12 @@
         <module>../entertainment</module>
         <module>../web</module>
         <module>../notice</module>
+        <module>../redis</module>
+        <module>../scheduled-thread</module>
+        <module>../shiro-jwt/shiro</module>
+        <module>../shiro-jwt/shiro-jwt</module>
+        <module>../shiro-jwt/jwt-oauth2</module>
+        <module>../spring-mybatis</module>
     </modules>
 
     <parent>
@@ -57,4 +63,18 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
