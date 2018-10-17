@@ -51,7 +51,7 @@ public class HomeController {
     @RequestMapping("/403")
     public String unauthorizedRole() {
         System.out.println("------没有权限-------");
-        return "403";
+        return "406";
     }
 
 }
