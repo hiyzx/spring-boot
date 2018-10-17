@@ -10,6 +10,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -21,6 +22,14 @@ import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
+
+    // 加密方法
+    @Value("${passwordHash.algorithmName}")
+    private String algorithmName;
+    // 加密次数
+    @Value("${passwordHash.hashIterations}")
+    private int hashIterations;
+
 
     @Bean
     // 配置过滤器
@@ -87,8 +96,8 @@ public class ShiroConfig {
     // 配置密码加密方式
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列两次，相当于 md5(md5(""));
+        hashedCredentialsMatcher.setHashAlgorithmName(algorithmName);//散列算法:这里使用MD5算法;
+        hashedCredentialsMatcher.setHashIterations(hashIterations);//散列的次数，比如散列两次，相当于 md5(md5(""));
         return hashedCredentialsMatcher;
     }
 
