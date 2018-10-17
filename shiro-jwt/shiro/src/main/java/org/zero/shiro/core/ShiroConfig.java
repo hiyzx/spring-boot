@@ -20,16 +20,11 @@ import org.zero.shiro.core.cache.ShiroRedisCacheManager;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.zero.shiro.constant.SystemConstants.ALGORITHM_NAME;
+import static org.zero.shiro.constant.SystemConstants.HASH_ITERATIONS;
+
 @Configuration
 public class ShiroConfig {
-
-    // 加密方法
-    @Value("${passwordHash.algorithmName}")
-    private String algorithmName;
-    // 加密次数
-    @Value("${passwordHash.hashIterations}")
-    private int hashIterations;
-
 
     @Bean
     // 配置过滤器
@@ -96,8 +91,8 @@ public class ShiroConfig {
     // 配置密码加密方式
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName(algorithmName);//散列算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashIterations(hashIterations);//散列的次数，比如散列两次，相当于 md5(md5(""));
+        hashedCredentialsMatcher.setHashAlgorithmName(ALGORITHM_NAME);//散列算法:这里使用MD5算法;
+        hashedCredentialsMatcher.setHashIterations(HASH_ITERATIONS);//散列的次数，比如散列两次，相当于 md5(md5(""));
         return hashedCredentialsMatcher;
     }
 

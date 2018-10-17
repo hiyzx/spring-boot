@@ -1,11 +1,11 @@
-package org.zero.shiro.core;
+package org.zero.jwt.shiro.core;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 
-import static org.zero.shiro.constant.SystemConstants.ALGORITHM_NAME;
-import static org.zero.shiro.constant.SystemConstants.HASH_ITERATIONS;
+import static org.zero.jwt.shiro.constant.SystemConstants.ALGORITHM_NAME;
+import static org.zero.jwt.shiro.constant.SystemConstants.HASH_ITERATIONS;
 
 /**
  * shiro密码加密配置
