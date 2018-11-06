@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:mysql://www.hiyzx.cn:3307/elastic-job?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: yzx362311
+    driver-class-name: com.mysql.jdbc.Driver
+server:
+  port: 8080
+
+elasticJob:
+  regCenter:
+    serverList: www.hiyzx.cn:2181
+    namespace: elastic-job
+  firstJob:
+    cron: 0/15 * * * * ?
+    shardingTotalCount: 1
+    shardingItemParameters: 0=Beijing
+    failover: true
+  secondJob:
+    cron: 0/20 * * * * ?
+    shardingTotalCount: 1
+    shardingItemParameters: 0=Shanghai
+    failover: true
+

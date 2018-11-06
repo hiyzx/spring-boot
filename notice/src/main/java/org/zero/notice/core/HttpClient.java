@@ -18,6 +18,7 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -30,8 +31,11 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InterruptedIOException;
-import java.net.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,7 +74,7 @@ public class HttpClient {
             int port) {
         ConnectionSocketFactory plainsf = PlainConnectionSocketFactory.getSocketFactory();
         LayeredConnectionSocketFactory sslsf = SSLConnectionSocketFactory.getSocketFactory();
-        Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory> create()
+        Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", plainsf).register("https", sslsf).build();
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(registry);
         // 将最大连接数增加

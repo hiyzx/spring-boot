@@ -19,6 +19,8 @@
         <module>../shiro-jwt/shiro-jwt</module>
         <module>../shiro-jwt/jwt-oauth2</module>
         <module>../spring-mybatis</module>
+        <module>../elastic-search</module>
+        <module>../job/elastic-job</module>
     </modules>
 
     <parent>

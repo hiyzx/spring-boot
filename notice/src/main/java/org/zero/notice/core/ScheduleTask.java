@@ -28,13 +28,7 @@ public class ScheduleTask {
     @Resource
     private HttpClient ciBaHttpClient;
 
-    @Scheduled(cron = "0 30 9 ? * MON ")
-    public void sendNoticeMorning() throws IOException {
-        sendWeekReportNotice();
-        log.info("notice for morning success");
-    }
-
-    @Scheduled(cron = "0 0 18 ? * FRI ")
+    @Scheduled(cron = "0 30 17 ? * FRI ")
     public void sendNoticeAfternoon() throws IOException {
         sendWeekReportNotice();
         log.info("notice for afternoon success");
