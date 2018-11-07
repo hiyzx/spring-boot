@@ -1,0 +1,25 @@
+server:
+  port: 8080
+mysql:
+  master:
+    url: jdbc:mysql://www.hiyzx.cn:3307/spring-boot?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: yzx362311
+    driverClassName: com.mysql.jdbc.Driver
+  slave:
+      url: jdbc:mysql://www.hiyzx.cn:3307/spring-boot?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: yzx362311
+      driverClassName: com.mysql.jdbc.Driver
+logging:
+  level:
+    org.springframework.web: debug
+    springframework.transaction: debug
+    org.mybatis: debug
+    org.zero: DEBUG
+mybatis:
+    type-aliases-package: org.zero.mybatis.po
+    mapper-locations: classpath:org.zero.mybatis.dao/*.xml
+    configuration:
+      cache-enabled: false
+
