@@ -1,0 +1,52 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://www.hiyzx.cn:3307/spring-boot?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: ENC(UNOHEIX6I/gAuhoWj4WAWeOrlVKIRntD)
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+          connection-test-query: select 1 from dual
+          connection-timeout: 30000
+          idle-timeout: 60000
+          max-lifetime: 1800000
+          maximum-pool-size: 50
+          minimum-idle: 50
+  redis:
+    database: 1
+    host: www.hiyzx.cn
+    port: 6379
+    password: yzx362311
+    timeout: 0
+    pool:
+       max-active: 20
+       min-idle: 5
+       max-idle: 10
+       max-wait: -1
+mybatis:
+    type-aliases-package: org.zero.spring.mybatis.po
+    mapper-locations: classpath:org.zero.spring.mybatis.dao/*.xml
+    configuration:
+      cache-enabled: true
+mapper:
+    mappers:
+        - org.zero.spring.mybatis.config.MyMapper
+    not-empty: false
+    identity: MYSQL
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+jasypt:
+  encryptor:
+    password: 123456
+logging:
+  level:
+    org.springframework.web: debug
+    springframework.transaction: debug
+    org.mybatis: debug
+    org.zero: DEBUG
+
