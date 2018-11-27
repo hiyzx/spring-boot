@@ -12,12 +12,12 @@ elasticJob:
     serverList: www.hiyzx.cn:2181
     namespace: elastic-job
   firstJob:
-    cron: 0/15 * * * * ?
+    cron: 0 * * * * ?
     shardingTotalCount: 1
     shardingItemParameters: 0=Beijing
     failover: true
   secondJob:
-    cron: 0/20 * * * * ?
+    cron: 0 1 * * * ?
     shardingTotalCount: 1
     shardingItemParameters: 0=Shanghai
     failover: true

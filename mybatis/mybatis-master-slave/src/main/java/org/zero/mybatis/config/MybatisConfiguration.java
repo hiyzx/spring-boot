@@ -28,7 +28,7 @@ public class MybatisConfiguration {
         bean.setDataSource(dynamicDataSource);
         // 设置查找器
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        bean.setMapperLocations(resolver.getResources("classpath*:org/zero/mybatis/dao/*.xml"));
+        bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
         bean.setTypeAliasesPackage("org.zero.mybatis.po");
         try {
 
@@ -62,7 +62,7 @@ public class MybatisConfiguration {
         MapperScannerConfigurer configurer = new MapperScannerConfigurer();
         configurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         configurer.setSqlSessionTemplateBeanName("sqlSessionTemplate");
-        configurer.setBasePackage("org.zero.mybatis.dao");
+        configurer.setBasePackage("org.zero.mybatis.dao.*");
         configurer.setMarkerInterface(Mapper.class);
         return configurer;
     }

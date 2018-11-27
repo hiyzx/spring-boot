@@ -198,6 +198,36 @@ public class HttpClient {
         return rtn;
     }
 
+    public String post(String path, InputStream xmlBody) throws IOException {
+        CloseableHttpResponse response = null;
+        String rtn = null;
+        try {
+            URI uri = createURIBuilder(path);
+            HttpPost httppost = new HttpPost(uri);
+            httppost.addHeader(CONTENT_TYPE, "text/xml");
+            httppost.setConfig(requestConfig);
+            httppost.setEntity(new InputStreamEntity(xmlBody));
+            response = httpClient.execute(httppost, HttpClientContext.create());
+            HttpEntity entity = response.getEntity();
+            String result = EntityUtils.toString(entity, UTF_8);
+            EntityUtils.consume(entity);
+            rtn = result;
+        } catch (IOException e) {
+            throw e;
+        } catch (URISyntaxException e) {
+            LOG.error(e.getMessage(), e);
+        } finally {
+            try {
+                if (response != null) {
+                    response.close();
+                }
+            } catch (IOException e) {
+                LOG.error(e.getMessage(), e);
+            }
+        }
+        return rtn;
+    }
+
     public String put(String path, String requestBody) throws IOException {
         LOG.debug("{}", requestBody);
         CloseableHttpResponse response = null;
