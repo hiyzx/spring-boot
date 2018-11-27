@@ -1,0 +1,19 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+activemq/activemq.iml
+entertainment/entertainment.iml
+job/elastic-job/elastic-job.iml
+mybatis/mybatis-master-slave/mybatis-master-slave.iml
+mybatis/spring-mybatis/spring-mybatis.iml
+notice/notice.iml
+parent/parent.iml
+redis/redis.iml
+scheduled-thread/scheduled-thread.iml
+shiro-jwt/jwt-oauth2/jwt-oauth2.iml
+shiro-jwt/shiro-jwt/shiro-jwt.iml
+shiro-jwt/shiro/shiro.iml
+socket/websocket/websocket.iml
+web/web.iml
+elastic-search/elastic-search.iml
+socket/socket-server/socket-server.iml
+socket/websocket/target/

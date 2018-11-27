@@ -22,8 +22,8 @@
         <module>../job/elastic-job</module>
         <module>../mybatis/spring-mybatis</module>
         <module>../mybatis/mybatis-master-slave</module>
-        <module>../mybatis/mybatis-sharding-jdbc</module>
         <module>../socket/websocket</module>
+        <module>../socket/socket-server</module>
     </modules>
 
     <parent>

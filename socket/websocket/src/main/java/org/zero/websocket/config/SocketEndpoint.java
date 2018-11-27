@@ -18,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * 2.WebSocket连接默认一分钟断连，需要有效时间内发送心跳保持活跃
  * 3.ios息屏时连接会断开，需要主动重连
  */
-@ServerEndpoint(value = "/ws/{taskId}/{type}/{name}")
+@ServerEndpoint(value = "/ws/{taskId}/{name}")
 @Component
 public class SocketEndpoint {
 
@@ -45,7 +45,7 @@ public class SocketEndpoint {
         logger.info("s-a|linkSuccess|{}|{}|{}连接成功", taskId, uuid, name);
         try {
 
-            String msg = String.format("%s 连接成功,当前群聊有: %s", name, String.join(",", SESSION_USER_MAP.values()));
+            String msg = String.format("%s 加入群聊,当前群聊有: %s", name, String.join(",", SESSION_USER_MAP.values()));
             sendMessage(session, msg);
             sendMessageToOther(session, msg);
         } catch (IOException e) {
@@ -64,7 +64,7 @@ public class SocketEndpoint {
         } catch (Exception ex) {
             logger.info(ex.getMessage());
         }
-        sendMessageToOther(null, String.format("%s 断开连接", closeName));
+        sendMessageToOther(null, String.format("%s 退出群聊", closeName));
         logger.info("有一连接关闭！当前在线人数为" + getOnlineCount());
     }
 
@@ -189,7 +189,7 @@ public class SocketEndpoint {
                 subOnlineCount();
             }*/
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage(), e);
         }
     }
 
