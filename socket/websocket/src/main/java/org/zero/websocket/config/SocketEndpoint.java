@@ -88,7 +88,7 @@ public class SocketEndpoint {
     @OnError
     public void onError(Session session, Throwable error) {
         SessionPair sessionPair = getThisPairSession(session);
-        logger.info("发生错误:对象为" + sessionPair.getTaskId() + "|" + sessionPair.getUuid() + "|" + sessionPair.getType());
+        logger.info("发生错误:对象为" + sessionPair.getTaskId() + "|" + sessionPair.getUuid() + "|" + sessionPair.getName());
         error.printStackTrace();
     }
 
