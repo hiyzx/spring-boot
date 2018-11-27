@@ -10,6 +10,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -27,7 +28,7 @@ public class SocketEndpoint {
     private static int onlineCount = 0;
     private Session session;
     private static CopyOnWriteArrayList<SessionPair> sessionPairs = new CopyOnWriteArrayList<>();
-    private static Map<String, String> SESSION_USER_MAP = new HashMap<>();
+    private static Map<String, String> SESSION_USER_MAP = new ConcurrentHashMap<>();
 
     /**
      * 连接打开时调用
