@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>聊天界面</title>
+</head>
+<script language="javascript" type="text/javascript">
+    var wsUri = "ws://1d8p930980.iok.la:11048/ws/taskId_1/";
+    var websocket;
+    function onOpen(evt) {
+        writeToScreen("连接成功!");
+    }
+    function onMessage(evt) {
+        writeToScreen("收到消息: " + evt.data);
+    }
+    function onError(evt) {
+        writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+    }
+    function doSend() {
+        console.log(websocket)
+        if(websocket == undefined){
+            alert("未登陆");
+        }
+        var message = textID.value;
+        writeToScreen("发送消息: " + message);
+        websocket.send(message);
+    }
+    function login() {
+        if(websocket != undefined){
+            alert("已连接")
+            return;
+        }
+        var username = usernameID.value;
+        if(username == undefined){
+            alert("请输入用户名")
+            return;
+        }
+        output = document.getElementById("output");
+        wsUri =wsUri  + username;
+        websocket = new WebSocket(wsUri);
+
+        websocket.onopen = function(evt) {
+            onOpen(evt)
+        };
+        websocket.onmessage = function(evt) {
+            onMessage(evt)
+        };
+        websocket.onerror = function(evt) {
+            onError(evt)
+        };
+    }
+
+    function writeToScreen(message) {
+        var pre = document.createElement("p");
+        pre.style.wordWrap = "break-word";
+        pre.innerHTML = message;
+
+        output.appendChild(pre);
+    }
+
+</script>
+<body>
+    <h5 style="text-align: center;">Hello World WebSocket Client</h5>
+    <br/>
+    <div style="text-align: center;">
+        <form action="">
+            <input onclick="login()" value="login" type="button"/>
+            <input id="usernameID" name="username" placeholder="用户名" value="" type="text"/><br/>
+            <input onclick="doSend()" value="Send" type="button"/>
+            <input id="textID" name="message" placeholder="Hello WebSocket!" value="" type="text"/><br/>
+        </form>
+    </div>
+    <div id="output"></div>
+</body>
+</html>

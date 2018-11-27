@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
@@ -22,14 +23,12 @@ public class AsyncTaskTest {
     private AsyncTask asyncTask;
 
     @Test
-    public void task() throws InterruptedException {
+    public void task() throws InterruptedException, ExecutionException {
         long startTime = System.currentTimeMillis();
         Future<String> task1 = asyncTask.task1();
         Future<String> task2 = asyncTask.task2();
-        while (!task1.isDone() || !task2.isDone()) {
-            // Thread.sleep(1000);
-        }
-
+        String task1Str = task1.get();
+        String task2Str = task2.get();
         log.info("完成任务,耗时:{}", System.currentTimeMillis() - startTime);
     }
 }
