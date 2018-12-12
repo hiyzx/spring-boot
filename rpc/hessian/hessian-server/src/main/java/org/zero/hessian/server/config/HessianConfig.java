@@ -1,6 +1,5 @@
 package org.zero.hessian.server.config;
 
-import com.caucho.hessian.io.SerializerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.caucho.HessianServiceExporter;
@@ -20,10 +19,7 @@ public class HessianConfig {
 
     @Bean(name = "/weatherServiceHessian")
     public HessianServiceExporter weatherService() {
-        HessianServiceExporter exporter = new HessianServiceExporter();
-        SerializerFactory serializerFactory = new SerializerFactory();
-        serializerFactory.addFactory(new MyAbstractSerializerFactory());
-        exporter.setSerializerFactory(serializerFactory);
+        CustomerHessianServiceExporter exporter = CustomerHessianServiceExporter.instance();
         exporter.setService(weatherService);
         exporter.setServiceInterface(IWeatherService.class);
         return exporter;

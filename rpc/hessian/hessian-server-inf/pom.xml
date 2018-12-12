@@ -12,5 +12,11 @@
 
     <artifactId>hessian-server-inf</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>4.0.38</version>
+        </dependency>
+    </dependencies>
 </project>
