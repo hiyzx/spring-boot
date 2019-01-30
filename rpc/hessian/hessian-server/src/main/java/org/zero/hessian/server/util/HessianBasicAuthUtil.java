@@ -1,39 +1,19 @@
-package hessian;
-
-import org.junit.Test;
+package org.zero.hessian.server.util;
 
 /**
  * @author yezhaoxing
  * @since 2018/12/12
  * @description hessian请求头加密方式
  */
-public class Base64Test {
+public class HessianBasicAuthUtil {
 
-    @Test
-    public void calc() {
-        int[] nums = new int[]{3, 7, 2, 15};
-        int target = 9;
-        int[] answer = new int[2];
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                int sum = nums[i] + nums[j];
-                if (sum == target) {
-                    answer[0] = i;
-                    answer[1] = j;
-                    break;
-                }
-            }
-        }
-        System.out.println(answer[0] + " " + answer[1]);
+
+    public static String generate(String username, String password) {
+        return "Basic " + base64(String.format("%s:%s", username, password));
     }
 
-    @Test
-    public void test() {
-        String authorization = "Basic " + base64("user:password");
-    }
-
-    private String base64(String value) {
-        StringBuffer cb = new StringBuffer();
+    private static String base64(String value) {
+        StringBuilder cb = new StringBuilder();
         long chunk;
         int i;
         for (i = 0; i + 2 < value.length(); i += 3) {

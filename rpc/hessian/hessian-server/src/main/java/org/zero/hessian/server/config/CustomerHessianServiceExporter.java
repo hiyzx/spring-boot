@@ -3,6 +3,7 @@ package org.zero.hessian.server.config;
 import com.caucho.hessian.io.SerializerFactory;
 import org.springframework.remoting.caucho.HessianServiceExporter;
 import org.springframework.web.util.NestedServletException;
+import org.zero.hessian.server.util.HessianBasicAuthUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,9 @@ import java.io.IOException;
  */
 public class CustomerHessianServiceExporter extends HessianServiceExporter {
 
-    private static final String TRUE_AUTHORIZATION = "Basic dXNlcjpwYXNzd29yZA==";
+    private static final String USER = "user";
+    private static final String PASSWORD = "password";
+    private static final String TRUE_AUTHORIZATION = HessianBasicAuthUtil.generate(USER, PASSWORD);
 
     static CustomerHessianServiceExporter instance() {
         CustomerHessianServiceExporter exporter = new CustomerHessianServiceExporter();// 自定义的HessianServiceExporter
@@ -32,6 +35,7 @@ public class CustomerHessianServiceExporter extends HessianServiceExporter {
         // 做权限校验
         String authorization = request.getHeader("Authorization");
         if (!TRUE_AUTHORIZATION.equals(authorization)) {
+            logger.error("auth fail");
             throw new NestedServletException("auth fail");
         }
         super.handleRequest(request, response);
