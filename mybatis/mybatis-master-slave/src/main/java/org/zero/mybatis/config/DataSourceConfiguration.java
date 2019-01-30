@@ -18,7 +18,7 @@ import java.util.Map;
  * @description datasource配置类
  */
 @Configuration
-public class DataBaseConfiguration {
+public class DataSourceConfiguration {
 
     @Resource
     private MasterProperties masterProperties;
@@ -46,12 +46,6 @@ public class DataBaseConfiguration {
         datasource.setDriverClassName(masterProperties.getDriverClassName());
         datasource.setUsername(masterProperties.getUsername());
         datasource.setPassword(masterProperties.getPassword());
-       /* datasource.setInitialSize(Integer.valueOf(propertyResolver1.getProperty("initial-size")));
-        datasource.setMinIdle(Integer.valueOf(propertyResolver1.getProperty("min-idle")));
-        datasource.setMaxWait(Long.valueOf(propertyResolver1.getProperty("max-wait")));
-        datasource.setMaxActive(Integer.valueOf(propertyResolver1.getProperty("max-active")));
-        datasource.setMinEvictableIdleTimeMillis(
-                Long.valueOf(propertyResolver1.getProperty("min-evictable-idle-time-millis")));*/
         try {
             datasource.setFilters("stat,wall");
         } catch (SQLException e) {
@@ -67,12 +61,6 @@ public class DataBaseConfiguration {
         datasource.setDriverClassName(slaveProperties.getDriverClassName());
         datasource.setUsername(slaveProperties.getUsername());
         datasource.setPassword(slaveProperties.getPassword());
-        /*datasource.setInitialSize(Integer.valueOf(propertyResolver2.getProperty("initial-size")));
-        datasource.setMinIdle(Integer.valueOf(propertyResolver2.getProperty("min-idle")));
-        datasource.setMaxWait(Long.valueOf(propertyResolver2.getProperty("max-wait")));
-        datasource.setMaxActive(Integer.valueOf(propertyResolver2.getProperty("max-active")));
-        datasource.setMinEvictableIdleTimeMillis(
-                Long.valueOf(propertyResolver2.getProperty("min-evictable-idle-time-millis")));*/
         try {
             datasource.setFilters("stat,wall");
         } catch (SQLException e) {

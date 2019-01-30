@@ -15,7 +15,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         return contextHolder.get();
     }
 
-    public static enum DatabaseType {
+    public enum DatabaseType {
         Master, Slave
     }
 
@@ -28,11 +28,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         contextHolder.set(DatabaseType.Slave);
     }
 
-    public static void setDatabaseType(DatabaseType type) {
-        contextHolder.set(type);
-    }
-
-    public static DatabaseType getType() {
-        return contextHolder.get();
+    public static void clear() {
+        contextHolder.remove();
     }
 }

@@ -21,7 +21,9 @@ public enum CodeEnum {
 
     SUCCESS("000000"),
 
-    VALID_FAIL("100001");
+    VALID_FAIL("100001"),
+
+    TEST_FAIL("100002");
 
     private String codeEnum;
 

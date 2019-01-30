@@ -17,7 +17,7 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 import java.io.IOException;
 
 @Configuration
-@AutoConfigureAfter({DataBaseConfiguration.class})
+@AutoConfigureAfter({DataSourceConfiguration.class})
 @Slf4j
 public class MybatisConfiguration {
 

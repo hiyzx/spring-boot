@@ -1,0 +1,40 @@
+sharding:
+  jdbc:
+    datasource:
+      names: master,slave0
+      master:
+        type: com.zaxxer.hikari.HikariDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://119.29.84.121:6033/master
+        username: root
+        password: root
+      slave0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://119.29.84.121:6033/slave
+        username: root
+        password: root
+    config:
+      masterslave:
+        name: ms
+        master-data-source-name: master
+        slave-data-source-names: slave0
+        props:
+          sql:
+            show: true
+mybatis:
+    type-aliases-package: org.zero.sharding.jdbc.po
+    mapper-locations: classpath:mapper/*.xml
+    configuration:
+      cache-enabled: true
+mapper:
+    mappers:
+        - tk.mybatis.mapper.common.Mapper
+    not-empty: false
+    identity: MYSQL
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+

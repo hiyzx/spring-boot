@@ -31,6 +31,12 @@ public class User implements Serializable {
     @ApiModelProperty(value = "密码")
     private String password;
 
+    @ApiModelProperty(value = "邮箱")
+    private String email;
+
+    @ApiModelProperty(value = "头像")
+    private String headImg;
+
     @ApiModelProperty(value = "最后登陆时间")
     private Date lastLoginTime;
 }

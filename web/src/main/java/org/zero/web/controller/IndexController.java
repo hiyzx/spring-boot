@@ -11,14 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 
-    @Controller
-    public class HelloController {
-
-        @RequestMapping("/")
-        public String index(ModelMap map) {
-            map.addAttribute("user", "zero");
-            return "index";
-        }
-
+    @RequestMapping("/")
+    public String index(ModelMap map) {
+        map.addAttribute("user", "zero");
+        return "index";
     }
+
 }

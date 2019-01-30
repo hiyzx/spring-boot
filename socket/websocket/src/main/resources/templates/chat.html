@@ -26,13 +26,14 @@
         websocket.send(message);
     }
     function login() {
+        // webSocket.readyState 属性返回实例对象的当前状态
         if(websocket != undefined){
             alert("已连接")
             return;
         }
         var username = usernameID.value;
-        if(username == undefined){
-            alert("请输入用户名")
+        if(username == undefined || username == ""){
+            alert("请输入用户名");
             return;
         }
         output = document.getElementById("output");

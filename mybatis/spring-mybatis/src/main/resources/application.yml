@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:mysql://www.hiyzx.cn:3307/spring-boot?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://www.hiyzx.cn:3306/spring-boot?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
     password: ENC(UNOHEIX6I/gAuhoWj4WAWeOrlVKIRntD)
     driver-class-name: com.mysql.jdbc.Driver
@@ -15,7 +15,7 @@ spring:
           maximum-pool-size: 50
           minimum-idle: 50
   redis:
-    database: 1
+    database: 0
     host: www.hiyzx.cn
     port: 6379
     password: yzx362311

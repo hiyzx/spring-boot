@@ -22,8 +22,8 @@ public class UserServiceImplTest {
     @Test
     public void save() {
         User user = new User();
-        user.setId(1);
-        user.setAge(3);
+        user.setId(4);
+        user.setAge(5);
         userService.update(user);
     }
 
