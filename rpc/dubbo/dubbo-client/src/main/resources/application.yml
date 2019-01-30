@@ -1,0 +1,6 @@
+spring:
+  dubbo:
+    application:
+      name: dubbo-client
+    registry:
+      address: zookeeper://www.hiyzx.cn:2181
