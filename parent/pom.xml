@@ -24,6 +24,9 @@
         <module>../mybatis/mybatis-master-slave</module>
         <module>../socket/websocket</module>
         <module>../socket/socket-server</module>
+        <module>../rpc/dubbo/dubbo-api</module>
+        <module>../rpc/dubbo/dubbo-server</module>
+        <module>../rpc/dubbo/dubbo-client</module>
     </modules>
 
     <parent>

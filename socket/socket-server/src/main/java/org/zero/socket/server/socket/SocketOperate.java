@@ -43,13 +43,13 @@ public class SocketOperate {
         public void run() {
             try {
                 // 采用循环不断从Socket中读取客户端发送过来的数据
-                String content = "";
+                StringBuilder content = new StringBuilder();
                 String tmp;
                 while ((tmp = br.readLine()) != null) {
-                    content += tmp;
+                    content.append(tmp);
                 }
-                log.info("请求报文: {}", content);
-                String resp = handleRequest(content);
+                log.info("请求报文: {}", content.toString());
+                String resp = handleRequest(content.toString());
                 log.info("返回报文: {}", resp);
                 os.write(resp.getBytes(ENCODING_UTF_8));
                 os.flush();
