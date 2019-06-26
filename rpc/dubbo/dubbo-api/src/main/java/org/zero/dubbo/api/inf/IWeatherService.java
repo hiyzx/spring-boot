@@ -10,4 +10,6 @@ import org.zero.dubbo.api.domain.WeatherVo;
 public interface IWeatherService {
 
     WeatherVo queryWeatherByCityName(String cityName);
+
+    WeatherVo queryRandom(Integer index);
 }

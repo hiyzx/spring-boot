@@ -8,4 +8,8 @@ import org.zero.spring.mybatis.config.BaseService;
  */
 public interface UserService extends BaseService<User> {
 
+    void Transactional();
+
+    void Transactional2();
+
 }

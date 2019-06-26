@@ -17,3 +17,8 @@ logging:
     com.zero: debug
     org.springframework.web: debug
     springframework.transaction: debug
+example:
+  service:
+    enabled: true
+    prefix: 111
+    suffix: 222

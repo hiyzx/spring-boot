@@ -9,22 +9,21 @@ import org.zero.dubbo.api.domain.WeatherVo;
 import org.zero.dubbo.api.inf.IWeatherService;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zero
  * @since 2017/08/09
  */
 @Component
-@Service(timeout = 5000)
+@Service(timeout = 5000,version = "2.0", loadbalance = "roundrobin")
 public class WeatherServiceImpl implements IWeatherService {
 
     private static final Map<String, WeatherVo> weatherMap = new HashMap<>();
 
     static {
         DateTime now = DateUtil.date();
-        weatherMap.put("beijing", new WeatherVo(1L, "北京", "30摄氏度", "雷阵雨", now, new BigDecimal(1)));
+        weatherMap.put("beijing", new WeatherVo(5L, "北京", "30摄氏度", "雷阵雨", now, new BigDecimal(1)));
         weatherMap
                 .put("shanghai", new WeatherVo(2L, "上海", "20摄氏度", "晴天", DateUtil.offsetDay(now, 1), new BigDecimal(1)));
         weatherMap.put("shenzhen",
@@ -36,4 +35,12 @@ public class WeatherServiceImpl implements IWeatherService {
         System.out.println("hello");
         return weatherMap.get(cityName);
     }
+
+    @Override
+    public WeatherVo queryRandom(Integer index) {
+        List<WeatherVo> weatherVos = new ArrayList<>(weatherMap.values());
+        return weatherVos.get(index);
+    }
+
+
 }

@@ -15,5 +15,26 @@ public class UserDto {
 
     private String name;
 
-    private String age;
+    private Integer age;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof UserDto))
+            return false;
+
+        UserDto userDto = (UserDto) o;
+
+        if (getName() != null ? !getName().equals(userDto.getName()) : userDto.getName() != null)
+            return false;
+        return getAge() != null ? getAge().equals(userDto.getAge()) : userDto.getAge() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getAge() != null ? getAge().hashCode() : 0);
+        return result;
+    }
 }

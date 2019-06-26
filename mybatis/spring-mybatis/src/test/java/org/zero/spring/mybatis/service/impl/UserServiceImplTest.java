@@ -30,7 +30,11 @@ public class UserServiceImplTest {
     @Test
     public void get() {
         User user = userService.findById(4);
+    }
 
+    @Test
+    public void testTransactional(){
+        userService.Transactional2();
     }
 
 }

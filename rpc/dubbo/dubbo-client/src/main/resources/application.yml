@@ -1,6 +1,8 @@
+server:
+  port: 9000
 spring:
   dubbo:
     application:
       name: dubbo-client
     registry:
-      address: zookeeper://www.hiyzx.cn:2181
+      address: zookeeper://127.0.0.1:2181
