@@ -4,7 +4,7 @@ spring:
   activemq:
     user: admin
     password: admin
-    broker-url: tcp://www.hiyzx.cn:61616
+    broker-url: tcp://localhost:61616?jms.prefetchPolicy.all=10&jms.optimizeAcknowledge=true
     in-memory: true
     pool:
       enabled: false

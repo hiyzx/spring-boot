@@ -37,45 +37,49 @@ import javax.annotation.Resource;
 @Configuration
 public class SimpleJobConfig {
 
-    @Resource
-    private ZookeeperRegistryCenter regCenter;
+	@Resource
+	private ZookeeperRegistryCenter regCenter;
 
-    @Resource
-    private JobEventConfiguration jobEventConfiguration;
+	@Resource
+	private JobEventConfiguration jobEventConfiguration;
 
-    @Resource
-    private FirstJob firstJob;
-    @Resource
-    private FirstJobProperties firstJobProperties;
-    @Resource
-    private SecondJob secondJob;
-    @Resource
-    private SecondJobProperties secondJobProperties;
+	@Resource
+	private FirstJob firstJob;
+	@Resource
+	private FirstJobProperties firstJobProperties;
+	@Resource
+	private SecondJob secondJob;
+	@Resource
+	private SecondJobProperties secondJobProperties;
 
 
-    @Bean(initMethod = "init")
-    public JobScheduler firstJobScheduler() {
-        return new SpringJobScheduler(firstJob, regCenter,
-                getLiteJobConfiguration(firstJob.getClass(), firstJobProperties.getCron(),
-                        firstJobProperties.getShardingTotalCount(), firstJobProperties.getShardingItemParameters()),
-                jobEventConfiguration);
-    }
+	@Bean(initMethod = "init")
+	public JobScheduler firstJobScheduler() {
+		LiteJobConfiguration liteJobConfiguration = getLiteJobConfiguration(firstJob.getClass(),
+				firstJobProperties.getCron(), firstJobProperties.getShardingTotalCount(),
+				firstJobProperties.getShardingItemParameters());
 
-    @Bean(initMethod = "init")
-    public JobScheduler secondJobScheduler() {
-        return new SpringJobScheduler(secondJob, regCenter,
-                getLiteJobConfiguration(secondJob.getClass(), secondJobProperties.getCron(),
-                        secondJobProperties.getShardingTotalCount(), secondJobProperties.getShardingItemParameters()),
-                jobEventConfiguration);
-    }
+		return new SpringJobScheduler(firstJob, regCenter, liteJobConfiguration, jobEventConfiguration);
+	}
 
-    private LiteJobConfiguration getLiteJobConfiguration(final Class<? extends SimpleJob> jobClass, final String cron,
-            final int shardingTotalCount, final String shardingItemParameters) {
-        JobCoreConfiguration.Builder builder = JobCoreConfiguration
-                .newBuilder(jobClass.getName(), cron, shardingTotalCount);
-        builder = builder.shardingItemParameters(shardingItemParameters);
-        builder = builder.failover(true);
-        return LiteJobConfiguration.newBuilder(new SimpleJobConfiguration(builder.build(), jobClass.getCanonicalName()))
-                .overwrite(true).build();
-    }
+	@Bean(initMethod = "init")
+	public JobScheduler secondJobScheduler() {
+		LiteJobConfiguration liteJobConfiguration = getLiteJobConfiguration(secondJob.getClass(),
+				secondJobProperties.getCron(), secondJobProperties.getShardingTotalCount(),
+				secondJobProperties.getShardingItemParameters());
+
+		return new SpringJobScheduler(secondJob, regCenter, liteJobConfiguration, jobEventConfiguration);
+	}
+
+	private LiteJobConfiguration getLiteJobConfiguration(final Class<? extends SimpleJob> jobClass, final String cron,
+			final int shardingTotalCount, final String shardingItemParameters) {
+		JobCoreConfiguration.Builder builder = JobCoreConfiguration
+				.newBuilder(jobClass.getName(), cron, shardingTotalCount);
+		builder = builder.shardingItemParameters(shardingItemParameters);
+		builder = builder.failover(true);
+
+		SimpleJobConfiguration simpleJobConfiguration = new SimpleJobConfiguration(builder.build(),
+				jobClass.getCanonicalName());
+		return LiteJobConfiguration.newBuilder(simpleJobConfiguration).overwrite(true).build();
+	}
 }

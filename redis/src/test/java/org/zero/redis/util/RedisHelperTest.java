@@ -22,7 +22,7 @@ public class RedisHelperTest {
     @Test
     public void set() {
         redisHelper.set("name", "zero");
-        redisHelper.set("user", new UserDto("zero", "2"));
+        redisHelper.set("user", new UserDto("zero", 2));
     }
 
     @Test

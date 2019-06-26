@@ -1,0 +1,1 @@
+methodFilter=org.zero.dubbo.client.filter.MethodFilter
