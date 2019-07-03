@@ -19,10 +19,10 @@ public class WeekReportTask {
     @Resource
     private NoticeUtil noticeUtil;
 
-    @Scheduled(cron = "0 30 17 ? * FRI ")
+    @Scheduled(cron = "0 30 09 ? * FRI ")
     public void sendNoticeAfternoon() throws IOException {
         sendWeekReportNotice();
-        log.info("notice for afternoon success");
+        log.info("notice for week report success");
     }
 
     private void sendWeekReportNotice() throws IOException {
