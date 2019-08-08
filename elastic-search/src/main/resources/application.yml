@@ -1,6 +1,6 @@
 server:
-  port: 8888
-spring:
-  data:
-    elasticsearch:
-      cluster-nodes: localhost:9300
+  port: 8887
+es:
+  host: localhost
+  port: 9200
+  scheme: http

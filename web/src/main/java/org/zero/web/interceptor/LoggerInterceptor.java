@@ -1,74 +1,61 @@
 package org.zero.web.interceptor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.zero.util.IpUtil;
 import org.zero.util.JsonUtil;
-import org.zero.web.exception.BaseException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
+/**
+ * @author yezhaoxing
+ * @date : 2017/4/17
+ */
 @Aspect
 @Component
+@Slf4j
 public class LoggerInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(LoggerInterceptor.class);
     @Resource
     private HttpServletRequest request;
 
-    // http://stackoverflow.com/questions/29653664/how-to-correctly-use-spring-aop-to-select-the-execution-of-a-method-annotated-wi
     @Pointcut("execution(public * org.zero.web.controller.*.*(..))")
-    // @Pointcut("within(@org.springframework.stereotype.Controller *) &&
-    // @annotation(org.springframework.web.bind.annotation.RequestMapping)")
-    private void logController() {
-    }
-
-    ;
-
+    private void logController() {}
 
     @AfterReturning(value = "logController()", returning = "returnValue")
     public void afterReturning(JoinPoint joinPoint, Object returnValue) {
         try {
-            LOG.info("request={} || response={}", parseRequest(), JsonUtil.toJSon(returnValue));
+            log.info("request={} || response={}", parseRequest(joinPoint), JsonUtil.toJSon(returnValue));
         } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 
     @AfterThrowing(value = "logController()", throwing = "e")
     public void afterThrowing(JoinPoint joinPoint, Exception e) {
         try {
-            if (e instanceof BaseException) {
-                BaseException baseException = (BaseException) e;
-                LOG.info("request={} || exceptionCode={}, exceptionMessage={}", parseRequest(),
-                        baseException.getCodeEnum().getCodeEnum(), baseException.getMessage());
-            } else {
-                LOG.info("request={} || exceptionMessage={}", parseRequest(), e.getMessage());
-            }
+            log.info("request={} || exceptionMessage={}", parseRequest(joinPoint), e.getMessage());
         } catch (Exception e1) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 
-    private StringBuilder parseRequest() {
+    private StringBuilder parseRequest(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        String[] params = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
+
         StringBuilder sb = new StringBuilder();
-        sb.append(request.getRequestURI()).append(", ");
-        sb.append("IP->").append(IpUtil.getIpAddress(request));
-        Map<String, String[]> parameters = request.getParameterMap();
-        if (!parameters.isEmpty()) {
+        sb.append(request.getRequestURI());
+        if (params.length > 0) {
             sb.append(", parameters->[");
             final String template = "%s=%s, ";
-            for (Map.Entry<String, String[]> entity : parameters.entrySet()) {
-                sb.append(String.format(template, entity.getKey(),
-                        StringUtils.arrayToCommaDelimitedString(entity.getValue())));
+            for (int i = 0; i < params.length; i++) {
+                sb.append(String.format(template, params[i], JsonUtil.toJSon(args[i])));
             }
             sb.delete(sb.length() - 2, sb.length()).append("]");
         }

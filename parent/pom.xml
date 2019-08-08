@@ -30,6 +30,8 @@
         <module>../zookeeper</module>
         <module>../job/xxl-job</module>
         <module>../mongodb</module>
+        <module>../starter-demo</module>
+
     </modules>
 
     <parent>
