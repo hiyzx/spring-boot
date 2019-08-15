@@ -1,14 +1,12 @@
 package org.zero.web.controller;
 
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.bind.annotation.*;
 import org.zero.enums.CodeEnum;
 import org.zero.starter.service.ExampleService;
 import org.zero.vo.BaseReturnVo;
@@ -19,7 +17,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 /**
  * @author yezhaoxing
@@ -27,10 +27,11 @@ import java.util.Map;
  */
 @RestController
 @Api(description = "helloWorld接口")
+@Slf4j
 public class WebController {
 
-    private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal
-            .withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+    private static final ThreadLocal<DateFormat> DATE_FORMAT =
+        ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
     @Value("${project.version}")
     private String version;
     @Value("${project.buildTime}")
@@ -38,7 +39,10 @@ public class WebController {
     @Value("${project.format}")
     private String format;
 
-    @GetMapping(value = "/version")
+    @Autowired
+    private Executor executorService;
+
+    @GetMapping(value = "version")
     @ApiOperation(value = "查看版本信息")
     public Map<String, String> version() throws ParseException {
         Map<String, String> map = new HashMap<>();
@@ -53,7 +57,6 @@ public class WebController {
         return ReturnVo.success("helloWorld");
     }
 
-
     @GetMapping(value = "/exception")
     public BaseReturnVo exception() throws BaseException {
         if (System.currentTimeMillis() % 2 == 0) {
@@ -67,7 +70,7 @@ public class WebController {
     private ExampleService exampleService;
 
     @GetMapping(value = "/starter")
-    public ReturnVo<String> starter() {
+    public ReturnVo<String> starter(@RequestParam String hello) {
         return ReturnVo.success(exampleService.wrap("hello"));
     }
 
@@ -75,5 +78,34 @@ public class WebController {
     public ReturnVo<String> update(@RequestParam String version) {
         this.version = "100";
         return ReturnVo.success("success");
+    }
+
+    @PostMapping(value = "/return")
+    public ReturnVo<String> returnHello(@RequestBody BaseReturnVo baseReturnVo) {
+        Locale locale = LocaleContextHolder.getLocale();
+        return ReturnVo.success("success");
+    }
+
+    @PutMapping(value = "/returnGet")
+    public ReturnVo<String> returnHello(BaseReturnVo baseReturnVo, String hello) {
+        return ReturnVo.success("成功");
+    }
+
+    @PostMapping(value = "/interface/orderDetail")
+    public String stock(@RequestParam String data) {
+        return "{\"retCode\":\"0\",\"retMsg\":\"\",\"order\":{\"orderNo\":\"40598638532678385\",\"total\":\"29.86\",\"createTime\":\"2019-07-22 15:54:32.0\",\"status\":\"已支付\",\"packages\":[{\"packageNo\":\"SXB20116088AU\",\"status\":\"已出库\",\"fastMail\":\"EWE\",\"fastUrl\":\"https://www.ewe.com.au/track\",\"weight\":\"1.28\",\"photo\":\"https://static.aozhouxiaopu.cn/static/shop/images/logo.png\",\"goods\":[{\"id\":\"4330\",\"name\":\"爱他美婴儿奶粉金装1段\",\"number\":\"1\"}]}]}}";
+    }
+
+    @GetMapping("async")
+    public String async() {
+        executorService.execute(() -> {
+            try {
+                Thread.sleep(10000);
+                log.info("thread");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        return "success";
     }
 }

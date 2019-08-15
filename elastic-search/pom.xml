@@ -12,6 +12,30 @@
 
     <artifactId>elastic-search</artifactId>
 
+    <!--注意：如果使用了parent那么需要在此定义es版本号,因为spring-boot-start-parent中已经定义了es相关依赖的版本号
+，high-level-client中的部分依赖会被覆盖成低版本的,导出出现莫名其妙的错误-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>7.2.0</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch -->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>7.2.0</version>
+            </dependency>
+            <!--&amp;lt;!&amp;ndash; https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-client &amp;ndash;&amp;gt;-->
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-client</artifactId>
+                <version>7.2.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -19,8 +43,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>7.2.0</version>
         </dependency>
 
         <dependency>

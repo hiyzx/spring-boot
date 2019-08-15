@@ -27,6 +27,11 @@
         <module>../rpc/dubbo/dubbo-api</module>
         <module>../rpc/dubbo/dubbo-server</module>
         <module>../rpc/dubbo/dubbo-client</module>
+        <module>../zookeeper</module>
+        <module>../job/xxl-job</module>
+        <module>../mongodb</module>
+        <module>../starter-demo</module>
+
     </modules>
 
     <parent>
