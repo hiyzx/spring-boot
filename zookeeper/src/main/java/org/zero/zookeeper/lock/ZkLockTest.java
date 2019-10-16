@@ -5,30 +5,27 @@ import org.apache.zookeeper.*;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.Lock;
 
 /**
- * Zookeepr实现分布式锁
+ * zookeeper实现分布式锁 利用节点名称唯一性
  */
-public class LockTest {
+public class ZkLockTest {
 
-    private String zkQurom = "localhost:2181";
+    private String zkHost = "localhost:2181";
 
-    private String lockNameSpace = "/mylock";
+    private String lockNameSpace = "/myLock";
 
-    private String nodeString = lockNameSpace + "/test1";
-
-    private Lock mainLock;
+    private String nodeString = lockNameSpace + "/test";
 
     private ZooKeeper zk;
 
-    public LockTest(){
+    private ZkLockTest() {
         try {
-            zk = new ZooKeeper(zkQurom, 6000, new Watcher() {
+            zk = new ZooKeeper(zkHost, 60000, new Watcher() {
                 @Override
                 public void process(WatchedEvent watchedEvent) {
-                    System.out.println("Receive event "+watchedEvent);
-                    if(Event.KeeperState.SyncConnected == watchedEvent.getState())
+                    System.out.println("Receive event " + watchedEvent);
+                    if (Event.KeeperState.SyncConnected == watchedEvent.getState())
                         System.out.println("connection is established...");
                 }
             });
@@ -36,13 +33,12 @@ public class LockTest {
             e.printStackTrace();
         }
 
-
     }
 
     private void ensureRootPath() throws InterruptedException {
         try {
-            if (zk.exists(lockNameSpace,true)==null){
-                zk.create(lockNameSpace,"".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+            if (zk.exists(lockNameSpace, true) == null) {
+                zk.create(lockNameSpace, "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
             }
         } catch (KeeperException e) {
             e.printStackTrace();
@@ -54,9 +50,9 @@ public class LockTest {
             zk.exists(nodeString, new Watcher() {
                 @Override
                 public void process(WatchedEvent watchedEvent) {
-                    System.out.println( "==" + watchedEvent.toString());
-                    if(watchedEvent.getType() == Event.EventType.NodeDeleted){
-                        System.out.println("Threre is a Thread released Lock==============");
+                    System.out.println("==" + watchedEvent.toString());
+                    if (watchedEvent.getType() == Event.EventType.NodeDeleted) {
+                        System.out.println("There is a Thread released Lock==============");
                         thread.interrupt();
                     }
                 }
@@ -69,13 +65,11 @@ public class LockTest {
 
     /**
      * 获取锁
-     * @return
-     * @throws InterruptedException
      */
-    public boolean lock() throws InterruptedException {
+    private void lock() throws InterruptedException {
         String path = null;
         ensureRootPath();
-        watchNode(nodeString,Thread.currentThread());
+        watchNode(nodeString, Thread.currentThread());
         while (true) {
             try {
                 path = zk.create(nodeString, "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
@@ -83,13 +77,13 @@ public class LockTest {
                 System.out.println(Thread.currentThread().getName() + "  getting Lock but can not get");
                 try {
                     Thread.sleep(5000);
-                }catch (InterruptedException ex){
+                } catch (InterruptedException ex) {
                     System.out.println("thread is notify");
                 }
             }
             if (path != null && !path.trim().isEmpty()) {
                 System.out.println(Thread.currentThread().getName() + "  get Lock...");
-                return true;
+                return;
             }
         }
     }
@@ -97,25 +91,22 @@ public class LockTest {
     /**
      * 释放锁
      */
-    public void unlock(){
+    private void unlock() {
         try {
-            zk.delete(nodeString,-1);
+            zk.delete(nodeString, -1);
             System.out.println("Thread.currentThread().getName() +  release Lock...");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (KeeperException e) {
+        } catch (InterruptedException | KeeperException e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String args[]) {
         ExecutorService service = Executors.newFixedThreadPool(10);
-        for (int i = 0;i<4;i++){
-            service.execute(()-> {
-                LockTest test = new LockTest();
+        for (int i = 0; i < 4; i++) {
+            service.execute(() -> {
+                ZkLockTest test = new ZkLockTest();
                 try {
                     test.lock();
-                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
