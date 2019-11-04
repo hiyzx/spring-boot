@@ -18,7 +18,7 @@
         <module>../shiro-jwt/shiro</module>
         <module>../shiro-jwt/shiro-jwt</module>
         <module>../shiro-jwt/jwt-oauth2</module>
-        <module>../elastic-search</module>
+       <!-- <module>../elastic-search</module>-->
         <module>../job/elastic-job</module>
         <module>../mybatis/spring-mybatis</module>
         <module>../mybatis/mybatis-master-slave</module>
@@ -34,7 +34,8 @@
         <module>../job/xxl-job</module>
         <module>../mongodb</module>
         <module>../starter-demo</module>
-        <module>../rocketmq</module>
+       <!-- <module>../rocketmq</module>-->
+        <module>../docker-image</module>
     </modules>
 
     <parent>
