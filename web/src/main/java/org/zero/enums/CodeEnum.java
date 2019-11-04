@@ -17,6 +17,8 @@ public enum CodeEnum {
 
     PAGE_NOT_FOUND("404"),
 
+    REQUEST_METHOD_NOT_SUPPORT("405"),
+
     INTERNAL_SERVER_ERROR("500"),
 
     SUCCESS("000000"),

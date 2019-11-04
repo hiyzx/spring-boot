@@ -10,11 +10,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Created by zhiming on 2017-02-05.
+ * zookeeper实现分布式锁 利用有序节点(避免羊群效应)
  */
-public class FairLockTest {
+public class ZkFairLockTest {
 
-    private String zkQurom = "localhost:2181";
+    private String zkHost = "localhost:2181";
 
     private String lockName = "/mylock";
 
@@ -22,9 +22,9 @@ public class FairLockTest {
 
     private ZooKeeper zk;
 
-    public FairLockTest() {
+    private ZkFairLockTest() {
         try {
-            zk = new ZooKeeper(zkQurom, 6000, new Watcher() {
+            zk = new ZooKeeper(zkHost, 6000, new Watcher() {
                 @Override
                 public void process(WatchedEvent watchedEvent) {
                     System.out.println("Receive event " + watchedEvent);
@@ -50,11 +50,8 @@ public class FairLockTest {
 
     /**
      * 获取锁
-     * 
-     * @return
-     * @throws InterruptedException
      */
-    public void lock() {
+    private void lock() {
         String path = null;
         ensureRootPath();
         try {
@@ -62,9 +59,8 @@ public class FairLockTest {
                 CreateMode.EPHEMERAL_SEQUENTIAL);
             lockZnode = path;
             List<String> minPath = zk.getChildren(lockName, false);
-            System.out.println(minPath);
             Collections.sort(minPath);
-            System.out.println(minPath.get(0) + " and path " + path);
+            System.out.println(Thread.currentThread().getName() + " 最小节点:" + minPath.get(0) + " ,当前节点:" + path);
 
             if (!this.nullToEmpty(path).trim().isEmpty() && !this.nullToEmpty(minPath.get(0)).trim().isEmpty()
                 && path.equals(lockName + "/" + minPath.get(0))) {
@@ -75,14 +71,14 @@ public class FairLockTest {
             for (int i = minPath.size() - 1; i >= 0; i--) {
                 if (minPath.get(i).compareTo(path.substring(path.lastIndexOf("/") + 1)) < 0) {
                     watchNode = minPath.get(i);
+                    System.out.println(Thread.currentThread().getName() + " 当前节点:" + path + " ,监听节点:" + watchNode);
                     break;
                 }
             }
 
             if (watchNode != null) {
-                final String watchNodeTmp = watchNode;
                 final Thread thread = Thread.currentThread();
-                Stat stat = zk.exists(lockName + "/" + watchNodeTmp, new Watcher() {
+                Stat stat = zk.exists(lockName + "/" + watchNode, new Watcher() {
                     @Override
                     public void process(WatchedEvent watchedEvent) {
                         if (watchedEvent.getType() == Event.EventType.NodeDeleted) {
@@ -93,7 +89,7 @@ public class FairLockTest {
                 });
                 if (stat != null) {
                     System.out.println(
-                        "Thread " + Thread.currentThread().getId() + " waiting for " + lockName + "/" + watchNode);
+                        Thread.currentThread().getName() + " waiting for " + lockName + "/" + watchNode);
                 }
             }
             try {
@@ -101,7 +97,6 @@ public class FairLockTest {
             } catch (InterruptedException ex) {
                 System.out.println(Thread.currentThread().getName() + " notify");
                 System.out.println(Thread.currentThread().getName() + "  get Lock...");
-                return;
             }
 
         } catch (Exception e) {
@@ -116,22 +111,20 @@ public class FairLockTest {
     /**
      * 释放锁
      */
-    public void unlock() {
+    private void unlock() {
         try {
-            System.out.println(Thread.currentThread().getName() + "release Lock...");
+            System.out.println(Thread.currentThread().getName() + " release Lock...");
             zk.delete(lockZnode, -1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (KeeperException e) {
+        } catch (InterruptedException | KeeperException e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String args[]) {
         ExecutorService service = Executors.newFixedThreadPool(10);
         for (int i = 0; i < 4; i++) {
             service.execute(() -> {
-                FairLockTest test = new FairLockTest();
+                ZkFairLockTest test = new ZkFairLockTest();
                 try {
                     test.lock();
                     Thread.sleep(3000);

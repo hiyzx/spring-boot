@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.concurrent.TimeUnit;
+import java.util.stream.LongStream;
+
 /**
  * @author yezhaoxing
  * @since 2018/09/28
@@ -25,13 +28,33 @@ public class RedissonTest {
 
     @Test
     public void test() throws InterruptedException {
-        RLock lock = redissonClient.getLock("hello");
+        LongStream range = LongStream.range(0, 5);
+        range.parallel().forEach( r -> {
+            RLock lock = redissonClient.getLock("hello_hiyzx");
+            log.info("lock start");
+            try {
+                boolean b = lock.tryLock(0, 5, TimeUnit.SECONDS);
+                if(!b){
+                    log.info("获取失败");
+                    return;
+                }
+            } catch (Exception ex) {
+
+            }
+            log.info("lock end");
+            lock.unlock();
+            log.info("解锁");
+        });
+    }
+
+    @Test
+    public void test2() throws InterruptedException {
+        RLock lock = redissonClient.getLock("hello_hiyzx");
+        lock.lock();
 
         log.info("lock start");
-        lock.tryLock();
-        lock.lock();
+        lock.lock(5, TimeUnit.SECONDS);
         log.info("lock end");
-        Thread.sleep(100000);
         lock.unlock();
     }
 

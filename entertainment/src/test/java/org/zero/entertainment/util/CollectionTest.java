@@ -1,5 +1,6 @@
 package org.zero.entertainment.util;
 
+import cn.hutool.core.date.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,6 +15,58 @@ import java.util.stream.Collectors;
 public class CollectionTest {
 
     public static void main(String[] args) {
+        String num = "188";
+        String[] split1 = num.split("-");
+
+
+        Product p1 = new Product(1, 1);
+        Product p2 = new Product(2, 2);
+        Product p3 = new Product(2, 3);
+        Product p4 = new Product(3, 2);
+        List<Product> products1 = Arrays.asList(p1, p2, p3, p4);
+        Map<Integer, Integer> map5 = new HashMap<>();
+        for (Product product : products1) {
+            map5.merge(product.getId(), product.getCount(), Integer::sum);
+        }
+
+
+
+
+        for (int i = 0; i < 5; i++) {
+            if (i == 1) {
+                break;
+            }
+            System.out.println(i);
+        }
+
+        List<List<Integer>> list = new ArrayList<>();
+        List<Integer> ints1 = new ArrayList<>();
+        ints1.add(1);
+        ints1.add(11);
+        ints1.add(111);
+        List<Integer> ints2 = new ArrayList<>();
+        ints2.add(2);
+        ints2.add(22);
+        ints2.add(222);
+        list.add(ints1);
+        list.add(ints2);
+        List<Integer> collect2 = list.stream().flatMap(List::stream).collect(Collectors.toList());
+
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        currentCalendar.set(Calendar.MINUTE, 0);
+        currentCalendar.set(Calendar.SECOND, 0);
+        currentCalendar.set(Calendar.MILLISECOND, 0);
+
+        currentCalendar.set(Calendar.DAY_OF_MONTH, 2);
+
+        String format = DateUtil.format(currentCalendar.getTime(), "yyyy-MM-dd HH:mm:ss");
+
+        String hello = "hello";
+        String[] split = hello.split("/");
+
+        System.out.println(split[0]);
         ConcurrentHashMap<String, String> concurrentHashMap = new ConcurrentHashMap<>();
 
         Product product1 = new Product(1, 1);
@@ -34,8 +87,8 @@ public class CollectionTest {
         map1.put(1, product1);
         map1.put(2, product2);
         System.out.println(map1.size());
-        List<Object> list = new ArrayList<>(map1.values());
-        List<Product> collect1 = list.stream().map(l -> (Product) l).collect(Collectors.toList());
+        List<Object> list1 = new ArrayList<>(map1.values());
+        List<Product> collect1 = list1.stream().map(l -> (Product)l).collect(Collectors.toList());
     }
 }
 
