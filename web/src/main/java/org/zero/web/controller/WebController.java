@@ -13,6 +13,7 @@ import org.zero.enums.CodeEnum;
 import org.zero.starter.service.ExampleService;
 import org.zero.vo.BaseReturnVo;
 import org.zero.vo.ReturnVo;
+import org.zero.vo.TestVo;
 import org.zero.web.exception.BaseException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +48,7 @@ public class WebController {
     @Autowired
     private Executor executorService;
 
-    @GetMapping(value = "/version/")
+    @GetMapping(value = "/version")
     @ApiOperation(value = "查看版本信息")
     public Map<String, String> version() throws ParseException {
         Map<String, String> map = new HashMap<>();
@@ -55,11 +56,11 @@ public class WebController {
         map.put("builtAt", DATE_FORMAT.get().format(new SimpleDateFormat(format).parse(builtAt)));
         return map;
     }
-
     @PostMapping(value = "/helloWorld")
     @ApiOperation("helloWorld")
     public ReturnVo<String> logout() {
-        return ReturnVo.success("helloWorld");
+        ReturnVo<String> helloWorld = ReturnVo.success("helloWorld");
+        return helloWorld;
     }
 
     @GetMapping(value = "/exception")
@@ -79,12 +80,12 @@ public class WebController {
         return ReturnVo.success(exampleService.wrap("hello"));
     }
 
-    @GetMapping(value = "/updateVersion")
+    /*@GetMapping(value = "/updateVersion")
     public ReturnVo<String> update(@RequestParam String version) {
         this.version = "100";
         return ReturnVo.success("success");
     }
-
+    */
     @PostMapping(value = "/return")
     public ReturnVo<String> returnHello(HttpServletRequest request, BaseReturnVo baseReturnVo) {
         String queryString = request.getQueryString();
@@ -92,8 +93,9 @@ public class WebController {
         return ReturnVo.success("success");
     }
 
-    @PutMapping(value = "/returnGet")
-    public ReturnVo<String> returnHello(BaseReturnVo baseReturnVo, String hello) {
+    @GetMapping(value = "/returnGet")
+    public ReturnVo<String> returnHello(@RequestAttribute TestVo testVo) {
+        log.info("{}", testVo);
         return ReturnVo.success("成功");
     }
 
@@ -117,7 +119,7 @@ public class WebController {
 
     @GetMapping("/doc")
     @CrossOrigin
-    public String doc(){
+    public String doc() {
         return FileUtil.readString("C:\\Users\\GVT\\Desktop\\apidoc.txt", "UTF-8");
     }
 
@@ -125,5 +127,10 @@ public class WebController {
     public String upload(@RequestParam String name, MultipartFile multipartFile) throws IOException {
         InputStream inputStream = multipartFile.getInputStream();
         return "success";
+    }
+
+    @GetMapping("/long")
+    public Long longTest() throws IOException {
+        return 2173691766230835999L;
     }
 }

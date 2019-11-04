@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,6 +35,14 @@ public class ExceptionController {
 
     static {
         MAPPER.setSerializationInclusion(Include.NON_NULL);
+    }
+
+    /**
+     * 捕获405异常
+     */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ModelAndView resolveException(HttpRequestMethodNotSupportedException e) {
+        return commonResolve(e, CodeEnum.REQUEST_METHOD_NOT_SUPPORT, "request method not support");
     }
 
     /**

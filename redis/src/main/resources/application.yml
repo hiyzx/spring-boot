@@ -3,9 +3,9 @@ server:
 spring:
   redis:
        database: 0
-       host: www.hiyzx.cn
-       port: 6379
-       password: yzx362311
+       host: 192.168.1.231
+       port: 6381
+       password: zHx3bQBDVuSsAE80A2jA
        timeout: 0
        pool:
           max-active: 20

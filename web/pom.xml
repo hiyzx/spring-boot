@@ -89,7 +89,7 @@
         </dependency>
 
         <!-- 从这里开始是和swagger文档生成相关jar包 -->
-        <dependency>
+        <!--<dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-staticdocs</artifactId>
             <version>2.5.0</version>
@@ -108,7 +108,7 @@
             <groupId>io.github.swagger2markup</groupId>
             <artifactId>swagger2markup-spring-restdocs-ext</artifactId>
             <version>${swagger2markup.version}</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>
@@ -129,7 +129,7 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
@@ -141,7 +141,7 @@
                 </configuration>
             </plugin>
 
-            <!-- First, use the swagger2markup plugin to generate asciidoc -->
+            &lt;!&ndash; First, use the swagger2markup plugin to generate asciidoc &ndash;&gt;
             <plugin>
                 <groupId>io.github.swagger2markup</groupId>
                 <artifactId>swagger2markup-maven-plugin</artifactId>
@@ -184,13 +184,13 @@
                 </executions>
             </plugin>
 
-            <!-- Run the generated asciidoc through Asciidoctor to generate
-                 other documentation types, such as PDFs or HTML5 -->
+            &lt;!&ndash; Run the generated asciidoc through Asciidoctor to generate
+                 other documentation types, such as PDFs or HTML5 &ndash;&gt;
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <version>1.5.3</version>
-                <!-- Include Asciidoctor PDF for pdf generation -->
+                &lt;!&ndash; Include Asciidoctor PDF for pdf generation &ndash;&gt;
                 <dependencies>
                     <dependency>
                         <groupId>org.asciidoctor</groupId>
@@ -203,7 +203,7 @@
                         <version>1.7.21</version>
                     </dependency>
                 </dependencies>
-                <!-- Configure generic document generation settings -->
+                &lt;!&ndash; Configure generic document generation settings &ndash;&gt;
                 <configuration>
                     <sourceDirectory>${asciidoctor.input.directory}</sourceDirectory>
                     <sourceDocumentName>index.adoc</sourceDocumentName>
@@ -218,8 +218,8 @@
                         <generated>${generated.asciidoc.directory}</generated>
                     </attributes>
                 </configuration>
-                <!-- date each execution can only handle one backend, run
-                     separate executions for each desired output type -->
+                &lt;!&ndash; date each execution can only handle one backend, run
+                     separate executions for each desired output type &ndash;&gt;
                 <executions>
                     <execution>
                         <id>output-html</id>
@@ -244,7 +244,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 </project>

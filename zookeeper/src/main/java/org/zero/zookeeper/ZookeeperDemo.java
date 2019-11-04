@@ -8,7 +8,7 @@ import java.util.List;
  * @author yezhaoxing
  * @date 2019/5/12
  */
-public class Demo {
+public class ZookeeperDemo {
 
 	public static void main(String[] args) throws Exception {
 		ZooKeeper zk = new ZooKeeper("127.0.0.1:2181", 2000, new Watcher() {
@@ -19,9 +19,13 @@ public class Demo {
 				System.out.println("已经触发了" + watchedEvent.getType() + "事件！");
 			}
 		});
+
 		// 创建一个目录节点
 		String zNode = zk
-				.create("/hello", "hello".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+				.create("/hello", "hello".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT_SEQUENTIAL);
+		System.out.println(zNode);
+		zNode = zk
+				.create("/hello", "hello".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT_SEQUENTIAL);
 		System.out.println(zNode);
 
 		zk.create("/hello/hello1", "hello".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
