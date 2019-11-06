@@ -10,7 +10,12 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>../activemq</module>
+        <module>../canal-client</module>
+        <module>../docker-image</module>
+        <module>../elastic-search</module>
         <module>../entertainment</module>
+        <module>../fastdfs</module>
+        <module>../handler</module>
         <module>../web</module>
         <module>../notice</module>
         <module>../redis</module>
@@ -18,7 +23,6 @@
         <module>../shiro-jwt/shiro</module>
         <module>../shiro-jwt/shiro-jwt</module>
         <module>../shiro-jwt/jwt-oauth2</module>
-        <module>../elastic-search</module>
         <module>../job/elastic-job</module>
         <module>../mybatis/spring-mybatis</module>
         <module>../mybatis/mybatis-master-slave</module>

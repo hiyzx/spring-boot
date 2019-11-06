@@ -33,6 +33,7 @@ public class NoticeController {
                 break;
             default:
                 log.info("{} type is valid", type);
+                throw new RuntimeException("非法type");
         }
         return "success";
     }

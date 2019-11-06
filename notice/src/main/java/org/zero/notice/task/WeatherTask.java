@@ -45,15 +45,15 @@ public class WeatherTask {
                     .format("\n%s：白天{%s}，温度{%s}℃ ~ {%s}℃。", cast.getDate(), cast.getDayweather(), cast.getNighttemp(),
                             cast.getDaytemp());
         }
-        noticeUtil.sendNotice("早上好！", "天气预报", remark);
+        noticeUtil.sendNotice("早上好！", "天气预报", remark, "284");
         log.info("notice weather success");
     }
 
     @Scheduled(cron = "0 0 23 * * * ")
-    public void sendNoticeNight() throws IOException {
+    public void sendNoticeNight() {
         CiBaResponse ciBaResponse = JsonUtil.readValue(ciBaHttpClient.get("/dsapi"), CiBaResponse.class);
         String content = String.format("\n%s\n%s", ciBaResponse.getContent(), ciBaResponse.getNote());
-        noticeUtil.sendNotice("晚上好！", "每日心灵鸡汤", content);
+        noticeUtil.batchSendNotice("晚上好！", "每日心灵鸡汤", content);
         log.info("notice night success");
     }
 }

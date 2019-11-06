@@ -7,13 +7,4 @@ package com.zero.handler.service;
 public interface ParentService {
 
     String execute(String param);
-
-
-    // 创建
-
-    // 取消
-
-    // 查物流
-
-    // 查库存
 }
