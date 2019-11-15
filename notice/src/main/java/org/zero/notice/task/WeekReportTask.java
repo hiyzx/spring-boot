@@ -26,6 +26,6 @@ public class WeekReportTask {
     }
 
     private void sendWeekReportNotice() throws IOException {
-        noticeUtil.sendNotice("周报提醒通知！", "该提交周报了！", null);
+        noticeUtil.sendNotice("周报提醒通知！", "该提交周报了！", null, "284");
     }
 }
