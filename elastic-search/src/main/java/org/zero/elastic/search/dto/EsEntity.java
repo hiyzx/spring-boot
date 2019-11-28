@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public final class EsEntity<T> {
+public final class EsEntity {
 
     private String id;
 
-    private T data;
+    private String data;
 }

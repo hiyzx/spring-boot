@@ -1,5 +1,6 @@
 package org.zero.elastic.search.repository;
 
+import cn.hutool.json.JSONUtil;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -24,7 +25,7 @@ public class CustomerService {
     private EsUtil esUtil;
 
     public void saveOrUpdate(Customer customer) {
-        esUtil.insertOrUpdateOne(INDEX, new EsEntity<>(customer.getAccountNumber(), customer));
+        esUtil.insertOrUpdateOne(INDEX, new EsEntity(customer.getAccountNumber(), JSONUtil.toJsonStr(customer)));
     }
 
     public PageResultVO<Customer> search(Integer from, Integer size, String gender, String address) {

@@ -55,9 +55,11 @@ public class ZkFairLockTest {
         String path = null;
         ensureRootPath();
         try {
+            // 创建临时有序节点
             path = zk.create(lockName + "/mylock_", "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
                 CreateMode.EPHEMERAL_SEQUENTIAL);
             lockZnode = path;
+            // 获取所有的子节点,并进行排序
             List<String> minPath = zk.getChildren(lockName, false);
             Collections.sort(minPath);
             System.out.println(Thread.currentThread().getName() + " 最小节点:" + minPath.get(0) + " ,当前节点:" + path);
@@ -78,14 +80,11 @@ public class ZkFairLockTest {
 
             if (watchNode != null) {
                 final Thread thread = Thread.currentThread();
-                Stat stat = zk.exists(lockName + "/" + watchNode, new Watcher() {
-                    @Override
-                    public void process(WatchedEvent watchedEvent) {
-                        if (watchedEvent.getType() == Event.EventType.NodeDeleted) {
-                            thread.interrupt();
-                        }
+                // 监听前一个节点
+                Stat stat = zk.exists(lockName + "/" + watchNode, watchedEvent -> {
+                    if (watchedEvent.getType() == Watcher.Event.EventType.NodeDeleted) {
+                        thread.interrupt();
                     }
-
                 });
                 if (stat != null) {
                     System.out.println(

@@ -11,6 +11,7 @@ import org.zero.elastic.search.util.PageResultVO;
  * @since 2018/11/05
  */
 @RestController
+@RequestMapping("/customer")
 public class CustomerController {
 
     @Autowired

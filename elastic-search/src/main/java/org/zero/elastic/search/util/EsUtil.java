@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * 类功能简述： 类功能详述：
  *
- * @author fanxb
+ * @author zero
  * @date 2019/7/29 11:24
  */
 @Component
@@ -63,7 +63,7 @@ public class EsUtil {
      *
      * @param index index名
      * @return boolean
-     * @author fanxb
+     * @author zero
      * @date 2019/7/24 14:57
      */
     public boolean indexExist(String index) throws Exception {
@@ -79,13 +79,13 @@ public class EsUtil {
      *
      * @param index index
      * @param entity 对象
-     * @author fanxb
+     * @author zero
      * @date 2019/7/24 15:02
      */
-    public void insertOrUpdateOne(String index, EsEntity<?> entity) {
+    public void insertOrUpdateOne(String index, EsEntity entity) {
         IndexRequest request = new IndexRequest(index);
         request.id(entity.getId());
-        request.source(JSONUtil.toJsonStr(entity.getData()), XContentType.JSON);
+        request.source(entity.getData(), XContentType.JSON);
         try {
             client.index(request, RequestOptions.DEFAULT);
         } catch (Exception e) {
@@ -98,13 +98,13 @@ public class EsUtil {
      *
      * @param index index
      * @param list 带插入列表
-     * @author fanxb
+     * @author zero
      * @date 2019/7/24 17:38
      */
     public void insertBatch(String index, List<EsEntity> list) {
         BulkRequest request = new BulkRequest();
-        list.forEach(item -> request.add(
-            new IndexRequest(index).id(item.getId()).source(JSONUtil.toJsonStr(item.getData()), XContentType.JSON)));
+        list.forEach(item -> request
+                .add(new IndexRequest(index).id(item.getId()).source(item.getData(), XContentType.JSON)));
         try {
             client.bulk(request, RequestOptions.DEFAULT);
         } catch (Exception e) {
@@ -117,7 +117,7 @@ public class EsUtil {
      *
      * @param index index
      * @param idList 待删除列表
-     * @author fanxb
+     * @author zero
      * @date 2019/7/25 14:24
      */
     public <T> void deleteBatch(String index, Collection<T> idList) {
@@ -137,7 +137,7 @@ public class EsUtil {
      * @param builder 查询参数
      * @param c 结果类对象
      * @return java.util.ArrayList
-     * @author fanxb
+     * @author zero
      * @date 2019/7/25 13:46
      */
     public <T> PageResultVO<T> search(String index, SearchSourceBuilder builder, Class<T> c) {
@@ -162,7 +162,7 @@ public class EsUtil {
      *
      * @param index index
      * @return void
-     * @author fanxb
+     * @author zero
      * @date 2019/7/26 11:30
      */
     public void deleteIndex(String index) {
@@ -178,7 +178,7 @@ public class EsUtil {
      *
      * @param index index
      * @param builder builder
-     * @author fanxb
+     * @author zero
      * @date 2019/7/26 15:16
      */
     public void deleteByQuery(String index, QueryBuilder builder) {
