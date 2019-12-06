@@ -43,7 +43,7 @@ public class EsUtil {
     @Value("${es.scheme}")
     public String scheme;
 
-    public static RestHighLevelClient client = null;
+    private static RestHighLevelClient client = null;
 
     @PostConstruct
     public void init() {

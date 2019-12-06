@@ -1,10 +1,12 @@
 package org.zero.notice.core;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author yezhaoxing
@@ -15,15 +17,16 @@ public final class JsonUtil {
     private static final Logger LOG = LoggerFactory.getLogger(JsonUtil.class);
     public static ObjectMapper objectMapper;
 
+    static {
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
     public static <T> T readValue(String jsonStr, Class<T> valueType) {
         T rtn;
         if (StringUtils.isEmpty(jsonStr)) {
             rtn = null;
         } else {
-            if (objectMapper == null) {
-                objectMapper = new ObjectMapper();
-            }
-
             try {
                 rtn = objectMapper.readValue(jsonStr, valueType);
             } catch (Exception e) {
@@ -39,10 +42,6 @@ public final class JsonUtil {
         if (StringUtils.isEmpty(jsonStr)) {
             rtn = null;
         } else {
-            if (objectMapper == null) {
-                objectMapper = new ObjectMapper();
-            }
-
             try {
                 rtn = objectMapper.readValue(jsonStr, valueTypeRef);
             } catch (Exception e) {
@@ -58,10 +57,6 @@ public final class JsonUtil {
         if (object == null) {
             rtn = null;
         } else {
-            if (objectMapper == null) {
-                objectMapper = new ObjectMapper();
-            }
-
             try {
                 rtn = objectMapper.writeValueAsString(object);
             } catch (Exception e) {
