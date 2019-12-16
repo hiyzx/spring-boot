@@ -1,0 +1,46 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: spring-boot
+  profiles:
+    active: local
+app:
+  id: spring-boot
+
+---
+#开发环境dev加载的配置
+spring:
+  profiles: local
+name: hello
+---
+#开发环境dev加载的配置
+
+spring:
+  profiles: dev
+apollo:
+# Apollo Meta Server 地址
+  meta: http://localhost:8080
+# 自定义本地配置文件缓存路径
+  cacheDir: /Users/zero/Documents/IdeaProjects/spring-boot/apollo-client/cache
+# 设置在应用启动阶段就加载 Apollo 配置
+  bootstrap:
+    enabled: true
+# 注入 application namespace
+    namespaces: application
+
+---
+#开发环境dev加载的配置
+
+spring:
+  profiles: fat
+apollo:
+# Apollo Meta Server 地址
+  meta: http://localhost:8081
+# 自定义本地配置文件缓存路径
+  cacheDir: /Users/zero/Documents/IdeaProjects/spring-boot/apollo-client/cache
+# 设置在应用启动阶段就加载 Apollo 配置
+  bootstrap:
+    enabled: true
+# 注入 application namespace
+    namespaces: application
