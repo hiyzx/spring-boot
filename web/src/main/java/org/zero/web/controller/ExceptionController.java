@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-import org.zero.enums.CodeEnum;
+import org.zero.enums.StringEnum;
 import org.zero.vo.BaseReturnVo;
 import org.zero.web.exception.BaseException;
 
@@ -42,7 +42,7 @@ public class ExceptionController {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ModelAndView resolveException(HttpRequestMethodNotSupportedException e) {
-        return commonResolve(e, CodeEnum.REQUEST_METHOD_NOT_SUPPORT, "request method not support");
+        return commonResolve(e, StringEnum.REQUEST_METHOD_NOT_SUPPORT, "request method not support");
     }
 
     /**
@@ -58,7 +58,7 @@ public class ExceptionController {
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public ModelAndView resolveException(NoHandlerFoundException e) {
-        return commonResolve(e, CodeEnum.PAGE_NOT_FOUND, "page not found");
+        return commonResolve(e, StringEnum.PAGE_NOT_FOUND, "page not found");
     }
 
     /**
@@ -66,7 +66,7 @@ public class ExceptionController {
      */
     @ExceptionHandler(ServletRequestBindingException.class)
     public ModelAndView resolveException(ServletRequestBindingException e) {
-        return commonResolve(e, CodeEnum.PARAM_NOT_MATCH, "param not match");
+        return commonResolve(e, StringEnum.PARAM_NOT_MATCH, "param not match");
     }
 
     /**
@@ -82,7 +82,7 @@ public class ExceptionController {
             sb.append(fieldError.getDefaultMessage()).append(",");
         }
         sb.deleteCharAt(sb.length() - 1);
-        return commonResolve(e, CodeEnum.VALID_FAIL, sb.toString());
+        return commonResolve(e, StringEnum.VALID_FAIL, sb.toString());
     }
 
     /**
@@ -90,10 +90,10 @@ public class ExceptionController {
      */
     @ExceptionHandler(Exception.class)
     public ModelAndView resolveException(Exception e) {
-        return commonResolve(e, CodeEnum.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        return commonResolve(e, StringEnum.INTERNAL_SERVER_ERROR, "Internal Server Error");
     }
 
-    private ModelAndView commonResolve(Exception e, CodeEnum codeEnum, String msg) {
+    private ModelAndView commonResolve(Exception e, StringEnum codeEnum, String msg) {
         ModelAndView mav = new ModelAndView();
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         view.setExtractValueFromSingleKeyModel(true);

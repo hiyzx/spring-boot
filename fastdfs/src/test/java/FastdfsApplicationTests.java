@@ -29,7 +29,7 @@ public class FastdfsApplicationTests {
     private static final String groupName = "group1";
 
     // fastDFS存储文件的path，这个path路径需要你执行测试方法中上传后，获取的path粘贴过来，用于查询、删除的
-    private static final String path = "M00/00/00/wKg7g1vnC0uAF33PAADWMguR3lU360.png";
+    private static final String path = "M00/00/00/rBKURl3rCeCAGzMCAABFgSQxmnM302.png";
 
     // 默认文件名称，你所需要上传的图片名称
     private static final String filename = "01.jpg";

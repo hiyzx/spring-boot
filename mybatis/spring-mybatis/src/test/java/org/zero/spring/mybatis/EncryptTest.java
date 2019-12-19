@@ -20,6 +20,6 @@ public class EncryptTest {
 
     @Test
     public void encrypt() {
-        String encrypt = stringEncryptor.encrypt("yzx362311");
+        String encrypt = stringEncryptor.encrypt("yzx123456");
     }
 }

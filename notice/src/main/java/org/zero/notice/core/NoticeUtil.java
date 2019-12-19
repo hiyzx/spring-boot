@@ -1,11 +1,15 @@
 package org.zero.notice.core;
 
+import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.stereotype.Component;
 import org.zero.notice.response.FeiGeListResponseVo;
+import org.zero.notice.response.FeiGeListUserInfoVo;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,22 +21,12 @@ public class NoticeUtil {
 
     @Resource
     private HttpClient feiGeHttpClient;
+    private List<FeiGeListUserInfoVo> feiGeListUserInfoVs = new ArrayList<>();
 
-    public void batchSendNotice(String title, String content, String remark) {
-        FeiGeListResponseVo list = list();
-        list.getList().forEach(l -> {
-            try {
-                sendNotice(l.getName() + "：" + title, content, remark, String.valueOf(l.getId()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public void sendNotice(String title, String content, String remark, String uid) throws IOException {
+    public void sendNotice(String title, String content, String remark, Integer uid) throws IOException {
         Map<String, String> params = new HashMap<>(5);
         params.put("secret", "7d55aa74dbae1c1c0bc68453e3e7742a");
-        params.put("uid", uid);
+        params.put("uid", String.valueOf(uid));
         params.put("key", "notice");
         params.put("title", title);
         params.put("content", content);
@@ -40,10 +34,14 @@ public class NoticeUtil {
         feiGeHttpClient.post("/api/user_sendmsg", params);
     }
 
-    private FeiGeListResponseVo list() {
-        Map<String, String> params = new HashMap<>(5);
-        params.put("secret", "7d55aa74dbae1c1c0bc68453e3e7742a");
-        String jsonStr = feiGeHttpClient.get("/api/userlist", params);
-        return JsonUtil.readValue(jsonStr, FeiGeListResponseVo.class);
+    public List<FeiGeListUserInfoVo> list() {
+        if (CollectionUtil.isEmpty(feiGeListUserInfoVs)) {
+            Map<String, String> params = new HashMap<>(5);
+            params.put("secret", "7d55aa74dbae1c1c0bc68453e3e7742a");
+            String jsonStr = feiGeHttpClient.get("/api/userlist", params);
+            FeiGeListResponseVo feiGeListResponseVo = JsonUtil.readValue(jsonStr, FeiGeListResponseVo.class);
+            feiGeListUserInfoVs = feiGeListResponseVo.getList();
+        }
+        return feiGeListUserInfoVs;
     }
 }

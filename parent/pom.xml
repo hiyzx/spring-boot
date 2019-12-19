@@ -9,7 +9,8 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>../activemq</module>
+        <module>../mq/activemq</module>
+        <module>../mq/rocketmq</module>
         <module>../canal-client</module>
         <module>../docker-image</module>
         <module>../elastic-search</module>
@@ -41,6 +42,7 @@
         <module>../starter-demo</module>
        <!-- <module>../rocketmq</module>-->
         <module>../docker-image</module>
+        <module>../apollo-client</module>
     </modules>
 
     <parent>

@@ -3,18 +3,16 @@ package org.zero.notice.task;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.zero.notice.core.AMapUtil;
 import org.zero.notice.core.HttpClient;
 import org.zero.notice.core.JsonUtil;
 import org.zero.notice.core.NoticeUtil;
-import org.zero.notice.response.AMapResponse;
-import org.zero.notice.response.Cast;
 import org.zero.notice.response.CiBaResponse;
-import org.zero.notice.response.Forecast;
+import org.zero.notice.response.FeiGeListUserInfoVo;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author yezhaoxing
@@ -27,33 +25,34 @@ public class WeatherTask {
     @Resource
     private NoticeUtil noticeUtil;
     @Resource
-    private HttpClient aMapHttpClient;
+    private AMapUtil aMapUtil;
     @Resource
     private HttpClient ciBaHttpClient;
 
-    @Scheduled(cron = "0 0 7 * * * ")
-    public void sendNoticeWeatherMorning() throws IOException {
-        Map<String, String> params = new HashMap<>(3);
-        params.put("key", "4d3581ba3666ba2b1d8537f3d02d2ca0");
-        params.put("city", "440300");
-        params.put("extensions", "all");
-        String weatherResponse = aMapHttpClient.get("/v3/weather/weatherInfo", params);
-        Forecast forecast = JsonUtil.readValue(weatherResponse, AMapResponse.class).getForecasts().get(0);
-        String remark = String.format("\n%s天气：", forecast.getCity());
-        for (Cast cast : forecast.getCasts()) {
-            remark = remark + String
-                    .format("\n%s：白天{%s}，温度{%s}℃ ~ {%s}℃。", cast.getDate(), cast.getDayweather(), cast.getNighttemp(),
-                            cast.getDaytemp());
+    @Scheduled(cron = "0 30 6 * * * ")
+    public void sendNoticeWeatherMorningQZ() throws IOException {
+        List<FeiGeListUserInfoVo> userInfoVos = noticeUtil.list();
+        for (FeiGeListUserInfoVo user : userInfoVos) {
+            if (user.getId().equals(284)) {
+                noticeUtil.sendNotice(String.format("%s：早上好！", user.getRemark()), "天气预报", aMapUtil.getWeather("440305"),
+                    user.getId());
+            }
+            if (user.getId().equals(2885)) {
+                noticeUtil.sendNotice(String.format("%s：早上好！", user.getRemark()), "天气预报", aMapUtil.getWeather("350524"),
+                    user.getId());
+            }
         }
-        noticeUtil.sendNotice("早上好！", "天气预报", remark, "284");
         log.info("notice weather success");
     }
 
     @Scheduled(cron = "0 0 23 * * * ")
-    public void sendNoticeNight() {
-        CiBaResponse ciBaResponse = JsonUtil.readValue(ciBaHttpClient.get("/dsapi"), CiBaResponse.class);
-        String content = String.format("\n%s\n%s", ciBaResponse.getContent(), ciBaResponse.getNote());
-        noticeUtil.batchSendNotice("晚上好！", "每日心灵鸡汤", content);
-        log.info("notice night success");
+    public void sendNoticeNight() throws IOException {
+        List<FeiGeListUserInfoVo> userInfoVos = noticeUtil.list();
+        for (FeiGeListUserInfoVo user : userInfoVos) {
+            CiBaResponse ciBaResponse = JsonUtil.readValue(ciBaHttpClient.get("/dsapi"), CiBaResponse.class);
+            String content = String.format("\n%s\n%s", ciBaResponse.getContent(), ciBaResponse.getNote());
+            noticeUtil.sendNotice(String.format("%s：晚上好！", user.getRemark()), "每日心灵鸡汤", content, user.getId());
+            log.info("notice night success");
+        }
     }
 }

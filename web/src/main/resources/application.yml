@@ -8,10 +8,6 @@ spring:
     add-mappings: false
   mvc:
     throw-exception-if-no-handler-found: true
-project:
-  version: @project.version@
-  buildTime: @project.build.time@
-  format: @maven.build.timestamp.format@
 logging:
   level:
     com.zero: debug

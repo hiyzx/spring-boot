@@ -5,11 +5,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.zero.enums.CodeEnum;
+import org.zero.enums.StringEnum;
 import org.zero.starter.service.ExampleService;
 import org.zero.vo.BaseReturnVo;
 import org.zero.vo.ReturnVo;
@@ -19,12 +18,7 @@ import org.zero.web.exception.BaseException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.Executor;
 
 /**
@@ -36,26 +30,9 @@ import java.util.concurrent.Executor;
 @Slf4j
 public class WebController {
 
-    private static final ThreadLocal<DateFormat> DATE_FORMAT =
-        ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-    @Value("${project.version}")
-    private String version;
-    @Value("${project.buildTime}")
-    private String builtAt;
-    @Value("${project.format}")
-    private String format;
-
     @Autowired
     private Executor executorService;
 
-    @GetMapping(value = "/version")
-    @ApiOperation(value = "查看版本信息")
-    public Map<String, String> version() throws ParseException {
-        Map<String, String> map = new HashMap<>();
-        map.put("version", version);
-        map.put("builtAt", DATE_FORMAT.get().format(new SimpleDateFormat(format).parse(builtAt)));
-        return map;
-    }
     @PostMapping(value = "/helloWorld")
     @ApiOperation("helloWorld")
     public ReturnVo<String> logout() {
@@ -66,7 +43,7 @@ public class WebController {
     @GetMapping(value = "/exception")
     public BaseReturnVo exception() throws BaseException {
         if (System.currentTimeMillis() % 2 == 0) {
-            throw new BaseException(CodeEnum.TEST_FAIL, "测试异常");
+            throw new BaseException(StringEnum.TEST_FAIL, "测试异常");
         } else {
             return BaseReturnVo.success();
         }
@@ -94,7 +71,7 @@ public class WebController {
     }
 
     @GetMapping(value = "/returnGet")
-    public ReturnVo<String> returnHello(@RequestAttribute TestVo testVo) {
+    public ReturnVo<String> returnHello(TestVo testVo) {
         log.info("{}", testVo);
         return ReturnVo.success("成功");
     }
@@ -132,5 +109,10 @@ public class WebController {
     @GetMapping("/long")
     public Long longTest() throws IOException {
         return 2173691766230835999L;
+    }
+
+    @GetMapping("/enumTest")
+    public String enumTest(StringEnum codeEnum){
+        return codeEnum.name();
     }
 }

@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.zero.enums.CodeEnum;
+import org.zero.enums.StringEnum;
 
 /**
  * @author yezhaoxing
@@ -21,13 +21,13 @@ public class BaseReturnVo {
     @ApiModelProperty("返回说明")
     private String resDes;
 
-    public BaseReturnVo(CodeEnum codeEnum, String msg) {
+    public BaseReturnVo(StringEnum codeEnum, String msg) {
         this.resCode = codeEnum.getCodeEnum();
         this.resDes = msg;
     }
 
     public static BaseReturnVo success() {
-        return new BaseReturnVo(CodeEnum.SUCCESS, SUCCESS_DEFAULT_DESC);
+        return new BaseReturnVo(StringEnum.SUCCESS, SUCCESS_DEFAULT_DESC);
     }
 
 }

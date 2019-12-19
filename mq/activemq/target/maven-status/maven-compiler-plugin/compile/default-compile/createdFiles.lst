@@ -1,0 +1,4 @@
+org\zero\activemq\core\MQConfig.class
+org\zero\activemq\ActiveMqApplication.class
+org\zero\activemq\core\MessageHandler.class
+org\zero\activemq\core\MqUtil.class

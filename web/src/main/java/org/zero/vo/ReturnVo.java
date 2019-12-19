@@ -1,7 +1,7 @@
 package org.zero.vo;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.zero.enums.CodeEnum;
+import org.zero.enums.StringEnum;
 
 /**
  * @author yezhaoxing
@@ -15,12 +15,12 @@ public class ReturnVo<T> extends BaseReturnVo {
     public ReturnVo() {
     }
 
-    public ReturnVo(CodeEnum codeEnum, String msg) {
+    public ReturnVo(StringEnum codeEnum, String msg) {
         super(codeEnum, msg);
     }
 
     public static <T> ReturnVo<T> success(T data) {
-        ReturnVo<T> returnVo = new ReturnVo<>(CodeEnum.SUCCESS, SUCCESS_DEFAULT_DESC);
+        ReturnVo<T> returnVo = new ReturnVo<>(StringEnum.SUCCESS, SUCCESS_DEFAULT_DESC);
         returnVo.setData(data);
         return returnVo;
     }

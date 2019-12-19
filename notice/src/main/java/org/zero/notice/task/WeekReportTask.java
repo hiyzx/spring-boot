@@ -21,11 +21,7 @@ public class WeekReportTask {
 
     @Scheduled(cron = "0 30 09 ? * FRI ")
     public void sendNoticeAfternoon() throws IOException {
-        sendWeekReportNotice();
+        noticeUtil.sendNotice("周报提醒通知！", "该提交周报了！", null, 284);
         log.info("notice for week report success");
-    }
-
-    private void sendWeekReportNotice() throws IOException {
-        noticeUtil.sendNotice("周报提醒通知！", "该提交周报了！", null, "284");
     }
 }
