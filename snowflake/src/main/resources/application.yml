@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: cxs
+  cloud:
+    consul:
+      enabled: true
+      host: 192.168.1.65
+      port: 8500
+      discovery:
+        enabled: true
+        heartbeat:
+          enabled: true
+          ttl-value: 30
+          ttl-unit: s
+        preferIpAddress: true
+        register: true
+        health-check-path: /health
+        health-check-interval: 10s
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+
+snowflake:
+  enable: true
+  dataCenter: 1
+  instanceId: 1
