@@ -2,7 +2,7 @@ package org.zero.snowflake.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SnowFlake {
+public class Snowflake {
     // ==============================Fields===========================================
     /**
      * 开始时间截 (2015-01-01=1420041600000L) 开始时间截 (2018-01-01=1514736000000L) 开始时间截 (2018-02-01=1517414400000L) 开始时间截
@@ -59,7 +59,7 @@ public class SnowFlake {
 
     private boolean isInit = false;
     @Autowired
-    private SnowFlakeProperties snowFlakeConfig;
+    private SnowflakeProperties snowFlakeConfig;
 
     public void initParam() {
         if (!isInit) {
