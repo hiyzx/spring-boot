@@ -1,7 +1,0 @@
-server:
-  port: 8081
-snowflake:
-  enable: true
-  dataCenter: 1
-  serviceId: 1
-  zkUrl: 127.0.0.1:2181

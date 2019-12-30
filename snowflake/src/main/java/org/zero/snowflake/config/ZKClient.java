@@ -5,11 +5,9 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,15 +16,14 @@ import static org.apache.zookeeper.Watcher.Event.EventType.NodeChildrenChanged;
 /**
  * 使用zookeeper配置SnowFlake集群
  */
-@Configuration
 @Slf4j
-public class ZKConfiguration implements ServletContextListener {
+public class ZKClient implements InitializingBean {
 
     @Autowired
     private SnowflakeProperties snowflakeProperties;
 
     @Override
-    public void contextInitialized(ServletContextEvent servletContextEvent) {
+    public void afterPropertiesSet() {
         try {
             ZooKeeper zk = new ZooKeeper(snowflakeProperties.getZkUrl(), 60000, event -> {});
 
@@ -57,11 +54,6 @@ public class ZKConfiguration implements ServletContextListener {
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
     }
 
     // 创建存储节点

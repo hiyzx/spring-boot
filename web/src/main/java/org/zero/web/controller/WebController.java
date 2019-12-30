@@ -18,6 +18,8 @@ import org.zero.web.exception.BaseException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 
@@ -33,11 +35,14 @@ public class WebController {
     @Autowired
     private Executor executorService;
 
-    @PostMapping(value = "/helloWorld")
+    @GetMapping(value = "/helloWorld")
     @ApiOperation("helloWorld")
-    public ReturnVo<String> logout() {
-        ReturnVo<String> helloWorld = ReturnVo.success("helloWorld");
-        return helloWorld;
+    public ReturnVo<List<String>> hello() {
+        List<String> rtn = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            rtn.add("hello " + i);
+        }
+        return ReturnVo.success(rtn);
     }
 
     @GetMapping(value = "/exception")

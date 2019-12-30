@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8085
 spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -18,3 +18,8 @@ example:
     enabled: true
     prefix: 111
     suffix: 222
+snowflake:
+  enable: true
+  dataCenter: 1
+  serviceId: 1
+  zkUrl: 127.0.0.1:2181
