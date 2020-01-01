@@ -22,6 +22,7 @@ import static org.zero.rocketmq.config.SystemConstant.*;
 @Service
 public class MqConsumer {
 
+    // 并发20个消息时,默认是4个队列,此时如果消费者大于4的话,并不能提高消费速度.
     @Service
     @RocketMQMessageListener(topic = GENERAL_TOPIC, consumerGroup = "general-consumer_test-topic")
     public class GeneralConsumer implements RocketMQListener<String> {
