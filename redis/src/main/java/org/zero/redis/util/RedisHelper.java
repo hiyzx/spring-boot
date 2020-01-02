@@ -1,14 +1,10 @@
 package org.zero.redis.util;
 
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisCluster;
 
 import javax.annotation.Resource;
 import java.util.Set;
@@ -85,24 +81,6 @@ public class RedisHelper<K, V> {
                 redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
             }
             return flag;
-        });
-    }
-
-    public Boolean setNxV2(final String key, final String value, Long expireTime) {
-        return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
-            Object nativeConnection = connection.getNativeConnection();
-            String retStatusCode = "";
-            // 集群模式
-            if (nativeConnection instanceof JedisCluster) {
-                JedisCluster jedisCluster = (JedisCluster) nativeConnection;
-                retStatusCode = jedisCluster.set(key, value, "NX", "EX", expireTime);
-            }
-            // 单机模式
-            else if (nativeConnection instanceof Jedis) {
-                Jedis jedis = (Jedis) nativeConnection;
-                retStatusCode = jedis.set(key, value, "NX", "EX", expireTime);
-            }
-            return ObjectUtils.nullSafeEquals("OK", retStatusCode);
         });
     }
 }
