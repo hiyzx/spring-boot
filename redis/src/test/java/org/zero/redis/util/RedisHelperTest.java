@@ -31,9 +31,4 @@ public class RedisHelperTest {
         UserDto user = (UserDto) redisHelper.get("user");
         log.info(user.toString());
     }
-
-    @Test
-    public void setNx() {
-        log.info(" " + redisHelper.setNx("hello_nx", "zero", 100000));
-    }
 }

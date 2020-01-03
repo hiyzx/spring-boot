@@ -3,7 +3,6 @@ package org.zero.redis.util;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Component;
 
@@ -45,19 +44,20 @@ public class RedisHelper<K, V> {
         redisTemplate.delete(key);
     }
 
-    public void clear() {
-        redisTemplate.getConnectionFactory().getConnection().flushDb();
+    // 加锁
+    public Long lock(final K key, final String value, Integer expireTime) {
+        DefaultRedisScript<Long> script = new DefaultRedisScript<>();
+        script.setResultType(Long.class);
+        script.setScriptSource(new ResourceScriptSource(new ClassPathResource("lock.lua")));
+        List<K> keys = Collections.singletonList(key);
+        return redisTemplate.execute(script, keys, expireTime, value);
     }
 
-    public Long size() {
-        return redisTemplate.getConnectionFactory().getConnection().dbSize();
-    }
-
-    // 可以防止缓存击穿
-    public Long setNx(final K key, final String value, Integer expireTime) {
-        RedisScript<Long> script = new DefaultRedisScript<>();
-        ((DefaultRedisScript<Long>) script)
-                .setScriptSource(new ResourceScriptSource(new ClassPathResource("setNx.lua")));
+    // 解锁
+    public Long unlock(final K key, final String value, Integer expireTime) {
+        DefaultRedisScript<Long> script = new DefaultRedisScript<>();
+        script.setResultType(Long.class);
+        script.setScriptSource(new ResourceScriptSource(new ClassPathResource("unlock.lua")));
         List<K> keys = Collections.singletonList(key);
         return redisTemplate.execute(script, keys, expireTime, value);
     }

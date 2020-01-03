@@ -6,7 +6,7 @@ spring:
        host: www.hiyzx.cn
        port: 6379
        password: 123456
-       timeout: 1000
+       timeout: 10000
        jedis:
          pool:
            max-idle: 20
