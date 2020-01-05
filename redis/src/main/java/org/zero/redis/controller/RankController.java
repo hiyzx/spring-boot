@@ -35,6 +35,16 @@ public class RankController {
     /**
      * @author zero
      * @date 2020/1/2
+     * @description 删除数据
+     */
+    @GetMapping("/remove")
+    public void remove(@RequestParam String id) {
+        redisZsetHelper.remove(key, id);
+    }
+
+    /**
+     * @author zero
+     * @date 2020/1/2
      * @description 查询分数值
      */
     @GetMapping("/score")

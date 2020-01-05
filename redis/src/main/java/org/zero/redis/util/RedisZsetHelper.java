@@ -1,11 +1,9 @@
 package org.zero.redis.util;
 
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.Set;
 
 /**
  * redis工具类-操作zset数据结构
@@ -30,8 +28,13 @@ public class RedisZsetHelper<K, V> {
         redisTemplate.opsForZSet().add(key, value, score);
     }
 
-    public void add(K key, Set<ZSetOperations.TypedTuple<V>> var2) {
-        redisTemplate.opsForZSet().add(key, var2);
+    /**
+     *  删除value
+     * @param key 存储的key
+     * @param value 存储的值
+     */
+    public void remove(K key, V value) {
+        redisTemplate.opsForZSet().remove(key, value);
     }
 
     /**
