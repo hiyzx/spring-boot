@@ -1,0 +1,61 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: cloud-server
+  #数据库连接
+  datasource:
+    url: jdbc:mysql://www.hiyzx.cn:3306/user?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: yzx123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-test-query: select 1 from dual
+      connection-timeout: 30000
+      idle-timeout: 60000
+      max-lifetime: 1800000
+      maximum-pool-size: 20
+      minimum-idle: 20
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery: # 服务发现配置
+        enabled: true
+        register: true
+        deregister: true
+        prefer-ip-address: true
+        health-check-interval: 10s
+        health-check-critical-timeout: 30s
+        health-check-path: /health
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port} # 应用名称+服务器IP+端口
+
+
+#mybatis plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  global-config:
+    #刷新mapper 调试神器
+    db-config:
+      #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+      id-type: AUTO
+      #逻辑删除配置
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      #自定义填充策略接口实现
+      #meta-object-handler: com.baomidou.springboot.xxx
+    #自定义SQL注入器
+  #sql-injector: com.baomidou.mybatisplus.extension.injector.LogicSqlInjector
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+management:
+  endpoints:
+    web:
+      base-path: /
+  endpoint:
+    health:
+      show-details: always
