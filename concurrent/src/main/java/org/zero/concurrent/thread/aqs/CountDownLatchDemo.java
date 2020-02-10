@@ -1,6 +1,4 @@
-package org.zero.concurrent.thread.safe;
-
-import org.zero.concurrent.Log;
+package org.zero.concurrent.thread.aqs;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -8,31 +6,23 @@ import java.util.concurrent.CountDownLatch;
  * @author yezhaoxing
  * @date 2020/1/13
  */
-public class UnSafeThread {
-
-	private static int num = 0;
+public class CountDownLatchDemo {
 
 	private static CountDownLatch countDownLatch = new CountDownLatch(10);
-
-	private static synchronized void add() {
-		num++;
-	}
 
 	public static void main(String[] args) throws InterruptedException {
 		for (int i = 0; i < 10; i++) {
 			new Thread(() -> {
-				for (int j = 0; j < 10; j++) {
-					add();
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
 				countDownLatch.countDown();
+				System.out.println(countDownLatch.getCount());
 			}).start();
 		}
 		countDownLatch.await();
-		Log.log(num);
+		System.out.println("执行完成");
 	}
 }

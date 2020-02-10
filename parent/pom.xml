@@ -12,6 +12,7 @@
         <module>../mq/activemq</module>
         <module>../mq/rocketmq</module>
         <module>../canal-client</module>
+        <module>../concurrent</module>
         <module>../docker-image</module>
         <module>../elastic-search</module>
         <module>../entertainment</module>
