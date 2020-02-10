@@ -34,7 +34,9 @@ public class SynchronizedDemo {
 					Log.log(i);
 					i ++;
 					try {
-						obj.wait();
+						if(i < 100){
+							obj.wait();
+						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

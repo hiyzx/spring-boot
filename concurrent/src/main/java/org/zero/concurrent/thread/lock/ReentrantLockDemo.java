@@ -33,7 +33,9 @@ public class ReentrantLockDemo {
 				try {
 					Log.log(i);
 					i++;
-					CONDITION.await();
+					if(i < 100){
+						CONDITION.await();
+					}
 				} catch (Exception ex) {
 
 				} finally {
