@@ -20,7 +20,7 @@ public class RedisSetHelper<K, V> {
 
 
     /**
-     *  往set集合添加数据
+     * 往set集合添加数据
      * @param key 存储的key
      * @param value 存储的值
      */
@@ -29,7 +29,7 @@ public class RedisSetHelper<K, V> {
     }
 
     /**
-     *  set集合删除数据
+     * set集合删除数据
      * @param key 存储的key
      * @param value 存储的值
      */
@@ -39,7 +39,7 @@ public class RedisSetHelper<K, V> {
 
 
     /**
-     *  查询集合
+     * 查询集合
      * @param key 存储的key
      */
     public Set<V> members(K key) {
@@ -47,7 +47,7 @@ public class RedisSetHelper<K, V> {
     }
 
     /**
-     *  判断是否在集合中
+     * 判断是否在集合中
      * @param key 存储的key
      */
     public Boolean isMember(K key, V value) {
@@ -55,14 +55,14 @@ public class RedisSetHelper<K, V> {
     }
 
     /**
-     *  求key1 key2集合交集
+     * 求key1 key2集合交集
      */
     public Set<V> intersect(K key1, K key2) {
         return redisTemplate.opsForSet().intersect(key1, key2);
     }
 
     /**
-     *  返回集合中的数量
+     * 返回集合中的数量
      */
     public Long size(K key) {
         return redisTemplate.opsForSet().size(key);

@@ -12,9 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SnowflakeController {
 
-    @Autowired
+    @Autowired(required = false)
     private Snowflake snowflake;
-    @Autowired
+    @Autowired(required = false)
     private SnowflakeProperties snowflakeProperties;
 
     @GetMapping("/snowflake")

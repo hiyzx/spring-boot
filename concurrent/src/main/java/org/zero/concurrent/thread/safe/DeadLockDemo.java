@@ -8,8 +8,8 @@ import org.zero.concurrent.Log;
  */
 public class DeadLockDemo {
 
-    private static final Object objA = new Object();
-    private static final Object objB = new Object();
+    private static final Object objA = "1";
+    private static final Object objB = "1";
 
     // 双方都在等待对方释放的锁
     public static void main(String[] args) {

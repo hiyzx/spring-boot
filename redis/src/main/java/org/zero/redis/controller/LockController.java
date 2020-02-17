@@ -65,15 +65,14 @@ public class LockController {
     private void lock(String uuid) {
         log.info("开始获取锁");
         Long lockResult = redisHelper.lock(LOCK_KEY, uuid, EXPIRE_TIME);
-        if (lockResult > 0) {
-            log.info("获取锁失败, 剩余时间:{}", lockResult);
-            return;
-        } else {
-            log.info("加锁成功");
-        }
-
         try {
-            Thread.sleep(3000);
+            if (lockResult > 0) {
+                log.info("获取锁失败, 剩余时间:{}", lockResult);
+                Thread.sleep(lockResult);
+
+            } else {
+                log.info("加锁成功");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

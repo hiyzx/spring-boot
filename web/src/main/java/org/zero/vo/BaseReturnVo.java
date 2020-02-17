@@ -1,9 +1,7 @@
 package org.zero.vo;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.zero.enums.StringEnum;
 
 /**
@@ -11,8 +9,6 @@ import org.zero.enums.StringEnum;
  * @date : 2017/4/17
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class BaseReturnVo {
 
     final static String SUCCESS_DEFAULT_DESC = "success";

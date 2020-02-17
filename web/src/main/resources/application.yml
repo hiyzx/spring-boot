@@ -19,7 +19,7 @@ example:
     prefix: 111
     suffix: 222
 snowflake:
-  enable: true
+  enable: false
   dataCenter: 1
   serviceId: 1
   zkUrl: 127.0.0.1:2181

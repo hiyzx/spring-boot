@@ -2,9 +2,7 @@ package org.zero.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -27,10 +25,9 @@ import java.util.List;
  * @author yezhaoxing
  * @date 2017/5/17
  */
-@Controller
 @ControllerAdvice
+@Slf4j
 public class ExceptionController {
-    private static final Logger LOG = LoggerFactory.getLogger(ExceptionController.class);
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
@@ -101,7 +98,7 @@ public class ExceptionController {
         view.setObjectMapper(MAPPER);
         BaseReturnVo returnVO = new BaseReturnVo(codeEnum, msg);
         mav.addObject(returnVO);
-        LOG.error(e.getMessage(), e);
+        log.error(e.getMessage(), e);
         return mav;
     }
 }

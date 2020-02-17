@@ -112,12 +112,17 @@ public class WebController {
     }
 
     @GetMapping("/long")
-    public Long longTest() throws IOException {
-        return 2173691766230835999L;
+    public ReturnVo<Long> longTest() {
+        return ReturnVo.success(2173691766230835999L);
     }
 
     @GetMapping("/enumTest")
     public String enumTest(StringEnum codeEnum){
         return codeEnum.name();
+    }
+
+    @GetMapping("/voidTest")
+    public void voidTest(){
+        System.out.println(123);
     }
 }

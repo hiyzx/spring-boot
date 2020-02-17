@@ -5,7 +5,6 @@
      ARGV[3] 发送频道消息,其他监听线程判断锁释放了
 ]]
 
-
 --[[ 如果不是等待锁,这段可以不用]]
 --[[if (redis.call('exists', KEYS[1]) == 0) then
     redis.call('publish', KEYS[2], ARGV[3]);

@@ -21,7 +21,6 @@ public class RankController {
 
     private static final String key = "math_score";
 
-
     /**
      * @author zero
      * @date 2020/1/2

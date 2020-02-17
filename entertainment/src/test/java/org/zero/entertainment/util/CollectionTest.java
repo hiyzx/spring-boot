@@ -1,9 +1,12 @@
 package org.zero.entertainment.util;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Snowflake;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -15,6 +18,64 @@ import java.util.stream.Collectors;
 public class CollectionTest {
 
     public static void main(String[] args) {
+
+        long l1 = DateUtil.betweenDay(DateUtil.parseDate("1994-01-28"), DateUtil.parseDate("2019-12-01"), true);
+
+
+        List<User> lp = new ArrayList<>();
+        lp.add(new User(2, new BigDecimal(10)));
+        lp.add(new User(1, new BigDecimal(122.73)));
+        BigDecimal integer1 = lp.stream().map(User::getSalary).reduce(BigDecimal.ZERO, BigDecimal::add);
+        System.out.println(integer1);
+
+
+        final int[] arr1 = new int[2];
+        arr1[0] = 2;
+        System.out.println(arr1);
+        arr1[1] = 2;
+        System.out.println(arr1);
+
+        System.out.println(~(-1L << 5));
+
+        Snowflake snowflake = new Snowflake(1,1);
+        System.out.println(snowflake.nextId());
+
+
+        Product product30;
+        List<Product> product1s = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            product30 = new Product(i, i);
+            product1s.add(product30);
+        }
+        product1s.add(new Product(1, 1));
+        Map<Integer, Integer> collect3 = product1s.stream().collect(Collectors.toMap(Product::getId, Product::getCount, (a, b) -> a));
+
+        String code = "C165";
+        System.out.println(code + String.format("%03d" , 1));
+        System.out.println(code + String.format("%03d" , 11));
+        System.out.println(code + String.format("%03d" , 111));
+        System.out.println(code + String.format("%03d" , 1111));
+
+
+        List<Integer> list123 = new ArrayList<>();
+        list123.add(1);
+        list123.add(2);
+        list123.add(3);
+        list123.add(3);
+        list123.add(4);
+        Iterator<Integer> iterator = list123.iterator();
+        while (iterator.hasNext()) {
+            Integer next = iterator.next();
+            if(next == 3){
+                iterator.remove();
+            }
+        }
+
+        for (Integer integer : list123) {
+            System.out.println(integer);
+        }
+
+
         String num = "188";
         String[] split1 = num.split("-");
 
@@ -94,8 +155,18 @@ public class CollectionTest {
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 class Product {
     private Integer id;
 
     private Integer count;
+}
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+class User {
+    private Integer id;
+
+    private BigDecimal salary;
 }

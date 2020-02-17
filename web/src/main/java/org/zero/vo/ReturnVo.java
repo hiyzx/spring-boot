@@ -12,9 +12,6 @@ public class ReturnVo<T> extends BaseReturnVo {
     @ApiModelProperty("返回结果")
     private T data;
 
-    public ReturnVo() {
-    }
-
     public ReturnVo(StringEnum codeEnum, String msg) {
         super(codeEnum, msg);
     }

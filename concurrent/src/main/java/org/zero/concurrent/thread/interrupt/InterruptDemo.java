@@ -19,7 +19,6 @@ public class InterruptDemo implements Runnable {
         Thread thread = new Thread(new InterruptDemo());
         thread.start();
         Thread.sleep(2000L);
-        // 废弃方法,因为一调用,线程就立刻停止
         thread.interrupt();
     }
 }
