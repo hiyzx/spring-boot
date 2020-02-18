@@ -4,10 +4,9 @@ package org.zero.cloud.client.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.zero.cloud.client.client.StockClient;
+import org.zero.cloud.api.client.StockClient;
 import org.zero.cloud.client.entity.OrderMaster;
 import org.zero.cloud.client.service.IOrderMasterService;
 
