@@ -1,8 +1,9 @@
 package org.zero.grpc.server;
 
-
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.zero.grpc.api.HelloServiceGrpc;
+import org.zero.grpc.api.HelloServiceProto;
 
 /**
  * @author 水寒
@@ -12,10 +13,10 @@ import net.devh.boot.grpc.server.service.GrpcService;
 public class HelloServer extends HelloServiceGrpc.HelloServiceImplBase {
 
     @Override
-    public void sayHello(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
+    public void sayHello(HelloServiceProto.HelloRequest request, StreamObserver<HelloServiceProto.HelloResponse> responseObserver) {
         String name = request.getName();
         System.out.println("接收请求,name=" + name);
-	    HelloResponse response = HelloResponse.newBuilder().setReply("hello " + name).build();
+	    HelloServiceProto.HelloResponse response = HelloServiceProto.HelloResponse.newBuilder().setReply("hello " + name).build();
 	    responseObserver.onNext(response);
 	    responseObserver.onCompleted();
     }

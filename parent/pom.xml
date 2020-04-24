@@ -50,6 +50,7 @@
         <module>../rpc/cloud/cloud-api</module>
         <module>../rpc/grpc/grpc-api</module>
         <module>../rpc/grpc/grpc-server</module>
+        <module>../rpc/grpc/grpc-client</module>
     </modules>
 
     <parent>
