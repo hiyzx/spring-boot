@@ -21,6 +21,7 @@
         <module>../web</module>
         <module>../notice</module>
         <module>../redis</module>
+        <module>../jpa</module>
         <module>../scheduled-thread</module>
         <module>../shiro-jwt/shiro</module>
         <module>../shiro-jwt/shiro-jwt</module>
@@ -47,6 +48,8 @@
         <module>../rpc/cloud/cloud-server</module>
         <module>../rpc/cloud/cloud-client</module>
         <module>../rpc/cloud/cloud-api</module>
+        <module>../rpc/grpc/grpc-api</module>
+        <module>../rpc/grpc/grpc-server</module>
     </modules>
 
     <parent>

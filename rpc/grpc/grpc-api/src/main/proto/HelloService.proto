@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "org.zero.grpc.api";
+option java_outer_classname = "HelloServiceProto";
+
+// 请求对象
+message HelloRequest {
+    string name = 1;
+}
+
+// 响应对象
+message HelloResponse {
+    string reply = 1;
+}
+
+// hello相关类
+service HelloService {
+
+    // sayHello方法
+    rpc sayHello (HelloRequest) returns (HelloResponse);
+}
