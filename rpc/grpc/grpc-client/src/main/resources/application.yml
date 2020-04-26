@@ -1,0 +1,6 @@
+server:
+  port: 8081
+grpc:
+  client:
+    MyService:
+       address: static://172.16.6.59:9090
