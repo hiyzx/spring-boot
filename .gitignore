@@ -16,7 +16,7 @@ web/web.iml
 elastic-search/elastic-search.iml
 socket/socket-server/socket-server.iml
 socket/websocket/target/
-activemq/
+activemq/target
 apollo-client/apollo-client.iml
 apollo-client/target/
 canal-client/canal-client.iml

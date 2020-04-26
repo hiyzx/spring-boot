@@ -3,4 +3,5 @@ server:
 grpc:
   client:
     MyService:
-       address: static://172.16.6.59:9090
+       address: static://localhost:9090
+       negotiationType: PLAINTEXT
