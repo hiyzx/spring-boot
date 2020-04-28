@@ -2,6 +2,6 @@ server:
   port: 8081
 grpc:
   client:
-    MyService:
-       address: static://localhost:9090
-       negotiationType: PLAINTEXT
+    UserService:
+      address: static://localhost:9090
+      negotiationType: PLAINTEXT

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.zero.grpc.api";
+option java_outer_classname = "UserServiceProto";
+import "google/protobuf/wrappers.proto";
+
+// 用户服务
+service UserService {
+    // 创建用户
+    rpc Create (UserCreateReq) returns (google.protobuf.Int32Value);
+
+    rpc Get (google.protobuf.Int32Value) returns (UserGetResp);
+}
+
+// 请求对象定义
+message UserCreateReq {
+    string name = 1;
+    int32 age = 2;
+}
+
+// 响应对象定义
+message UserGetResp {
+    int32 id = 1;
+    string name = 2;
+    int32 age = 3;
+}
