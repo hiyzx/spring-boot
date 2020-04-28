@@ -1,1 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.zero.snowflake.config.SnowflakeConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    org.zero.snowflake.config.SnowflakeConfiguration

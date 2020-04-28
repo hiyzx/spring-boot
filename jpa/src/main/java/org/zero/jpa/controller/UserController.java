@@ -18,10 +18,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping("/user")
-    public void create() {
-        User user = new User();
-        user.setMobile("188");
-        user.setName("水寒");
+    public void create(@RequestBody User user) {
         userRepository.save(user);
     }
 

@@ -2,6 +2,6 @@ server:
   port: 8081
 grpc:
   client:
-    UserService:
-      address: static://localhost:9090
+    UserService:                          # 服务名称
+      address: static://localhost:9090    # 服务地址
       negotiationType: PLAINTEXT
