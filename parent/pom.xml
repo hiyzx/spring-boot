@@ -48,6 +48,7 @@
         <module>../rpc/cloud/cloud-server</module>
         <module>../rpc/cloud/cloud-client</module>
         <module>../rpc/cloud/cloud-api</module>
+        <module>../mybatis/sharding-jdbc</module>
     </modules>
 
     <parent>

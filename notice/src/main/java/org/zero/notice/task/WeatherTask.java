@@ -34,10 +34,12 @@ public class WeatherTask {
         List<FeiGeListUserInfoVo> userInfoVos = noticeUtil.list();
         for (FeiGeListUserInfoVo user : userInfoVos) {
             if (user.getId().equals(284)) {
-                noticeUtil.sendNotice(String.format("%s：早上好！", user.getRemark()), "天气预报", aMapUtil.getWeather("350200"),
+                // 湖里
+                noticeUtil.sendNotice(String.format("%s：早上好！", user.getRemark()), "天气预报", aMapUtil.getWeather("350206"),
                     user.getId());
             }
             if (user.getId().equals(2885)) {
+                // 安溪
                 noticeUtil.sendNotice(String.format("%s：早上好！", user.getRemark()), "天气预报", aMapUtil.getWeather("350524"),
                     user.getId());
             }
