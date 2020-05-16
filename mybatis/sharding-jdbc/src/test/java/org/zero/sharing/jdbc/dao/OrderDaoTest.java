@@ -1,5 +1,6 @@
 package org.zero.sharing.jdbc.dao;
 
+import cn.hutool.core.util.RandomUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,9 @@ public class OrderDaoTest {
 
     @Test
     public void insertOrder() {
-        for (int i = 0; i < 4; i++) {
-            orderDao.insertOrder(new BigDecimal(10), (long)i, false);
+        for (int i = 0; i < 40; i++) {
+            int userId = RandomUtil.randomInt(100);
+            orderDao.insertOrder(new BigDecimal(10), (long)userId, false);
         }
 
     }
