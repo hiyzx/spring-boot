@@ -65,6 +65,8 @@
         <module>../rpc/cloud/cloud-client</module>
         <module>../rpc/cloud/cloud-api</module>
         <module>../mybatis/sharding-jdbc</module>
+        <module>netty-demo</module>
+        <module>../shiro-jwt/spring-security-oauth2</module>
     </modules>
 
     <parent>
