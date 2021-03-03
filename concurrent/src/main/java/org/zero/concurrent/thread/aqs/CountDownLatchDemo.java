@@ -1,6 +1,11 @@
 package org.zero.concurrent.thread.aqs;
 
+import org.zero.concurrent.Log;
+
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author yezhaoxing
@@ -8,21 +13,29 @@ import java.util.concurrent.CountDownLatch;
  */
 public class CountDownLatchDemo {
 
-	private static CountDownLatch countDownLatch = new CountDownLatch(10);
-
 	public static void main(String[] args) throws InterruptedException {
-		for (int i = 0; i < 10; i++) {
-			new Thread(() -> {
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				countDownLatch.countDown();
-				System.out.println(countDownLatch.getCount());
-			}).start();
-		}
+		Log.log("开始");
+		CountDownLatch countDownLatch = new CountDownLatch(2);
+		ExecutorService executorService = Executors.newFixedThreadPool(2);
+		executorService.execute(() -> {
+			Log.log("线程1");
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			countDownLatch.countDown();
+		});
+		executorService.execute(() -> {
+			Log.log("线程2");
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			countDownLatch.countDown();
+		});
 		countDownLatch.await();
-		System.out.println("执行完成");
+		Log.log("结束");
 	}
 }
